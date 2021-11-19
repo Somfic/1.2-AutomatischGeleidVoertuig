@@ -15,6 +15,7 @@ public class BuzzerLogic {
 
     public BuzzerLogic(Buzzer buzzer) {
         this.buzzer = buzzer;
+        timer = new Timer(0);
     }
 
     public void setInterval(int interval) {
