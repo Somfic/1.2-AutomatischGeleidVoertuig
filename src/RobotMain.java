@@ -1,17 +1,19 @@
+import Hardware.Leds;
 import TI.BoeBot;
 import TI.PinMode;
+
+import java.awt.*;
 
 public class RobotMain {
 
     public static void main(String[] args) {
 
-        boolean state = true;
-        BoeBot.setMode(0, PinMode.Output);
+        Leds leds = new Leds(false);
+        leds.setFrequency(600);
 
-        while (true) {
-            state = !state;
-            BoeBot.digitalWrite(0, state);
-            BoeBot.wait(250);
+        while(true) {
+            BoeBot.wait(1);
+            leds.blink();
         }
     }
 }
