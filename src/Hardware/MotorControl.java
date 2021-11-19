@@ -22,11 +22,29 @@ public class MotorControl {
         this.leftMotor.stop();
     }
 
-    public void setSpeed(int speedChange) {
+    public void setTargetSpeed(int targetSpeed){
+        this.leftMotor.setTargetSpeed(1500 + targetSpeed);
+        this.rightMotor.setTargetSpeed(1500 - targetSpeed);
+    }
 
+    public void setLeftTartgetSpeed(int targetSpeed){
+        this.leftMotor.setTargetSpeed(targetSpeed);
+    }
+
+    public void setRightTartgetSpeed(int targetSpeed){
+        this.rightMotor.setTargetSpeed(targetSpeed);
+    }
+
+    public void accelerate() {
+        rightMotor.accelerate();
+        leftMotor.accelerate();
     }
 
     public void turn(int direction) {
+        setRightTartgetSpeed(1500 - direction);
+        setLeftTartgetSpeed(1500 + direction);
+
+        accelerate();
 
     }
 }

@@ -18,6 +18,18 @@ public class ServoMotor {
         this.servo = new Servo(pin);
     }
 
+    public void setTargetSpeed(int targetSpeed){
+        if(targetSpeed > 1700){
+            this.targetSpeed = 1700;
+        }
+        else if(this.targetSpeed < 1300){
+            this.targetSpeed = 1300;
+        }
+        else {
+            this.targetSpeed = targetSpeed;
+        }
+    }
+
 
     // starts the motor
     public void start() {
@@ -30,35 +42,19 @@ public class ServoMotor {
     }
 
     //accelerates or decelerates by 10 depending on the boolean given.
-    public void accelerate(int milliseconds, boolean accelerate) {
+    public void accelerate() {
+        int speedIncrease = 10;
 
-        int speedIncrease = 1000 / milliseconds;
-
-        if (accelerate){
-            speedIncrease = speedIncrease * 1;
-        } else {
-            speedIncrease = speedIncrease * -1;
+        if(this.targetSpeed < this.currentSpeed){
+            speedIncrease = -10;
         }
 
+
         // check if the motor is in reverse and changes the speed.
-        if (this.reverse == true) {
-            if (this.currentSpeed < this.targetSpeed && this.currentSpeed > 1300) {
-                this.servo.update(this.currentSpeed - speedIncrease);
-                this.currentSpeed -= speedIncrease;
-                if(this.currentSpeed < 1300){
-                    this.currentSpeed = 1300;
-                    this.servo.update(1300);
-                }
-            }
-        } else {
-            if (this.currentSpeed < this.targetSpeed && this.currentSpeed < 1700) {
-                this.servo.update(this.currentSpeed + speedIncrease);
-                this.currentSpeed += speedIncrease;
-                if(this.currentSpeed > 1700){
-                    this.currentSpeed = 1700;
-                    this.servo.update(1700);
-                }
-            }
+        if (this.currentSpeed + speedIncrease < 1700 && this.currentSpeed + speedIncrease> 1300 && this.targetSpeed != this.currentSpeed) {
+            this.servo.update(this.currentSpeed + speedIncrease);
+            this.currentSpeed += speedIncrease;
+
         }
     }
 
