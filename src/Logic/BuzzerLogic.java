@@ -1,43 +1,57 @@
 package Logic;
 
 import Hardware.Buzzer;
-import TI.BoeBot;
-import TI.PinMode;
 import TI.Timer;
 
-public class BuzzerLogic {
-    private int pin;
-
+/**
+ * The BuzzerLogic class is used to control a buzzer.
+ */
+public class BuzzerLogic implements Logic {
     private boolean state;
     private Timer timer;
 
     private Buzzer buzzer;
 
+    /**
+     * Constructor for the BuzzerLogic class.
+     *
+     * @param buzzer The buzzer to control.
+     */
     public BuzzerLogic(Buzzer buzzer) {
         this.buzzer = buzzer;
         timer = new Timer(0);
     }
 
+    /**
+     * Sets the interval of the buzzer.
+     * @param interval The interval of the buzzer in milliseconds.
+     */
     public void setInterval(int interval) {
         this.timer.setInterval(interval);
     }
 
+    /**
+     * Sets the tone frequency of the buzzer.
+     *
+     * @param frequency The frequency of the buzzer in Hertz.
+     */
     public void setFrequency(int frequency) {
         this.buzzer.setFrequency(frequency);
     }
 
-    public void buzz(int beepLength) {
+    /**
+     * Processes the buzzer logic.
+     */
+    public void process() {
         if(timer.timeout()) {
             timer.mark();
 
-            if(this.state) {
-                this.buzzer.buzz(beepLength);
-                this.state = false;
-                System.out.println("Uit");
-            } else {
-                this.state = true;
-                System.out.println("Aan");
-            }
+            // Toggle the buzzer state
+            this.state = !this.state;
+        }
+
+        if(this.state) {
+            this.buzzer.play(1);
         }
     }
 }
