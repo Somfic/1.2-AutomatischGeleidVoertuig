@@ -11,6 +11,7 @@ public class MotorLogic implements Logic {
     private ServoMotor rightMotor;
 
     private Timer timer = new Timer(10);
+//    private Timer timeoutTimer = new Timer(1000);
 
     public MotorLogic(int pinLeftMotor, int pinRightMotor) {
         this.leftMotor = new ServoMotor(pinLeftMotor, false);
@@ -27,9 +28,16 @@ public class MotorLogic implements Logic {
         this.leftMotor.stop();
     }
 
+    public void setTimerInterval(int interval) {
+        this.timer.setInterval(interval);
+    }
+
     public void setTargetSpeed(int targetSpeed){
-        this.leftMotor.setTargetSpeed(1500 + targetSpeed);
-        this.rightMotor.setTargetSpeed(1500 - targetSpeed);
+//        if(timeoutTimer.timeout()) {
+//            timeoutTimer.mark();
+            this.leftMotor.setTargetSpeed(1500 + targetSpeed);
+            this.rightMotor.setTargetSpeed(1500 - targetSpeed);
+//        }
     }
 
     public void setLeftTargetSpeed(int targetSpeed){
@@ -52,6 +60,15 @@ public class MotorLogic implements Logic {
 
             rightMotor.accelerate();
             leftMotor.accelerate();
+        }
+    }
+
+    public boolean targetSpeedReached(){
+        if(this.rightMotor.targetSpeedReached() && this.leftMotor.targetSpeedReached()){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 }

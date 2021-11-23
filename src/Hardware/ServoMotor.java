@@ -51,10 +51,19 @@ public class ServoMotor {
 
 
         // check if the motor is in reverse and changes the speed.
-        if (this.currentSpeed + speedIncrease < 1700 && this.currentSpeed + speedIncrease> 1300 && this.targetSpeed != this.currentSpeed) {
+        if (this.currentSpeed + speedIncrease <= 1700 && this.currentSpeed + speedIncrease >= 1300 && this.targetSpeed != this.currentSpeed) {
             this.servo.update(this.currentSpeed + speedIncrease);
             this.currentSpeed += speedIncrease;
 
+        }
+    }
+
+    public boolean targetSpeedReached(){
+        if(this.targetSpeed == this.currentSpeed){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 

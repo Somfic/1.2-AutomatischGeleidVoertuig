@@ -16,12 +16,21 @@ public class RobotMain {
 
         BlinkerLogic blinker = new BlinkerLogic(frontLeftLed, frontRightLed, backLeftLed, backRightLed);
 
-        MotorLogic motor = new MotorLogic(12, 13);
+        MotorLogic motor = new MotorLogic(13, 12);
 
         BuzzerLogic buzzer = new BuzzerLogic(new Buzzer(0));
 
+        Timer timeout = new Timer(1000);
+
+        boolean turner = false;
+
+        boolean toTurn = false;
+
         while(true) {
             BoeBot.wait(1);
+
+            motor.process();
+            blinker.process();
 
             boolean isObstacleLeft = !leftWhisker.getState();
             boolean isObstacleRight = !rightWhisker.getState();
@@ -29,6 +38,27 @@ public class RobotMain {
             // Blinker logic
             blinker.setBlinkLeft(isObstacleLeft);
             blinker.setBlinkRight(isObstacleRight);
+
+            if(turner && motor.targetSpeedReached()) {
+                System.out.println("arrived");
+
+                motor.setTimerInterval(10);
+
+                if(toTurn){
+                    motor.turn(-200);
+                    turner = false;
+                }
+                else{
+                    motor.turn(200);
+                    turner = false;
+                }
+            }
+
+            else if(motor.targetSpeedReached()){
+
+                // No obstacles, happy driving!
+                motor.setTargetSpeed(200);
+            }
 
             if(isObstacleLeft && isObstacleRight) {
 
@@ -38,30 +68,32 @@ public class RobotMain {
                 motor.setTargetSpeed(-200);
             }
 
-            else if(isObstacleLeft)
+            else if(isObstacleLeft && motor.targetSpeedReached())
             {
                 System.out.println("! Left");
 
-                // Obstacle on the left, avoid!
-                motor.turn(200);
+                motor.setTimerInterval(5);
+                motor.setTargetSpeed(-200);
+                turner = true;
+                toTurn = false;
+
             }
 
-            else if(isObstacleRight) {
+            else if(isObstacleRight && motor.targetSpeedReached()) {
 
                 System.out.println("! Right");
 
-                // Obstacle on the right, avoid!
-                motor.turn(-200);
+                motor.setTimerInterval(5);
+                motor.setTargetSpeed(-200);
+                turner = true;
+                toTurn = true;
             }
 
-            else {
 
-                // No obstacles, happy driving!
-                motor.setTargetSpeed(200);
-            }
 
-            motor.process();
-            blinker.process();
+
+
+
         }
     }
 }
