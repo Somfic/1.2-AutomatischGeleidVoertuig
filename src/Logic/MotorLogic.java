@@ -29,11 +29,11 @@ public class MotorLogic implements Logic {
         this.rightMotor.setTargetSpeed(1500 - targetSpeed);
     }
 
-    public void setLeftTartgetSpeed(int targetSpeed){
+    public void setLeftTargetSpeed(int targetSpeed){
         this.leftMotor.setTargetSpeed(targetSpeed);
     }
 
-    public void setRightTartgetSpeed(int targetSpeed){
+    public void setRightTargetSpeed(int targetSpeed){
         this.rightMotor.setTargetSpeed(targetSpeed);
     }
 
@@ -43,8 +43,8 @@ public class MotorLogic implements Logic {
     }
 
     public void turn(int direction) {
-        setRightTartgetSpeed(1500 - direction);
-        setLeftTartgetSpeed(1500 + direction);
+        setRightTargetSpeed(1500 - direction);
+        setLeftTargetSpeed(1500 + direction);
 
         accelerate();
 
