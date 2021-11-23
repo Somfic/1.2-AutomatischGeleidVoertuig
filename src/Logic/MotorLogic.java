@@ -37,21 +37,14 @@ public class MotorLogic implements Logic {
         this.rightMotor.setTargetSpeed(targetSpeed);
     }
 
-    public void accelerate() {
-        rightMotor.accelerate();
-        leftMotor.accelerate();
-    }
-
     public void turn(int direction) {
         setRightTargetSpeed(1500 - direction);
         setLeftTargetSpeed(1500 + direction);
-
-        accelerate();
-
     }
 
     @Override
     public void process() {
-        // niks
+        rightMotor.accelerate();
+        leftMotor.accelerate();
     }
 }
