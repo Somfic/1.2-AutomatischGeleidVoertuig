@@ -11,7 +11,7 @@ import java.awt.*;
 public class BlinkerLogic implements Logic {
     private final Color blinkColor = new Color(194, 30, 0);
 
-    private boolean state;
+    private boolean state = true;
 
     private boolean isBlinkingLeft;
     private boolean isBlinkingRight;
@@ -26,10 +26,10 @@ public class BlinkerLogic implements Logic {
     /**
      * Constructor for the BlinkerLogic class.
      *
-     * @param frontLeft The front left LED.
+     * @param frontLeft  The front left LED.
      * @param frontRight The front right LED.
-     * @param backLeft The back left LED.
-     * @param backRight The back right LED.
+     * @param backLeft   The back left LED.
+     * @param backRight  The back right LED.
      */
     public BlinkerLogic(Led frontLeft, Led frontRight, Led backLeft, Led backRight) {
         this.backLeft = backLeft;
@@ -37,19 +37,21 @@ public class BlinkerLogic implements Logic {
         this.frontLeft = frontLeft;
         this.frontRight = frontRight;
 
-        this.timer = new Timer(0);
+        this.timer = new Timer(300);
     }
 
     /**
      * Sets the interval of the blinker.
+     *
      * @param interval The interval of the blinker in milliseconds.
      */
     public void setBlinkInterval(int interval) {
         this.timer.setInterval(interval);
     }
-    
+
     /**
      * Sets whether the blinker is blinking on the left.
+     *
      * @param isBlinking The state of the blinker.
      */
     public void setBlinkLeft(boolean isBlinking) {
@@ -58,6 +60,7 @@ public class BlinkerLogic implements Logic {
 
     /**
      * Sets whether the blinker is blinking on the right.
+     *
      * @param isBlinking The state of the blinker.
      */
     public void setBlinkRight(boolean isBlinking) {
@@ -69,28 +72,39 @@ public class BlinkerLogic implements Logic {
      */
     @Override
     public void process() {
-        if (this.timer.timeout()) {
-            // Reset the timer
+        if (!this.isBlinkingLeft && !this.isBlinkingRight) {
+            // No blinking needed, reset
             this.timer.mark();
+            this.state = false;
 
-            // Toggle the state
-            this.state = !this.state;
-
-            // Reset all the LEDs
             this.frontLeft.reset();
             this.frontRight.reset();
             this.backLeft.reset();
             this.backRight.reset();
+        } else {
+            if (this.timer.timeout()) {
+                // Reset the timer
+                this.timer.mark();
 
-            if (this.state) {
-                if (isBlinkingLeft) {
-                    this.frontLeft.set(this.blinkColor);
-                    this.backLeft.set(this.blinkColor);
-                }
+                // Toggle the state
+                this.state = !this.state;
 
-                if (isBlinkingRight) {
-                    this.frontRight.set(this.blinkColor);
-                    this.backRight.set(this.blinkColor);
+                // Reset all the LEDs
+                this.frontLeft.reset();
+                this.frontRight.reset();
+                this.backLeft.reset();
+                this.backRight.reset();
+
+                if (this.state) {
+                    if (isBlinkingLeft) {
+                        this.frontLeft.set(this.blinkColor);
+                        this.backLeft.set(this.blinkColor);
+                    }
+
+                    if (isBlinkingRight) {
+                        this.frontRight.set(this.blinkColor);
+                        this.backRight.set(this.blinkColor);
+                    }
                 }
             }
         }

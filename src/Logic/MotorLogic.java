@@ -2,12 +2,15 @@ package Logic;
 
 import Hardware.ServoMotor;
 import TI.Servo;
+import TI.Timer;
 import sun.rmi.runtime.Log;
 
 public class MotorLogic implements Logic {
 
     private ServoMotor leftMotor;
     private ServoMotor rightMotor;
+
+    private Timer timer = new Timer(100);
 
     public MotorLogic(int pinLeftMotor, int pinRightMotor) {
         this.leftMotor = new ServoMotor(pinLeftMotor, false);
@@ -38,13 +41,17 @@ public class MotorLogic implements Logic {
     }
 
     public void turn(int direction) {
-        setRightTargetSpeed(1500 - direction);
+        setRightTargetSpeed(1500 + direction);
         setLeftTargetSpeed(1500 + direction);
     }
 
     @Override
     public void process() {
-        rightMotor.accelerate();
-        leftMotor.accelerate();
+        if(timer.timeout()) {
+            timer.mark();
+
+            rightMotor.accelerate();
+            leftMotor.accelerate();
+        }
     }
 }
