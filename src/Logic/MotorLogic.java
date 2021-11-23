@@ -1,13 +1,15 @@
-package Hardware;
+package Logic;
 
+import Hardware.ServoMotor;
 import TI.Servo;
+import sun.rmi.runtime.Log;
 
-public class MotorControl {
+public class MotorLogic implements Logic {
 
     private ServoMotor leftMotor;
     private ServoMotor rightMotor;
 
-    public MotorControl(int pinLeftMotor, int pinRightMotor) {
+    public MotorLogic(int pinLeftMotor, int pinRightMotor) {
         this.leftMotor = new ServoMotor(pinLeftMotor, false);
         this.rightMotor = new ServoMotor(pinRightMotor, true);
     }
@@ -46,5 +48,10 @@ public class MotorControl {
 
         accelerate();
 
+    }
+
+    @Override
+    public void process() {
+        // niks
     }
 }
