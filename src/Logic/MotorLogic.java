@@ -10,7 +10,7 @@ public class MotorLogic implements Logic {
     private ServoMotor leftMotor;
     private ServoMotor rightMotor;
 
-    private Timer timer = new Timer(100);
+    private Timer timer = new Timer(10);
 
     public MotorLogic(int pinLeftMotor, int pinRightMotor) {
         this.leftMotor = new ServoMotor(pinLeftMotor, false);
