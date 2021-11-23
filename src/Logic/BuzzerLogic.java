@@ -42,6 +42,7 @@ public class BuzzerLogic implements Logic {
     /**
      * Processes the buzzer logic.
      */
+    @Override
     public void process() {
         if(timer.timeout()) {
             timer.mark();
