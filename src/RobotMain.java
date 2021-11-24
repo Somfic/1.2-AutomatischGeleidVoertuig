@@ -26,6 +26,12 @@ public class RobotMain {
 
     public static void main(String[] args) {
 
+//        buzzer.setIsBuzzing(true);
+//        while(true) {
+//            BoeBot.wait(1);
+//            buzzer.process();
+//        }
+
         while (true) {
             BoeBot.wait(1);
             processLogic();
@@ -42,12 +48,8 @@ public class RobotMain {
         motor.start();
 
         // Blinker logic
-        blinker.setBlinkLeft(isObstacleLeft);
-        blinker.setBlinkRight(isObstacleRight);
 
         if (turner && motor.targetSpeedReached()) {
-            System.out.println("arrived");
-
             motor.setTimerInterval(10);
 
             if (toTurn) {
@@ -59,6 +61,11 @@ public class RobotMain {
             }
         } else if (motor.targetSpeedReached()) {
 
+            buzzer.setIsBuzzing(false);
+            blinker.setBlinkLeft(false);
+
+            blinker.setBlinkRight(false);
+
             // No obstacles, happy driving!
             motor.setTargetSpeed(MAXSPEED);
         }
@@ -67,10 +74,15 @@ public class RobotMain {
 
             System.out.println("! Going backwards");
 
+            buzzer.setIsBuzzing(true);
+
             // Obstacle on both sides, avoid!
             motor.setTargetSpeed(-MAXSPEED);
         } else if (isObstacleLeft && motor.targetSpeedReached()) {
             System.out.println("! Left");
+            blinker.setBlinkLeft(true);
+
+            buzzer.setIsBuzzing(true);
 
             motor.setTimerInterval(5);
             motor.setTargetSpeed(-MAXSPEED);
@@ -80,6 +92,10 @@ public class RobotMain {
         } else if (isObstacleRight && motor.targetSpeedReached()) {
 
             System.out.println("! Right");
+
+            blinker.setBlinkRight(true);
+
+            buzzer.setIsBuzzing(true);
 
             motor.setTimerInterval(5);
             motor.setTargetSpeed(-MAXSPEED);
