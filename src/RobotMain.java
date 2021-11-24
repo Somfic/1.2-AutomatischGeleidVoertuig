@@ -20,7 +20,7 @@ public class RobotMain {
     //attributes for autoDriving
     private boolean turner = false;
     private boolean toTurn = false;
-    final private int DEFAULTSPEED = 1500;
+    final private int MAXSPEED = 200;
 
 
 
@@ -54,16 +54,16 @@ public class RobotMain {
                 motor.setTimerInterval(10);
 
                 if (toTurn) {
-                    motor.turn(-DEFAULTSPEED);
+                    motor.turn(-MAXSPEED);
                     turner = false;
                 } else {
-                    motor.turn(DEFAULTSPEED);
+                    motor.turn(MAXSPEED);
                     turner = false;
                 }
             } else if (motor.targetSpeedReached()) {
 
                 // No obstacles, happy driving!
-                motor.setTargetSpeed(DEFAULTSPEED);
+                motor.setTargetSpeed(MAXSPEED);
             }
 
             if (isObstacleLeft && isObstacleRight) {
@@ -71,12 +71,12 @@ public class RobotMain {
                 System.out.println("! Going backwards");
 
                 // Obstacle on both sides, avoid!
-                motor.setTargetSpeed(-DEFAULTSPEED);
+                motor.setTargetSpeed(-MAXSPEED);
             } else if (isObstacleLeft && motor.targetSpeedReached()) {
                 System.out.println("! Left");
 
                 motor.setTimerInterval(5);
-                motor.setTargetSpeed(-DEFAULTSPEED);
+                motor.setTargetSpeed(-MAXSPEED);
                 turner = true;
                 toTurn = false;
 
@@ -85,7 +85,7 @@ public class RobotMain {
                 System.out.println("! Right");
 
                 motor.setTimerInterval(5);
-                motor.setTargetSpeed(-DEFAULTSPEED);
+                motor.setTargetSpeed(-MAXSPEED);
                 turner = true;
                 toTurn = true;
             }
