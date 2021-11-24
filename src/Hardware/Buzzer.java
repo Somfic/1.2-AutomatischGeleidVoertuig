@@ -7,7 +7,7 @@ import TI.*;
  */
 public class Buzzer {
     private int pin;
-    private int frequency;
+    private int frequency = 1000;
 
     /**
      * Constructor for the Buzzer class.
