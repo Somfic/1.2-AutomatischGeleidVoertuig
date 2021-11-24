@@ -22,6 +22,6 @@ public class Switch {
      * @return boolean containing the current state of the switch.
      */
     public boolean getState(){
-        return BoeBot.digitalRead(this.pin);
+        return !BoeBot.digitalRead(this.pin);
     }
 }

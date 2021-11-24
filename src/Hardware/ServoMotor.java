@@ -10,24 +10,32 @@ public class ServoMotor {
     private boolean reverse;
     private Servo servo;
 
+    private int defaultSpeed = 1500;
+    private int maxSpeed = 1700;
+    private int minSpeed = 1300;
+
     public ServoMotor(int pin, boolean reverse) {
         this.pin = pin;
-        this.currentSpeed = 1500;
-        this.targetSpeed = 1500;
+        this.currentSpeed = defaultSpeed;
+        this.targetSpeed = defaultSpeed;
         this.reverse = reverse;
         this.servo = new Servo(pin);
     }
 
     public void setTargetSpeed(int targetSpeed){
-        if(targetSpeed > 1700){
-            this.targetSpeed = 1700;
+        if(targetSpeed > maxSpeed){
+            this.targetSpeed = maxSpeed;
         }
-        else if(this.targetSpeed < 1300){
-            this.targetSpeed = 1300;
+        else if(this.targetSpeed < minSpeed){
+            this.targetSpeed = minSpeed;
         }
         else {
             this.targetSpeed = targetSpeed;
         }
+    }
+
+    public boolean targetSpeedReached(){
+        return this.targetSpeed == this.currentSpeed;
     }
 
 
@@ -51,20 +59,13 @@ public class ServoMotor {
 
 
         // check if the motor is in reverse and changes the speed.
-        if (this.currentSpeed + speedIncrease <= 1700 && this.currentSpeed + speedIncrease >= 1300 && this.targetSpeed != this.currentSpeed) {
+        if (this.currentSpeed + speedIncrease <= maxSpeed
+                && this.currentSpeed + speedIncrease >= minSpeed
+                && this.targetSpeed != this.currentSpeed) {
+
             this.servo.update(this.currentSpeed + speedIncrease);
             this.currentSpeed += speedIncrease;
 
         }
     }
-
-    public boolean targetSpeedReached(){
-        if(this.targetSpeed == this.currentSpeed){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
  }

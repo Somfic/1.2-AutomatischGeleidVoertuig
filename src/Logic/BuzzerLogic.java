@@ -14,7 +14,6 @@ public class BuzzerLogic implements Logic {
 
     /**
      * Constructor for the BuzzerLogic class.
-     *
      * @param buzzer The buzzer to control.
      */
     public BuzzerLogic(Buzzer buzzer) {
@@ -32,7 +31,6 @@ public class BuzzerLogic implements Logic {
 
     /**
      * Sets the tone frequency of the buzzer.
-     *
      * @param frequency The frequency of the buzzer in Hertz.
      */
     public void setFrequency(int frequency) {
@@ -54,5 +52,13 @@ public class BuzzerLogic implements Logic {
         if(this.state) {
             this.buzzer.play(1);
         }
+    }
+
+    /**
+     * Resets the buzzer.
+     */
+    @Override
+    public void reset(){
+        this.buzzer.play(0);
     }
 }

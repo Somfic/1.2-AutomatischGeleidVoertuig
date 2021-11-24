@@ -23,6 +23,8 @@ public class BlinkerLogic implements Logic {
     private Led backLeft;
     private Led backRight;
 
+    private Led[] leds = {frontLeft, frontRight, backLeft, backRight};
+
     /**
      * Constructor for the BlinkerLogic class.
      *
@@ -107,6 +109,16 @@ public class BlinkerLogic implements Logic {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Resets all the leds it owns.
+     */
+    @Override
+    public void reset(){
+        for (Led led : this.leds) {
+            led.reset();
         }
     }
 }

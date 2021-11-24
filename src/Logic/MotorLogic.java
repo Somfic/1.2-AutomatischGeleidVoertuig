@@ -13,6 +13,8 @@ public class MotorLogic implements Logic {
     private Timer timer = new Timer(10);
 //    private Timer timeoutTimer = new Timer(1000);
 
+    final private int DEFAULTSPEED = 1500;
+
     public MotorLogic(int pinLeftMotor, int pinRightMotor) {
         this.leftMotor = new ServoMotor(pinLeftMotor, false);
         this.rightMotor = new ServoMotor(pinRightMotor, true);
@@ -35,8 +37,8 @@ public class MotorLogic implements Logic {
     public void setTargetSpeed(int targetSpeed){
 //        if(timeoutTimer.timeout()) {
 //            timeoutTimer.mark();
-            this.leftMotor.setTargetSpeed(1500 + targetSpeed);
-            this.rightMotor.setTargetSpeed(1500 - targetSpeed);
+            this.leftMotor.setTargetSpeed(DEFAULTSPEED + targetSpeed);
+            this.rightMotor.setTargetSpeed(DEFAULTSPEED - targetSpeed);
 //        }
     }
 
@@ -49,10 +51,18 @@ public class MotorLogic implements Logic {
     }
 
     public void turn(int direction) {
-        setRightTargetSpeed(1500 + direction);
-        setLeftTargetSpeed(1500 + direction);
+        setRightTargetSpeed(DEFAULTSPEED + direction);
+        setLeftTargetSpeed(DEFAULTSPEED + direction);
     }
 
+    public boolean targetSpeedReached(){
+        if(this.rightMotor.targetSpeedReached() && this.leftMotor.targetSpeedReached()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     @Override
     public void process() {
         if(timer.timeout()) {
@@ -63,12 +73,8 @@ public class MotorLogic implements Logic {
         }
     }
 
-    public boolean targetSpeedReached(){
-        if(this.rightMotor.targetSpeedReached() && this.leftMotor.targetSpeedReached()){
-            return true;
-        }
-        else{
-            return false;
-        }
+    @Override
+    public void reset(){
+        setTargetSpeed(DEFAULTSPEED);
     }
 }
