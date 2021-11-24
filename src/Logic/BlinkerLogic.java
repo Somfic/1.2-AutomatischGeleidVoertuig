@@ -18,12 +18,10 @@ public class BlinkerLogic implements Logic {
 
     private Timer timer;
 
-    private final int[] LEDPINS = {0,1,2,3};
-
-    private Led frontLeft = new Led(LEDPINS[0]);
-    private Led frontRight = new Led(LEDPINS[1]);
-    private Led backLeft = new Led(LEDPINS[2]);
-    private Led backRight = new Led(LEDPINS[3]);
+    private Led frontLeft = new Led(3);
+    private Led frontRight = new Led(5);
+    private Led backLeft = new Led(2);
+    private Led backRight = new Led(0);
 
     private Led[] leds = {frontLeft, frontRight, backLeft, backRight};
 
