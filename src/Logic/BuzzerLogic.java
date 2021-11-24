@@ -11,13 +11,17 @@ public class BuzzerLogic implements Logic {
     private Timer timer;
     private boolean active = false;
 
-    private Buzzer buzzer = new Buzzer(4);
+    private Buzzer buzzer = new Buzzer(5);
 
     /**
      * Constructor for the BuzzerLogic class.
      */
     public BuzzerLogic() {
-        timer = new Timer(0);
+        timer = new Timer(500);
+    }
+
+    public void setIsBuzzing(boolean state) {
+        this.active = state;
     }
 
     /**
@@ -26,7 +30,6 @@ public class BuzzerLogic implements Logic {
      */
     public void setInterval(int interval) {
         this.timer.setInterval(interval);
-        this.active = true;
     }
 
     /**
@@ -35,7 +38,6 @@ public class BuzzerLogic implements Logic {
      */
     public void setFrequency(int frequency) {
         this.buzzer.setFrequency(frequency);
-        this.active = true;
     }
 
     /**
@@ -52,7 +54,7 @@ public class BuzzerLogic implements Logic {
             }
 
             if (this.state) {
-                this.buzzer.play(1);
+                this.buzzer.play(10);
             }
         }
     }
