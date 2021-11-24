@@ -76,5 +76,6 @@ public class MotorLogic implements Logic {
     @Override
     public void reset(){
         setTargetSpeed(DEFAULTSPEED);
+        stop();
     }
 }
