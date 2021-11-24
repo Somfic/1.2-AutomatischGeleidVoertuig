@@ -2,6 +2,7 @@ import Hardware.*;
 import Logic.*;
 import TI.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class RobotMain {
@@ -16,6 +17,8 @@ public class RobotMain {
     static private MotorLogic motor = new MotorLogic(12, 13);
 
     static private Logic[] logics = {blinker, buzzer, motor};
+
+    static private Led indicatorLed = new Led(1);
 
     //attributes for autoDriving
     static private boolean turner = false;
@@ -80,7 +83,7 @@ public class RobotMain {
             motor.setTargetSpeed(-MAXSPEED);
         } else if (isObstacleLeft && motor.targetSpeedReached()) {
             System.out.println("! Left");
-            blinker.setBlinkLeft(true);
+            blinker.setBlinkRight(true);
 
             buzzer.setIsBuzzing(true);
 
@@ -93,7 +96,7 @@ public class RobotMain {
 
             System.out.println("! Right");
 
-            blinker.setBlinkRight(true);
+            blinker.setBlinkLeft(true);
 
             buzzer.setIsBuzzing(true);
 
@@ -116,6 +119,10 @@ public class RobotMain {
             for (Logic logic : logics) {
                 logic.process();
             }
+
+            indicatorLed.set(Color.green);
+        } else {
+            indicatorLed.set(Color.red);
         }
 
         if (startButton.getState()) {
