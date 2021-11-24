@@ -11,8 +11,8 @@ public class RobotMain {
     static private Switch leftWhisker = new Switch(2);
     static private Switch rightWhisker = new Switch(3);
 
-    static private BlinkerLogic blinker = new BlinkerLogic(new Led(3), new Led(5), new Led(2), new Led(0));
-    static private BuzzerLogic buzzer = new BuzzerLogic(new Buzzer(4));
+    static private BlinkerLogic blinker = new BlinkerLogic();
+    static private BuzzerLogic buzzer = new BuzzerLogic();
     static private MotorLogic motor = new MotorLogic(13, 12);
 
     static private Logic[] logics = {blinker, buzzer, motor};
@@ -36,6 +36,10 @@ public class RobotMain {
             }
         }
     }
+
+    /**
+     * Drives autonomously until the emergency button is pressed.
+     */
     private static void autoDriving(){
         while (button2.getState()) {
 
@@ -94,12 +98,19 @@ public class RobotMain {
         }
         resetLogic();
     }
+
+    /**
+     * Processes all the logic the class owns.
+     */
     private static void processLogic(){
         for (Logic logic : logics) {
             logic.process();
         }
     }
 
+    /**
+     * Resets all the logic the class owns.
+     */
     private static void resetLogic(){
         for (Logic logic : logics) {
             logic.reset();

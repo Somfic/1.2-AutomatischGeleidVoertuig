@@ -1,6 +1,6 @@
 package Logic;
 
-import Hardware.*;
+import Hardware.Led;
 import TI.*;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.*;
  * The BlinkerLogic class is used to control the blinking of the LEDs.
  */
 public class BlinkerLogic implements Logic {
-    private final Color blinkColor = new Color(194, 30, 0);
+    private final Color BLINKCOLOR = new Color(194, 30, 0);
 
     private boolean state = true;
 
@@ -18,27 +18,19 @@ public class BlinkerLogic implements Logic {
 
     private Timer timer;
 
-    private Led frontLeft;
-    private Led frontRight;
-    private Led backLeft;
-    private Led backRight;
+    private final int[] LEDPINS = {0,1,2,3};
+
+    private Led frontLeft = new Led(LEDPINS[0]);
+    private Led frontRight = new Led(LEDPINS[1]);
+    private Led backLeft = new Led(LEDPINS[2]);
+    private Led backRight = new Led(LEDPINS[3]);
 
     private Led[] leds = {frontLeft, frontRight, backLeft, backRight};
 
     /**
      * Constructor for the BlinkerLogic class.
-     *
-     * @param frontLeft  The front left LED.
-     * @param frontRight The front right LED.
-     * @param backLeft   The back left LED.
-     * @param backRight  The back right LED.
      */
-    public BlinkerLogic(Led frontLeft, Led frontRight, Led backLeft, Led backRight) {
-        this.backLeft = backLeft;
-        this.backRight = backRight;
-        this.frontLeft = frontLeft;
-        this.frontRight = frontRight;
-
+    public BlinkerLogic() {
         this.timer = new Timer(300);
     }
 
@@ -99,13 +91,13 @@ public class BlinkerLogic implements Logic {
 
                 if (this.state) {
                     if (isBlinkingLeft) {
-                        this.frontLeft.set(this.blinkColor);
-                        this.backLeft.set(this.blinkColor);
+                        this.frontLeft.set(this.BLINKCOLOR);
+                        this.backLeft.set(this.BLINKCOLOR);
                     }
 
                     if (isBlinkingRight) {
-                        this.frontRight.set(this.blinkColor);
-                        this.backRight.set(this.blinkColor);
+                        this.frontRight.set(this.BLINKCOLOR);
+                        this.backRight.set(this.BLINKCOLOR);
                     }
                 }
             }

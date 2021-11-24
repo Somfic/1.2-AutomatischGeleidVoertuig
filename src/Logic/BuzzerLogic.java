@@ -11,14 +11,12 @@ public class BuzzerLogic implements Logic {
     private Timer timer;
     private boolean active = false;
 
-    private Buzzer buzzer;
+    private Buzzer buzzer = new Buzzer(4);
 
     /**
      * Constructor for the BuzzerLogic class.
-     * @param buzzer The buzzer to control.
      */
-    public BuzzerLogic(Buzzer buzzer) {
-        this.buzzer = buzzer;
+    public BuzzerLogic() {
         timer = new Timer(0);
     }
 
