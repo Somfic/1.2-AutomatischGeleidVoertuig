@@ -5,26 +5,26 @@ import TI.*;
 import java.util.ArrayList;
 
 public class RobotMain {
-    private Switch button1 = new Switch(0);
-    private Switch button2 = new Switch(1);
+    static private Switch button1 = new Switch(0);
+    static private Switch button2 = new Switch(1);
 
-    private Switch leftWhisker = new Switch(2);
-    private Switch rightWhisker = new Switch(3);
+    static private Switch leftWhisker = new Switch(2);
+    static private Switch rightWhisker = new Switch(3);
 
-    private BlinkerLogic blinker = new BlinkerLogic(new Led(3), new Led(5), new Led(2), new Led(0));
-    private BuzzerLogic buzzer = new BuzzerLogic(new Buzzer(4));
-    private MotorLogic motor = new MotorLogic(13, 12);
+    static private BlinkerLogic blinker = new BlinkerLogic(new Led(3), new Led(5), new Led(2), new Led(0));
+    static private BuzzerLogic buzzer = new BuzzerLogic(new Buzzer(4));
+    static private MotorLogic motor = new MotorLogic(13, 12);
 
-    private Logic[] logics = {blinker, buzzer, motor};
+    static private Logic[] logics = {blinker, buzzer, motor};
 
     //attributes for autoDriving
-    private boolean turner = false;
-    private boolean toTurn = false;
-    final private int MAXSPEED = 200;
+    static private boolean turner = false;
+    static private boolean toTurn = false;
+    static final private int MAXSPEED = 200;
 
 
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
 
         while (true) {
             BoeBot.wait(1);
@@ -36,7 +36,7 @@ public class RobotMain {
             }
         }
     }
-    private void autoDriving(){
+    private static void autoDriving(){
         while (button2.getState()) {
 
             processLogic();
@@ -92,13 +92,17 @@ public class RobotMain {
 
             BoeBot.wait(1);
         }
-        for (Logic logic : this.logics) {
-            logic.reset();
-        }
+        resetLogic();
     }
-    private void processLogic(){
+    private static void processLogic(){
         for (Logic logic : logics) {
             logic.process();
+        }
+    }
+
+    private static void resetLogic(){
+        for (Logic logic : logics) {
+            logic.reset();
         }
     }
 }

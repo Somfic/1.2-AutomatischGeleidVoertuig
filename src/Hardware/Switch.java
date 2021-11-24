@@ -13,8 +13,6 @@ public class Switch {
      */
     public Switch(int pin){
         this.pin = pin;
-
-        BoeBot.setMode(this.pin, PinMode.Input);
     }
 
     /**
@@ -22,6 +20,7 @@ public class Switch {
      * @return boolean containing the current state of the switch.
      */
     public boolean getState(){
+        BoeBot.setMode(this.pin, PinMode.Input);
         return !BoeBot.digitalRead(this.pin);
     }
 }

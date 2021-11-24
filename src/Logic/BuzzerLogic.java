@@ -9,6 +9,7 @@ import TI.Timer;
 public class BuzzerLogic implements Logic {
     private boolean state;
     private Timer timer;
+    private boolean active = false;
 
     private Buzzer buzzer;
 
@@ -27,6 +28,7 @@ public class BuzzerLogic implements Logic {
      */
     public void setInterval(int interval) {
         this.timer.setInterval(interval);
+        this.active = true;
     }
 
     /**
@@ -35,6 +37,7 @@ public class BuzzerLogic implements Logic {
      */
     public void setFrequency(int frequency) {
         this.buzzer.setFrequency(frequency);
+        this.active = true;
     }
 
     /**
@@ -42,15 +45,17 @@ public class BuzzerLogic implements Logic {
      */
     @Override
     public void process() {
-        if(timer.timeout()) {
-            timer.mark();
+        if (active) {
+            if (timer.timeout()) {
+                timer.mark();
 
-            // Toggle the buzzer state
-            this.state = !this.state;
-        }
+                // Toggle the buzzer state
+                this.state = !this.state;
+            }
 
-        if(this.state) {
-            this.buzzer.play(1);
+            if (this.state) {
+                this.buzzer.play(1);
+            }
         }
     }
 
