@@ -23,9 +23,6 @@ public class Led {
      */
     public void set(Color color) {
         BoeBot.rgbSet(pin, color);
-    }
-
-    public void process() {
         BoeBot.rgbShow();
     }
 

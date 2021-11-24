@@ -16,6 +16,8 @@ public class BlinkerLogic implements Logic {
     private boolean isBlinkingLeft;
     private boolean isBlinkingRight;
 
+    private boolean isFirstTimeBlinking = true;
+
     private Timer timer;
 
     private Led frontLeft = new Led(3);
@@ -73,8 +75,15 @@ public class BlinkerLogic implements Logic {
             this.frontRight.reset();
             this.backLeft.reset();
             this.backRight.reset();
+
+            this.state = false;
+
+            isFirstTimeBlinking = true;
+
         } else {
-            if (this.timer.timeout()) {
+            if (this.timer.timeout() || isFirstTimeBlinking) {
+                isFirstTimeBlinking = false;
+
                 // Reset the timer
                 this.timer.mark();
 
@@ -91,12 +100,15 @@ public class BlinkerLogic implements Logic {
                     if (isBlinkingLeft) {
                         this.frontLeft.set(this.BLINKCOLOR);
                         this.backLeft.set(this.BLINKCOLOR);
+                        System.out.println("Blink left");
                     }
 
                     if (isBlinkingRight) {
                         this.frontRight.set(this.BLINKCOLOR);
                         this.backRight.set(this.BLINKCOLOR);
+                        System.out.println("Blink right");
                     }
+
                 }
             }
         }
@@ -106,7 +118,7 @@ public class BlinkerLogic implements Logic {
      * Resets all the leds it owns.
      */
     @Override
-    public void reset(){
+    public void reset() {
         for (Led led : this.leds) {
             led.reset();
         }
