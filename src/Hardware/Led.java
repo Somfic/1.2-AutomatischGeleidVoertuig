@@ -15,7 +15,6 @@ public class Led {
      */
     public Led(int pin) {
        this.pin = pin;
-       BoeBot.setMode(pin, PinMode.Output);
     }
 
     /**
@@ -24,6 +23,9 @@ public class Led {
      */
     public void set(Color color) {
         BoeBot.rgbSet(pin, color);
+    }
+
+    public void process() {
         BoeBot.rgbShow();
     }
 
