@@ -14,6 +14,8 @@ public class ServoMotor {
     private int maxSpeed = 1700;
     private int minSpeed = 1300;
 
+    private int timeInterval = 10;
+
     public ServoMotor(int pin, boolean reverse) {
         this.pin = pin;
         this.currentSpeed = defaultSpeed;
@@ -49,12 +51,16 @@ public class ServoMotor {
         this.servo.stop();
     }
 
+    public void setTimeInterval(int time) {
+        this.timeInterval = time;
+    }
+
     //accelerates or decelerates by 10 depending on the boolean given.
     public void accelerate() {
-        int speedIncrease = 10;
+        int speedIncrease = this.timeInterval;
 
         if(this.targetSpeed < this.currentSpeed){
-            speedIncrease = -10;
+            speedIncrease = -this.timeInterval;
         }
 
 
