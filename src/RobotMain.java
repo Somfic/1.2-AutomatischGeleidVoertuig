@@ -3,7 +3,6 @@ import Logic.*;
 import TI.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class RobotMain {
     static private Switch startButton = new Switch(0);
@@ -29,12 +28,6 @@ public class RobotMain {
 
     public static void main(String[] args) {
 
-//        buzzer.setIsBuzzing(true);
-//        while(true) {
-//            BoeBot.wait(1);
-//            buzzer.process();
-//        }
-
         while (true) {
             BoeBot.wait(1);
             processLogic();
@@ -45,6 +38,8 @@ public class RobotMain {
      * Drives autonomously until the emergency button is pressed.
      */
     private static void autoDriving() {
+
+        // Obstacle detection
         boolean isObstacleLeft = leftWhisker.getState();
         boolean isObstacleRight = rightWhisker.getState();
 
@@ -62,7 +57,9 @@ public class RobotMain {
                 motor.turn(MAXSPEED);
                 turner = false;
             }
-        } else if (motor.targetSpeedReached()) {
+        } 
+        
+        else if (motor.targetSpeedReached()) {
 
             buzzer.setIsBuzzing(false);
             blinker.setBlinkLeft(false);
@@ -70,43 +67,58 @@ public class RobotMain {
             blinker.setBlinkRight(false);
 
             // No obstacles, happy driving!
+            motor.setTimerInterval(1);
             motor.setTargetSpeed(MAXSPEED);
         }
 
+        // If there's an obstacle on both sides
         if (isObstacleLeft && isObstacleRight) {
 
-            System.out.println("! Going backwards");
-
+            // Start buzzing
             buzzer.setIsBuzzing(true);
 
-            // Obstacle on both sides, avoid!
+            // Go backwards
+            motor.setTimerInterval(10);
             motor.setTargetSpeed(-MAXSPEED);
-        } else if (isObstacleLeft && motor.targetSpeedReached()) {
-            System.out.println("! Left");
+
+        } 
+        
+        // If there's an obstacle on the left
+        else if (isObstacleLeft && motor.targetSpeedReached()) {
+        
+            // Start blinking
             blinker.setBlinkRight(true);
 
+            // Start buzzing
             buzzer.setIsBuzzing(true);
 
-            motor.setTimerInterval(5);
+            // Go backwards
+            motor.setTimerInterval(10);
             motor.setTargetSpeed(-MAXSPEED);
+
+            // Mark the turner to turn to the right
             turner = true;
             toTurn = false;
 
-        } else if (isObstacleRight && motor.targetSpeedReached()) {
+        } 
+        
+        // If there's an obstacle on the right
+        else if (isObstacleRight && motor.targetSpeedReached()) {
 
-            System.out.println("! Right");
-
+            // Start blinking
             blinker.setBlinkLeft(true);
 
+            // Start buzzing
             buzzer.setIsBuzzing(true);
 
-            motor.setTimerInterval(5);
+            // Go backwards
+            motor.setTimerInterval(10);
             motor.setTargetSpeed(-MAXSPEED);
+
+            // Mark the turner to turn to the left
             turner = true;
             toTurn = true;
         }
-
-        BoeBot.wait(1);
     }
 
     /**
@@ -125,14 +137,20 @@ public class RobotMain {
             indicatorLed.set(Color.red);
         }
 
+        // Start button logic
         if (startButton.getState()) {
             System.out.println("Pressed start button");
+
             isRunning = true;
         }
 
+        // (Emergency) stop button logic
         if (stopButton.getState()) {
             System.out.println("Pressed stop button");
+
             isRunning = false;
+
+            // Reset the logic
             resetLogic();
         }
     }
