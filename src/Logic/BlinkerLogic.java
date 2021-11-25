@@ -100,13 +100,11 @@ public class BlinkerLogic implements Logic {
                     if (isBlinkingLeft) {
                         this.frontLeft.set(this.BLINKCOLOR);
                         this.backLeft.set(this.BLINKCOLOR);
-                        System.out.println("Blink left");
                     }
 
                     if (isBlinkingRight) {
                         this.frontRight.set(this.BLINKCOLOR);
                         this.backRight.set(this.BLINKCOLOR);
-                        System.out.println("Blink right");
                     }
 
                 }

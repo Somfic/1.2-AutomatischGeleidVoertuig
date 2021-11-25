@@ -21,10 +21,10 @@ public class RobotMain {
 
     //attributes for autoDriving
     static private boolean turner = false;
-    static private boolean toTurn = false;
+    static private boolean turningToRight = false;
 
     static final private int MAXSPEED = 200;
-    static final private int TURNSPEED = 75;
+    static final private int TURNSPEED = 80;
 
     static private boolean isRunning = false;
 
@@ -50,9 +50,12 @@ public class RobotMain {
         // Blinker logic
 
         if (turner && motor.targetSpeedReached()) {
+
+            System.out.println("Starting turn");
+
             motor.setTimerInterval(10);
 
-            if (toTurn) {
+            if (turningToRight) {
                 motor.turn(-TURNSPEED);
                 turner = false;
             } else {
@@ -62,6 +65,8 @@ public class RobotMain {
         } 
         
         else if (motor.targetSpeedReached()) {
+
+            System.out.println("Going forwards");
 
             buzzer.setIsBuzzing(false);
             blinker.setBlinkLeft(false);
@@ -76,18 +81,24 @@ public class RobotMain {
         // If there's an obstacle on both sides
         if (isObstacleLeft && isObstacleRight) {
 
+            System.out.println("Obstacle on both sides");
+
             // Start buzzing
             buzzer.setIsBuzzing(true);
 
             // Go backwards
             motor.setTimerInterval(10);
+            motor.stop();
+            motor.start();
             motor.setTargetSpeed(-MAXSPEED);
 
         } 
         
         // If there's an obstacle on the left
         else if (isObstacleLeft && motor.targetSpeedReached()) {
-        
+
+            System.out.println("Obstacle on left");
+
             // Start blinking
             blinker.setBlinkRight(true);
 
@@ -96,16 +107,20 @@ public class RobotMain {
 
             // Go backwards
             motor.setTimerInterval(10);
+            motor.stop();
+            motor.start();
             motor.setTargetSpeed(-MAXSPEED);
 
             // Mark the turner to turn to the right
             turner = true;
-            toTurn = false;
+            turningToRight = false;
 
         } 
         
         // If there's an obstacle on the right
         else if (isObstacleRight && motor.targetSpeedReached()) {
+
+            System.out.println("Obstacle on right");
 
             // Start blinking
             blinker.setBlinkLeft(true);
@@ -119,7 +134,7 @@ public class RobotMain {
 
             // Mark the turner to turn to the left
             turner = true;
-            toTurn = true;
+            turningToRight = true;
         }
     }
 
