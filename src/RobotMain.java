@@ -3,6 +3,7 @@ import Logic.*;
 import TI.*;
 
 import java.awt.*;
+import java.util.Random;
 
 public class RobotMain {
     static private Switch startButton = new Switch(0);
@@ -24,7 +25,7 @@ public class RobotMain {
     static private boolean turningToRight = false;
 
     static final private int MAXSPEED = 200;
-    static final private int TURNSPEED = 80;
+    static final private int TURNSPEED = 130;
 
     static private boolean isRunning = false;
 
@@ -92,7 +93,9 @@ public class RobotMain {
             motor.start();
             motor.setTargetSpeed(-MAXSPEED);
 
-        } 
+            turner = true;
+            turningToRight = Math.random() < 0.5f;
+        }
         
         // If there's an obstacle on the left
         else if (isObstacleLeft && motor.targetSpeedReached()) {
@@ -130,6 +133,8 @@ public class RobotMain {
 
             // Go backwards
             motor.setTimerInterval(10);
+            motor.stop();
+            motor.start();
             motor.setTargetSpeed(-MAXSPEED);
 
             // Mark the turner to turn to the left
