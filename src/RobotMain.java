@@ -22,7 +22,9 @@ public class RobotMain {
     //attributes for autoDriving
     static private boolean turner = false;
     static private boolean toTurn = false;
+
     static final private int MAXSPEED = 200;
+    static final private int TURNSPEED = 75;
 
     static private boolean isRunning = false;
 
@@ -51,10 +53,10 @@ public class RobotMain {
             motor.setTimerInterval(10);
 
             if (toTurn) {
-                motor.turn(-MAXSPEED);
+                motor.turn(-TURNSPEED);
                 turner = false;
             } else {
-                motor.turn(MAXSPEED);
+                motor.turn(TURNSPEED);
                 turner = false;
             }
         } 
