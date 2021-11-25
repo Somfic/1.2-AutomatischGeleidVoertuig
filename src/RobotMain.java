@@ -24,7 +24,7 @@ public class RobotMain {
     static private boolean turner = false;
     static private boolean turningToRight = false;
 
-    static final private int MAXSPEED = 200;
+    static final private int MAXSPEED = 100;
     static final private int TURNSPEED = 130;
 
     static private boolean isRunning = false;
@@ -80,7 +80,7 @@ public class RobotMain {
         }
 
         // If there's an obstacle on both sides
-        if (isObstacleLeft && isObstacleRight) {
+        if (isObstacleLeft && isObstacleRight && motor.targetSpeedReached()) {
 
             System.out.println("Obstacle on both sides");
 
