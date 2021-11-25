@@ -17,7 +17,7 @@ public class BuzzerLogic implements Logic {
      * Constructor for the BuzzerLogic class.
      */
     public BuzzerLogic() {
-        timer = new Timer(500);
+        timer = new Timer(300);
     }
 
     public void setIsBuzzing(boolean state) {
