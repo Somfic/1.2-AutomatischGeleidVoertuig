@@ -3,7 +3,6 @@ package Logic;
 import Hardware.ServoMotor;
 import TI.Servo;
 import TI.Timer;
-import sun.rmi.runtime.Log;
 
 public class MotorLogic implements Logic {
 
