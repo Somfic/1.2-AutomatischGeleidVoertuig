@@ -25,7 +25,7 @@ public class RobotMain {
     static private boolean turningToRight = false;
 
     static final private int MAXSPEED = 100;
-    static final private int TURNSPEED = 130;
+    static final private int TURNSPEED = 70;
 
     static private boolean isRunning = false;
 
@@ -54,7 +54,7 @@ public class RobotMain {
 
             System.out.println("Starting turn");
 
-            motor.setTimerInterval(10);
+            motor.setTimerInterval(20);
 
             if (turningToRight) {
                 motor.turn(-TURNSPEED);
@@ -75,7 +75,7 @@ public class RobotMain {
             blinker.setBlinkRight(false);
 
             // No obstacles, happy driving!
-            motor.setTimerInterval(1);
+            motor.setTimerInterval(10);
             motor.setTargetSpeed(MAXSPEED);
         }
 
@@ -91,7 +91,7 @@ public class RobotMain {
             motor.setTimerInterval(10);
             motor.stop();
             motor.start();
-            motor.setTargetSpeed(-MAXSPEED);
+            motor.setTargetSpeed(-TURNSPEED);
 
             turner = true;
             turningToRight = Math.random() < 0.5f;
