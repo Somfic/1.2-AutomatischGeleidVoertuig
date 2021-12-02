@@ -17,6 +17,7 @@ public class LedLogic implements Logic {
         int b = (int)Math.ceil(color.getBlue() * brightness);
 
         BoeBot.rgbSet(getLightAddress(light), r, g, b);
+        BoeBot.rgbShow();
     }
 
     public void clear(LedLight light) {
@@ -25,7 +26,7 @@ public class LedLogic implements Logic {
 
     @Override
     public void process() {
-        BoeBot.rgbShow();
+        //BoeBot.rgbShow();
     }
 
     @Override
