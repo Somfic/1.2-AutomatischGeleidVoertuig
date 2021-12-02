@@ -1,6 +1,8 @@
 package Behaviour;
 
+import Configuration.Config;
 import Hardware.Switch;
+import Logic.InfraredLogic;
 import Logic.MotorLogic;
 import TI.Timer;
 
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 public class MovementBehaviour implements Behaviour {
 
     private MotorLogic motor;
+    private InfraredLogic infraredLogic;
 
     private Switch leftWhisker;
     private Switch rightWhisker;
@@ -18,9 +21,13 @@ public class MovementBehaviour implements Behaviour {
     private ArrayList<Movement> movementQueue = new ArrayList<Movement>();
     private boolean isExecutingMovement;
 
-    public MovementBehaviour(MotorLogic motorLogic) {
+    public MovementBehaviour(MotorLogic motorLogic, InfraredLogic infraredLogic) {
         this.motor = motorLogic;
+        this.infraredLogic = infraredLogic;
     }
+
+    private MoveDirection moveDirection = MoveDirection.Stationary;
+    private float acceleration = 5;
 
     @Override
     public void initialise() {
@@ -61,14 +68,14 @@ public class MovementBehaviour implements Behaviour {
             timer.setInterval(100);
 
             if (this.leftWhisker.getState() && this.rightWhisker.getState()) {
-                addMovementToQueue("Braking", 0, 0, 10, 500);
+                addMovementToQueue("Braking", 0, 0, 100, 500);
                 addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
                 addMovementToQueue("Stopping", 0, 0, 5,500);
                 return;
             }
 
             if (this.rightWhisker.getState()) {
-                addMovementToQueue("Braking", 0, 0, 10,500);
+                addMovementToQueue("Braking", 0, 0, 100,500);
                 addMovementToQueue("Backing up for left turn", -0.5f, 0, 5,3000);
                 addMovementToQueue("Turn left", 0, 0.5f, 10,1700);
                 addMovementToQueue("Stopping", 0, 0, 5,500);
@@ -78,7 +85,7 @@ public class MovementBehaviour implements Behaviour {
             }
 
             if (this.leftWhisker.getState()) {
-                addMovementToQueue("Braking", 0, 0, 10,500);
+                addMovementToQueue("Braking", 0, 0, 100,500);
                 addMovementToQueue("Backing up for right turn", -0.5f, 0,  5,3000);
                 addMovementToQueue("Turn right", 0, -0.5f, 10,1700);
                 addMovementToQueue("Stopping", 0, 0, 5,500);
@@ -86,8 +93,46 @@ public class MovementBehaviour implements Behaviour {
 
             }
 
-            motor.setAcceleration(2);
-            motor.setMove(1, 0);
+
+            int remoteCode = this.infraredLogic.getLastCode();
+
+            if(remoteCode == Config.REMOTE_CHANNEL_PLUS) {
+                this.moveDirection = MoveDirection.Forwards;
+            } else if(remoteCode == Config.REMOTE_CHANNEL_MIN) {
+                this.moveDirection = MoveDirection.Backwards;
+            } else if(remoteCode == Config.REMOTE_VOLUME_PLUS) {
+                this.moveDirection = MoveDirection.Right;
+            } else if(remoteCode == Config.REMOTE_VOLUME_MIN) {
+                this.moveDirection = MoveDirection.Left;
+            } else if(remoteCode == Config.REMOTE_STOP) {
+                this.moveDirection = MoveDirection.Stationary;
+            }
+
+            if(remoteCode == Config.REMOTE_FORWARDS) {
+                this.acceleration += 1;
+                this.infraredLogic.reset();
+            } else if(remoteCode == Config.REMOTE_BACKWARDS) {
+                this.acceleration -= 1;
+                this.infraredLogic.reset();
+            }
+
+            this.acceleration = Math.max(1, this.acceleration);
+            this.acceleration = Math.min(30, this.acceleration);
+
+            motor.setAcceleration(this.acceleration);
+            if (this.moveDirection == MoveDirection.Forwards) {
+               motor.setMove(1, 0);
+            } else if (this.moveDirection == MoveDirection.Backwards) {
+                motor.setMove(-1, 0);
+            } else if (this.moveDirection == MoveDirection.Left) {
+                motor.setMove(0, 0.5f);
+            } else if (this.moveDirection == MoveDirection.Right) {
+                motor.setMove(0, -0.5f);
+            } else if (this.moveDirection == MoveDirection.Stationary) {
+                motor.setMove(0, 0);
+            }
+
+            System.out.println("Acceleration: " + acceleration);
         }
     }
 
@@ -100,6 +145,9 @@ public class MovementBehaviour implements Behaviour {
     public void reset() {
         movementQueue.clear();
         isExecutingMovement = false;
+
+        this.moveDirection = MoveDirection.Stationary;
+        this.acceleration = 5;
     }
 }
 

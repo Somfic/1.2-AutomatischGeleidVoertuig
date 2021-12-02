@@ -12,7 +12,7 @@ public class MotorLogic implements Logic {
     private Timer timer;
 
     final private int STATIONAIRY_SPEED = 1500;
-    final private int MAX_SPEED = 150;
+    final private int MAX_SPEED = 100;
 
     private float targetSpeed = 0;
     private float targetAngle = 0;
