@@ -11,16 +11,19 @@ public class RobotMain {
     static private Switch stopButton = new Switch(0);
 
     static private LedLogic lights = new LedLogic();
-    static private BuzzerLogic buzzer = new BuzzerLogic();
+    static private BuzzerLogic buzzer = new BuzzerLogic(2);
     static private MotorLogic motors = new MotorLogic(12, 13);
+    static private InfraredLogic infrared = new InfraredLogic(3);
 
-    static private MovementBehaviour movementBehaviour = new MovementBehaviour(motors);
+    static private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, infrared);
     static private BlinkerBehaviour blinkerBehaviour = new BlinkerBehaviour(lights, motors);
+    static private RemoteBehaviour remoteBehaviour = new RemoteBehaviour(infrared);
+    static private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, infrared, motors);
 
     static private Logic[] logics = {lights, buzzer, motors};
-    static private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour};
+    static private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour, remoteBehaviour, buzzerBehaviour};
 
-    static private EmergencyBehaviour emergencySystem = new EmergencyBehaviour();
+    static private EmergencyBehaviour emergencySystem = new EmergencyBehaviour(infrared);
 
     static private Led indicatorLed = new Led(1);
 
