@@ -131,8 +131,6 @@ public class MovementBehaviour implements Behaviour {
             } else if (this.moveDirection == MoveDirection.Stationary) {
                 motor.setMove(0, 0);
             }
-
-            System.out.println("Acceleration: " + acceleration);
         }
     }
 
@@ -148,6 +146,8 @@ public class MovementBehaviour implements Behaviour {
 
         this.moveDirection = MoveDirection.Stationary;
         this.acceleration = 5;
+
+        //System.out.println("Resetting movement target");
     }
 }
 

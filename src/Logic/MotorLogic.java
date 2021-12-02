@@ -107,5 +107,8 @@ public class MotorLogic implements Logic {
     @Override
     public void reset() {
         stop();
+        this.targetAngle = 0;
+        this.targetSpeed = 0;
+        this.acceleration = 5;
     }
 }

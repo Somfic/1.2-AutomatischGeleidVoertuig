@@ -28,21 +28,14 @@ public class EmergencyBehaviour implements Behaviour {
     public void process() {
         infrared.process();
 
-        if(infrared.getLastCode() == Config.REMOTE_POWER) {
+        if(infrared.getLastCode() == Config.REMOTE_POWER || this.stopButton.getState()) {
             this.isRunning = false;
         }
 
-        if(infrared.getLastCode() == Config.REMOTE_MUTE) {
+        if(infrared.getLastCode() == Config.REMOTE_MUTE || this.startButton.getState()) {
             this.isRunning = true;
         }
 
-        if(this.startButton.getState()) {
-            this.isRunning = true;
-        }
-
-        if(this.stopButton.getState()) {
-            this.isRunning = false;
-        }
     }
 
     public boolean shouldStop() {
