@@ -1,14 +1,12 @@
-package System;
+package Behaviour;
 
-import Hardware.Buzzer;
 import Hardware.Switch;
-import Logic.Logic;
 import Logic.MotorLogic;
 import TI.Timer;
 
 import java.util.ArrayList;
 
-public class MovementSystem implements SystemInterface {
+public class MovementBehaviour implements Behaviour {
 
     private MotorLogic motor;
 
@@ -20,7 +18,7 @@ public class MovementSystem implements SystemInterface {
     private ArrayList<Movement> movementQueue = new ArrayList<Movement>();
     private boolean isExecutingMovement;
 
-    public MovementSystem(MotorLogic motorLogic) {
+    public MovementBehaviour(MotorLogic motorLogic) {
         this.motor = motorLogic;
     }
 

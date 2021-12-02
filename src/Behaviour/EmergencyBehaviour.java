@@ -1,8 +1,8 @@
-package System;
+package Behaviour;
 
 import Hardware.Switch;
 
-public class EmergencySystem implements SystemInterface {
+public class EmergencyBehaviour implements Behaviour {
 
     private Switch startButton;
     private Switch stopButton;

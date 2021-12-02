@@ -2,7 +2,7 @@ import Hardware.*;
 import Logic.*;
 import TI.*;
 
-import System.*;
+import Behaviour.*;
 
 import java.awt.*;
 
@@ -14,13 +14,13 @@ public class RobotMain {
     static private BuzzerLogic buzzer = new BuzzerLogic();
     static private MotorLogic motors = new MotorLogic(12, 13);
 
-    static private MovementSystem movementSystem = new MovementSystem(motors);
-    static private BlinkerSystem blinkerSystem = new BlinkerSystem(lights, motors);
+    static private MovementBehaviour movementBehaviour = new MovementBehaviour(motors);
+    static private BlinkerBehaviour blinkerBehaviour = new BlinkerBehaviour(lights, motors);
 
     static private Logic[] logics = {lights, buzzer, motors};
-    static private SystemInterface[] systems = {movementSystem, blinkerSystem};
+    static private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour};
 
-    static private EmergencySystem emergencySystem = new EmergencySystem();
+    static private EmergencyBehaviour emergencySystem = new EmergencyBehaviour();
 
     static private Led indicatorLed = new Led(1);
 
@@ -28,8 +28,8 @@ public class RobotMain {
 
     public static void main(String[] args) {
 
-        for (SystemInterface system : systems) {
-            system.initialise();
+        for (Behaviour behaviour : behaviours) {
+            behaviour.initialise();
         }
 
         emergencySystem.initialise();
@@ -42,8 +42,8 @@ public class RobotMain {
             if(emergencySystem.shouldStop() && !hasStopped) {
                 hasStopped = true;
 
-                for (SystemInterface system : systems) {
-                    system.reset();
+                for (Behaviour behaviour : behaviours) {
+                    behaviour.reset();
                 }
 
                 for (Logic logic : logics) {
@@ -56,8 +56,8 @@ public class RobotMain {
             if(!emergencySystem.shouldStop()){
                 hasStopped = false;
 
-                for (SystemInterface system : systems) {
-                    system.process();
+                for (Behaviour behaviour : behaviours) {
+                    behaviour.process();
                 }
 
                 for (Logic logic : logics) {

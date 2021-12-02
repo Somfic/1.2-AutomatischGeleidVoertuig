@@ -1,10 +1,10 @@
-package System;
+package Behaviour;
 
 
 /**
  * A system combines multiple logics to produce a behavior.
  */
-public interface SystemInterface {
+public interface Behaviour {
 
     void initialise();
 

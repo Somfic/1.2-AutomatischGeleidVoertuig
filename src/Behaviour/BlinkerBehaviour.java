@@ -1,4 +1,4 @@
-package System;
+package Behaviour;
 
 import Logic.LedLight;
 import Logic.LedLogic;
@@ -7,7 +7,7 @@ import TI.Timer;
 
 import java.awt.*;
 
-public class BlinkerSystem implements SystemInterface {
+public class BlinkerBehaviour implements Behaviour {
 
     private final LedLogic lights;
     private final MotorLogic motors;
@@ -19,7 +19,7 @@ public class BlinkerSystem implements SystemInterface {
 
     private Timer timer = new Timer(300);
 
-    public BlinkerSystem(LedLogic lights, MotorLogic motors) {
+    public BlinkerBehaviour(LedLogic lights, MotorLogic motors) {
 
         this.lights = lights;
         this.motors = motors;

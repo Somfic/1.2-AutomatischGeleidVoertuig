@@ -1,4 +1,4 @@
-package System;
+package Behaviour;
 
 public class Movement {
     float angle;
