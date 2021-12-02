@@ -20,7 +20,7 @@ public class RobotMain {
     static private RemoteBehaviour remoteBehaviour = new RemoteBehaviour(infrared);
     static private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, infrared, motors);
 
-    static private Logic[] logics = {lights, buzzer, motors};
+    static private Logic[] logics = {lights, buzzer, motors, infrared};
     static private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour, remoteBehaviour, buzzerBehaviour};
 
     static private EmergencyBehaviour emergencySystem = new EmergencyBehaviour(infrared);
@@ -45,6 +45,8 @@ public class RobotMain {
             if(emergencySystem.shouldStop() && !hasStopped) {
                 hasStopped = true;
 
+                //System.out.println("Emergency stop! Resetting");
+
                 for (Behaviour behaviour : behaviours) {
                     behaviour.reset();
                 }
@@ -57,6 +59,18 @@ public class RobotMain {
             }
 
             if(!emergencySystem.shouldStop()){
+                if(hasStopped) {
+                    //System.out.println("Starting again! Resetting");
+
+                    for (Behaviour behaviour : behaviours) {
+                        behaviour.reset();
+                    }
+
+                    for (Logic logic : logics) {
+                        logic.reset();
+                    }
+                }
+
                 hasStopped = false;
 
                 for (Behaviour behaviour : behaviours) {
