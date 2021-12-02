@@ -7,7 +7,8 @@ import TI.*;
  */
 public class Buzzer {
     private int pin;
-    private int frequency = 1000;
+
+    private PWM pwm;
 
     /**
      * Constructor for the Buzzer class.
@@ -15,6 +16,7 @@ public class Buzzer {
      */
     public Buzzer(int pin) {
         BoeBot.setMode(pin, PinMode.Output);
+        this.pwm = new PWM(pin, 254);
         this.pin = pin;
     }
 
@@ -23,15 +25,21 @@ public class Buzzer {
      * @param frequency The frequency of the tone.
      */
     public void setFrequency(int frequency) {
-        this.frequency = frequency;
+        this.pwm.update(frequency);
     }
 
     /**
-     * Plays a tone.
-     * @param time The duration of the tone.
+     * Starts playing a tone.
      */
-    public void play(int time) {
-        BoeBot.freqOut(this.pin, this.frequency, time);
+    public void play() {
+        this.pwm.start();
+    }
+
+    /**
+     * Stops playing a tone.
+     */
+    public void stop() {
+        this.pwm.stop();
     }
 }
 
