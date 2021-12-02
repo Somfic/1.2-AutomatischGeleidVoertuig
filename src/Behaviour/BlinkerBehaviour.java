@@ -1,5 +1,6 @@
 package Behaviour;
 
+import Configuration.Config;
 import Logic.LedLight;
 import Logic.LedLogic;
 import Logic.MotorLogic;
@@ -44,14 +45,17 @@ public class BlinkerBehaviour implements Behaviour {
             // Toggle whether the lights are on
             this.lightsAreOn = !this.lightsAreOn;
 
-
             Color frontColor = Color.white;
             Color backColor = new Color(64, 0, 0);
 
             Color reverseColor = Color.white;
             Color brakeColor = Color.red;
 
-            Color blinkerColor = lightsAreOn ? Color.orange : new Color(64,42,0);
+            Color blinkerColor = Config.LED_BLINKER_COLOR_OFF;
+
+            if (lightsAreOn) {
+                blinkerColor = Config.LED_BLINKER_COLOR_ON;
+            }
 
             // Reset everything
             this.lights.reset();
@@ -59,12 +63,12 @@ public class BlinkerBehaviour implements Behaviour {
             // Default front lights
             this.lights.set(LedLight.FrontRight, frontColor);
             this.lights.set(LedLight.FrontLeft, frontColor);
-            this.lights.set(LedLight.FrontMiddle, Color.black);
+            this.lights.clear(LedLight.FrontMiddle);
 
             // Default back lights
             this.lights.set(LedLight.BackLeft, backColor);
             this.lights.set(LedLight.BackRight, backColor);
-            this.lights.set(LedLight.BackMiddle, Color.black);
+            this.lights.clear(LedLight.BackMiddle);
 
 
             // Standing still
