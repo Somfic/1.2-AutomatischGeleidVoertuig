@@ -15,6 +15,7 @@ public class Buzzer {
 
     /**
      * Constructor for the Buzzer class.
+     *
      * @param pin The pin the buzzer is connected to.
      */
     public Buzzer(int pin) {
@@ -25,6 +26,7 @@ public class Buzzer {
 
     /**
      * Sets the frequency of the tone.
+     *
      * @param frequency The frequency of the tone.
      */
     public void setFrequency(int frequency) {

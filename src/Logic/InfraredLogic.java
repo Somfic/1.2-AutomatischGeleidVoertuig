@@ -6,20 +6,18 @@ import TI.Timer;
 public class InfraredLogic implements Logic {
 
     private final Infrared infrared;
+    private final Timer timeout = new Timer(250);
+    private int lastCode;
 
     public InfraredLogic(int pin) {
         this.infrared = new Infrared(pin);
     }
 
-    private int lastCode;
-
-    private final Timer timeout = new Timer(250);
-
     @Override
     public void process() {
         int pulseLength = infrared.getValue(false, 10000);
 
-        if(pulseLength > 2000) {
+        if (pulseLength > 2000) {
             timeout.mark();
 
             // Started a new signal
@@ -35,14 +33,14 @@ public class InfraredLogic implements Logic {
                 }
 
                 // -2 indicates an error code while trying to read out the pulse
-                if(lengths[i] == -2) {
+                if (lengths[i] == -2) {
                     return;
                 }
             }
 
             this.lastCode = output;
         } else {
-            if(timeout.timeout()) {
+            if (timeout.timeout()) {
                 this.lastCode = -1;
             }
         }

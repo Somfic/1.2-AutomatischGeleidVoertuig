@@ -20,7 +20,8 @@ public class Ultrasonic {
         BoeBot.setMode(this.triggerPin, PinMode.Output);
         BoeBot.digitalWrite(this.triggerPin, value);
     }
-//
+
+    //
     public boolean read() {
         BoeBot.setMode(this.echoPin, PinMode.Input);
         return BoeBot.digitalRead(this.echoPin);

@@ -10,6 +10,7 @@ public class RemoteBehaviour implements Behaviour {
 
     private final RemoteListener remoteListener;
     private final InfraredLogic infraredLogic;
+    private int lastCode = 0;
 
     public RemoteBehaviour(RemoteListener remoteListener, InfraredLogic infraredLogic) {
 
@@ -22,16 +23,14 @@ public class RemoteBehaviour implements Behaviour {
 
     }
 
-    private int lastCode = 0;
-
     @Override
     public void process() {
         int newCode = this.infraredLogic.getLastCode();
 
-        if(this.lastCode != newCode) {
+        if (this.lastCode != newCode) {
             this.lastCode = newCode;
 
-            if(newCode == -1) {
+            if (newCode == -1) {
                 this.logger.debug("Released button");
             } else {
                 this.logger.debug("Pressed " + newCode);

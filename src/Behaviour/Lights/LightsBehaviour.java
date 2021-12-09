@@ -16,13 +16,10 @@ public class LightsBehaviour implements Behaviour {
 
     private final LedLogic lights;
     private final MotorLogic motors;
-
+    private final Timer timer = new Timer(300);
     private boolean lightsAreOn;
-
     private float oldSpeed = 0;
     private float oldAngle = 0;
-
-    private final Timer timer = new Timer(300);
 
     public LightsBehaviour(LedLogic lights, MotorLogic motors) {
 
@@ -37,10 +34,10 @@ public class LightsBehaviour implements Behaviour {
 
     @Override
     public void process() {
-        float speed =  this.motors.getTargetSpeed();
+        float speed = this.motors.getTargetSpeed();
         float angle = this.motors.getTargetAngle();
 
-        if(timer.timeout() || speed != oldSpeed || angle != oldAngle) {
+        if (timer.timeout() || speed != oldSpeed || angle != oldAngle) {
             timer.mark();
 
             this.oldSpeed = speed;
@@ -73,7 +70,7 @@ public class LightsBehaviour implements Behaviour {
 
 
             // Standing still
-            if(speed == 0 && angle == 0 && motors.isAccelerating()) {
+            if (speed == 0 && angle == 0 && motors.isAccelerating()) {
                 // Brakes
                 this.lights.set(LedLight.BackLeft, brakeColor);
                 this.lights.set(LedLight.BackMiddle, brakeColor);
@@ -81,20 +78,20 @@ public class LightsBehaviour implements Behaviour {
             }
 
             // Reversing
-            if(speed < 0) {
+            if (speed < 0) {
                 // Reverse light
                 this.lights.set(LedLight.BackRight, reverseColor);
             }
 
             // Going left
-            if(angle > 0) {
+            if (angle > 0) {
                 // Blink left
                 this.lights.set(LedLight.FrontLeft, blinkerColor);
                 this.lights.set(LedLight.BackLeft, blinkerColor);
             }
 
             // Going right
-            else if(angle < 0) {
+            else if (angle < 0) {
                 // Blink right
                 this.lights.set(LedLight.FrontRight, blinkerColor);
                 this.lights.set(LedLight.BackRight, blinkerColor);
@@ -104,6 +101,6 @@ public class LightsBehaviour implements Behaviour {
 
     @Override
     public void reset() {
-       lightsAreOn = false;
+        lightsAreOn = false;
     }
 }

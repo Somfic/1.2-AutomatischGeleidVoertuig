@@ -6,12 +6,12 @@ package Logic;
 public interface Logic {
 
     /*
-    * This method is called every tick of the robot's lifecycle.
-    */
+     * This method is called every tick of the robot's lifecycle.
+     */
     void process();
-    
+
     /*
-    * This method is called when the hardware needs to be reset.
-    */
+     * This method is called when the hardware needs to be reset.
+     */
     void reset();
 }

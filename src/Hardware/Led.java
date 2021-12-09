@@ -13,14 +13,16 @@ public class Led {
 
     /**
      * Constructor for the LED class.
+     *
      * @param pin The pin the LED is connected to.
      */
     public Led(int pin) {
-       this.pin = pin;
+        this.pin = pin;
     }
 
     /**
      * Sets the color of the LED.
+     *
      * @param color The color of the LED.
      */
     public void set(Color color) {

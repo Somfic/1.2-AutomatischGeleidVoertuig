@@ -4,21 +4,15 @@ import Behaviour.Behaviour;
 import Configuration.Config;
 import Hardware.Switch;
 import Logger.Logger;
-import Logic.BuzzerLogic;
 import Logic.InfraredLogic;
-import TI.Timer;
 
 public class StartStopBehaviour implements Behaviour {
 
     private final Logger logger = new Logger(this);
-
+    private final InfraredLogic infrared;
+    private final StartStopListener startStopListener;
     private Switch startButton;
     private Switch stopButton;
-
-    private final InfraredLogic infrared;
-
-    private final StartStopListener startStopListener;
-
     private boolean shouldStop;
 
 

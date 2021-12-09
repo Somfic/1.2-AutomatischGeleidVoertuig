@@ -26,7 +26,7 @@ public class DistanceBehaviour implements Behaviour {
     public void process() {
         float measuredDistance = this.distance.getDistance();
 
-        if(measuredDistance != this.lastDistance) {
+        if (measuredDistance != this.lastDistance) {
             this.lastDistance = measuredDistance;
 
             logger.info(Math.round(measuredDistance) + " cm");

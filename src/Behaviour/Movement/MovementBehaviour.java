@@ -4,10 +4,8 @@ import Behaviour.Behaviour;
 import Behaviour.Bluetooth.BluetoothListener;
 import Behaviour.Remote.RemoteListener;
 import Configuration.Config;
-import Hardware.Switch;
 import Logger.Logger;
 import Logic.DistanceLogic;
-import Logic.InfraredLogic;
 import Logic.MotorLogic;
 import Logic.WhiskerLogic;
 import TI.Timer;
@@ -19,26 +17,22 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private final Logger logger = new Logger(this);
 
     private final MotorLogic motor;
-    private WhiskerLogic whiskers;
     private final DistanceLogic distance;
-
-    private Timer timer;
-
     private final ArrayList<Movement> movementQueue = new ArrayList<Movement>();
+    private WhiskerLogic whiskers;
+    private Timer timer;
     private boolean isExecutingMovement;
 
     //public MovementBehaviour(MotorLogic motorLogic, WhiskerLogic whiskers) {
     //    this.motor = motorLogic;
     //    this.whiskers = whiskers;
     //}
-
+    private MoveDirection moveDirection = MoveDirection.Stationary;
+    private float acceleration = 5;
     public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance) {
         this.distance = distance;
         this.motor = motorLogic;
     }
-
-    private MoveDirection moveDirection = MoveDirection.Stationary;
-    private float acceleration = 5;
 
     @Override
     public void initialise() {
@@ -47,7 +41,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     @Override
     public void process() {
-        if(timer.timeout()) {
+        if (timer.timeout()) {
             timer.mark();
 
             // Previous command finished executing, remove it from the commands list
@@ -127,7 +121,6 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             this.acceleration = Math.min(30, this.acceleration);
 
 
-
             motor.setAcceleration(this.acceleration);
             if (this.moveDirection == MoveDirection.Forwards) {
                 motor.setMove(1, 0);
@@ -159,50 +152,50 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     @Override
     public void onRemoteButtonPressed(int code) {
-        if(code == Config.REMOTE_CHANNEL_PLUS) {
+        if (code == Config.REMOTE_CHANNEL_PLUS) {
 
             // Move forwards
             // If we are moving backwards, stop
-            if(this.moveDirection == MoveDirection.Backwards) {
+            if (this.moveDirection == MoveDirection.Backwards) {
                 this.moveDirection = MoveDirection.Stationary;
             } else {
                 this.moveDirection = MoveDirection.Forwards;
             }
 
-        } else if(code == Config.REMOTE_CHANNEL_MIN) {
+        } else if (code == Config.REMOTE_CHANNEL_MIN) {
 
             // Move backwards
             // If we are moving forwards, stop
-            if(this.moveDirection == MoveDirection.Forwards) {
+            if (this.moveDirection == MoveDirection.Forwards) {
                 this.moveDirection = MoveDirection.Stationary;
             } else {
                 this.moveDirection = MoveDirection.Backwards;
             }
 
-        } else if(code == Config.REMOTE_VOLUME_PLUS) {
+        } else if (code == Config.REMOTE_VOLUME_PLUS) {
 
             // Move to the right
             // If we are moving to the left, stop
-            if(this.moveDirection == MoveDirection.Left) {
+            if (this.moveDirection == MoveDirection.Left) {
                 this.moveDirection = MoveDirection.Stationary;
             } else {
                 this.moveDirection = MoveDirection.Right;
             }
 
-        } else if(code == Config.REMOTE_VOLUME_MIN) {
+        } else if (code == Config.REMOTE_VOLUME_MIN) {
 
             // Move to the left
             // If we are moving to the right, stop
-            if(this.moveDirection == MoveDirection.Right) {
+            if (this.moveDirection == MoveDirection.Right) {
                 this.moveDirection = MoveDirection.Stationary;
             } else {
                 this.moveDirection = MoveDirection.Left;
             }
-        } else if(code == Config.REMOTE_STOP) {
+        } else if (code == Config.REMOTE_STOP) {
             this.moveDirection = MoveDirection.Stationary;
-        } else if(code == Config.REMOTE_FORWARDS) {
+        } else if (code == Config.REMOTE_FORWARDS) {
             this.acceleration += 1;
-        } else if(code == Config.REMOTE_BACKWARDS) {
+        } else if (code == Config.REMOTE_BACKWARDS) {
             this.acceleration -= 1;
         }
     }
@@ -211,50 +204,50 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     public void omBluetoothMessage(String input) {
         input = input.toLowerCase();
 
-        if(input.equals("w")) {
+        if (input.equals("w")) {
 
             // Move forwards
             // If we are moving backwards, stop
-            if(this.moveDirection == MoveDirection.Backwards) {
+            if (this.moveDirection == MoveDirection.Backwards) {
                 this.moveDirection = MoveDirection.Stationary;
             } else {
                 this.moveDirection = MoveDirection.Forwards;
             }
 
-        } else if(input.equals("s")) {
+        } else if (input.equals("s")) {
 
             // Move backwards
             // If we are moving forwards, stop
-            if(this.moveDirection == MoveDirection.Forwards) {
+            if (this.moveDirection == MoveDirection.Forwards) {
                 this.moveDirection = MoveDirection.Stationary;
             } else {
                 this.moveDirection = MoveDirection.Backwards;
             }
 
-        } else if(input.equals("d")) {
+        } else if (input.equals("d")) {
 
             // Move to the right
             // If we are moving to the left, stop
-            if(this.moveDirection == MoveDirection.Left) {
+            if (this.moveDirection == MoveDirection.Left) {
                 this.moveDirection = MoveDirection.Stationary;
             } else {
                 this.moveDirection = MoveDirection.Right;
             }
 
-        } else if(input.equals("a")) {
+        } else if (input.equals("a")) {
 
             // Move to the left
             // If we are moving to the right, stop
-            if(this.moveDirection == MoveDirection.Right) {
+            if (this.moveDirection == MoveDirection.Right) {
                 this.moveDirection = MoveDirection.Stationary;
             } else {
                 this.moveDirection = MoveDirection.Left;
             }
-        } else if(input.equals(" ")) {
+        } else if (input.equals(" ")) {
             this.moveDirection = MoveDirection.Stationary;
-        } else if(input.equals("+")) {
+        } else if (input.equals("+")) {
             this.acceleration += 1;
-        } else if(input.equals("-")) {
+        } else if (input.equals("-")) {
             this.acceleration -= 1;
         }
     }

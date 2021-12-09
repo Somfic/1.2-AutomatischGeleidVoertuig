@@ -16,7 +16,7 @@ public class LineFollowerLogic implements Logic {
 
     @Override
     public void process() {
-       // int this.lineFollowerRight.getValue();
+        // int this.lineFollowerRight.getValue();
     }
 
     @Override

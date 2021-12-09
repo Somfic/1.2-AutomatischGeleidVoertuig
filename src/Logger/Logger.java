@@ -6,6 +6,7 @@ public class Logger {
 
     /**
      * Creates a new logger for the given class instance
+     *
      * @param classInstance The instance of the class to log for
      */
     public Logger(Object classInstance) {
@@ -14,6 +15,7 @@ public class Logger {
 
     /**
      * Logs a message at the DEBUG level
+     *
      * @param message The message to log
      */
     public void debug(String message) {
@@ -22,6 +24,7 @@ public class Logger {
 
     /**
      * Logs a message at the INFO level
+     *
      * @param message The message to log
      */
     public void info(String message) {
@@ -30,6 +33,7 @@ public class Logger {
 
     /**
      * Logs a message at the WARNING level
+     *
      * @param message The message to log
      */
     public void warn(String message) {
@@ -38,6 +42,7 @@ public class Logger {
 
     /**
      * Logs a message at the ERROR level
+     *
      * @param message The message to log
      */
     public void error(String message) {
@@ -46,8 +51,9 @@ public class Logger {
 
     /**
      * Logs a message with the given level
+     *
      * @param logLevel The level of the message
-     * @param message The message to log
+     * @param message  The message to log
      */
     public void log(LogLevel logLevel, String message) {
         // Log the message between square brackets

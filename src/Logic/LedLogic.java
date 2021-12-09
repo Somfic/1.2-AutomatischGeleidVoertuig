@@ -42,9 +42,9 @@ public class LedLogic implements Logic {
 
                 float brightness = 0.1f;
 
-                int r = (int)Math.ceil(color.getRed() * brightness);
-                int g = (int)Math.ceil(color.getGreen() * brightness);
-                int b = (int)Math.ceil(color.getBlue() * brightness);
+                int r = (int) Math.ceil(color.getRed() * brightness);
+                int g = (int) Math.ceil(color.getGreen() * brightness);
+                int b = (int) Math.ceil(color.getBlue() * brightness);
 
                 logger.warn("Setting LED " + light.toString() + " to " + " (" + r + ", " + g + ", " + b + ")");
 

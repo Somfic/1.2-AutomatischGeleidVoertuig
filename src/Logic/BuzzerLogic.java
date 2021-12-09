@@ -7,11 +7,10 @@ import TI.Timer;
  * The BuzzerLogic class is used to control a buzzer.
  */
 public class BuzzerLogic implements Logic {
-    private boolean state;
     private final Timer timer;
-    private boolean active = false;
-
     private final Buzzer buzzer;
+    private boolean state;
+    private boolean active = false;
 
     /**
      * Constructor for the BuzzerLogic class.
@@ -27,6 +26,7 @@ public class BuzzerLogic implements Logic {
 
     /**
      * Sets the interval of the buzzer.
+     *
      * @param interval The interval of the buzzer in milliseconds.
      */
     public void setInterval(int interval) {
@@ -35,6 +35,7 @@ public class BuzzerLogic implements Logic {
 
     /**
      * Sets the tone frequency of the buzzer.
+     *
      * @param frequency The frequency of the buzzer in Hertz.
      */
     public void setFrequency(int frequency) {
@@ -59,8 +60,7 @@ public class BuzzerLogic implements Logic {
             } else {
                 this.buzzer.stop();
             }
-        }
-        else {
+        } else {
             this.buzzer.stop();
         }
     }
@@ -69,7 +69,7 @@ public class BuzzerLogic implements Logic {
      * Resets the buzzer.
      */
     @Override
-    public void reset(){
+    public void reset() {
         this.buzzer.stop();
     }
 }

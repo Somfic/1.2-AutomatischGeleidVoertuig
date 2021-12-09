@@ -6,7 +6,7 @@ package Behaviour.StartStop;
  */
 public interface StartStopListener {
 
-    /** 
+    /**
      * This method is called when the robot is stopped or started.
      */
     void onStartStop(boolean shouldStop);

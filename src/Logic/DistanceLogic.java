@@ -9,9 +9,8 @@ public class DistanceLogic implements Logic {
     private final Ultrasonic ultrasonic;
 
     private final Timer timer = new Timer(0);
-    private Step step = Step.ResetPulse;
-
     private final float distance = 0;
+    private Step step = Step.ResetPulse;
     private float pulse;
 
 
