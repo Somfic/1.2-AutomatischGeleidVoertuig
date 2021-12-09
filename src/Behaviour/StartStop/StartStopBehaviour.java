@@ -39,8 +39,8 @@ public class StartStopBehaviour implements Behaviour {
         // Process the infrared
         infrared.process();
 
-        // Check if the start button is pressed
-        if (infrared.getLastCode() == Config.REMOTE_POWER || this.stopButton.getState()) {
+        // Check if the stop button is pressed when the start button isn't
+        if (infrared.getLastCode() == Config.REMOTE_POWER || (this.stopButton.getState() && !this.startButton.getState())) {
 
             // Only trigger the stop behaviour is the robot is currently running
             if (!this.shouldStop) {
@@ -54,8 +54,8 @@ public class StartStopBehaviour implements Behaviour {
             }
         }
 
-        // Check if the stop button is pressed
-        if (infrared.getLastCode() == Config.REMOTE_MUTE || this.startButton.getState()) {
+        // Check if the start button is pressed when the stop button isn't
+        if (infrared.getLastCode() == Config.REMOTE_MUTE || (this.startButton.getState() && !this.stopButton.getState())) {
 
             // Only trigger the start behaviour is the robot is currently stopped
             if (this.shouldStop) {

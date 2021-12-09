@@ -6,6 +6,7 @@ import Behaviour.Remote.RemoteListener;
 import Configuration.Config;
 import Hardware.Switch;
 import Logger.Logger;
+import Logic.DistanceLogic;
 import Logic.InfraredLogic;
 import Logic.MotorLogic;
 import Logic.WhiskerLogic;
@@ -19,15 +20,21 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     private MotorLogic motor;
     private WhiskerLogic whiskers;
+    private DistanceLogic distance;
 
     private Timer timer;
 
     private ArrayList<Movement> movementQueue = new ArrayList<Movement>();
     private boolean isExecutingMovement;
 
-    public MovementBehaviour(MotorLogic motorLogic, WhiskerLogic whiskers) {
+    //public MovementBehaviour(MotorLogic motorLogic, WhiskerLogic whiskers) {
+    //    this.motor = motorLogic;
+    //    this.whiskers = whiskers;
+    //}
+
+    public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance) {
+        this.distance = distance;
         this.motor = motorLogic;
-        this.whiskers = whiskers;
     }
 
     private MoveDirection moveDirection = MoveDirection.Stationary;
@@ -72,33 +79,52 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             // All queued commands are executed, find a new command
             timer.setInterval(100);
 
-            if (this.whiskers.hasObstacleLeft() && this.whiskers.hasObstacleRight()) {
-                addMovementToQueue("Braking", 0, 0, 100, 500);
+            /*
+            The code below is used for the whiskers
+             */
+
+            //if (this.whiskers.hasObstacleLeft() && this.whiskers.hasObstacleRight()) {
+            //    addMovementToQueue("Braking", 0, 0, 100, 500);
+            //    addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
+            //    addMovementToQueue("Stopping", 0, 0, 5,500);
+            //    return;
+            //}
+//
+            //if (this.whiskers.hasObstacleRight()) {
+            //    addMovementToQueue("Braking", 0, 0, 100,500);
+            //    addMovementToQueue("Backing up for left turn", -0.5f, 0, 5,3000);
+            //    addMovementToQueue("Turn left", 0, 0.5f, 10,1700);
+            //    addMovementToQueue("Stopping", 0, 0, 5,500);
+//
+            //    return;
+//
+            //}
+//
+            //if (this.whiskers.hasObstacleLeft()) {
+            //    addMovementToQueue("Braking", 0, 0, 100,500);
+            //    addMovementToQueue("Backing up for right turn", -0.5f, 0,  5,3000);
+            //    addMovementToQueue("Turn right", 0, -0.5f, 10,1700);
+            //    addMovementToQueue("Stopping", 0, 0, 5,500);
+            //    return;
+            //}
+
+            /*
+            The code below is used for the ultrasone sensors
+             */
+
+            if (this.distance.getPulse() < 1500 && this.distance.getPulse() > 0) {
+                addMovementToQueue("Braking", 0, 0, 5, 500);
                 addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
                 addMovementToQueue("Stopping", 0, 0, 5,500);
                 return;
-            }
-
-            if (this.whiskers.hasObstacleRight()) {
-                addMovementToQueue("Braking", 0, 0, 100,500);
-                addMovementToQueue("Backing up for left turn", -0.5f, 0, 5,3000);
-                addMovementToQueue("Turn left", 0, 0.5f, 10,1700);
-                addMovementToQueue("Stopping", 0, 0, 5,500);
-
-                return;
-
-            }
-
-            if (this.whiskers.hasObstacleLeft()) {
-                addMovementToQueue("Braking", 0, 0, 100,500);
-                addMovementToQueue("Backing up for right turn", -0.5f, 0,  5,3000);
-                addMovementToQueue("Turn right", 0, -0.5f, 10,1700);
-                addMovementToQueue("Stopping", 0, 0, 5,500);
-                return;
+            } else {
+                this.moveDirection = MoveDirection.Forwards;
             }
 
             this.acceleration = Math.max(1, this.acceleration);
             this.acceleration = Math.min(30, this.acceleration);
+
+
 
             motor.setAcceleration(this.acceleration);
             if (this.moveDirection == MoveDirection.Forwards) {
