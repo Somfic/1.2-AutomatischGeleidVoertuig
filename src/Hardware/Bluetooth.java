@@ -1,5 +1,7 @@
 package Hardware;
 
+import TI.BoeBot;
+import TI.PinMode;
 import TI.SerialConnection;
 
 public class Bluetooth {
@@ -9,10 +11,12 @@ public class Bluetooth {
         serial = new SerialConnection(baudrate);
     }
 
+    //reads a recieved byte
     public int readByte(){
         return serial.readByte();
     }
 
+    //check if there is a bluetooth message to read
     public boolean canRead(){
         if(this.serial.available() > 0){
             return true;
@@ -23,8 +27,15 @@ public class Bluetooth {
         }
     }
 
+    //sends given bytes to bluetooth reciever
     public void sendByte(int message){
         this.serial.writeByte(message);
+    }
+
+    public void reset(){
+        BoeBot.setMode(13, PinMode.Output);
+        BoeBot.digitalWrite(13, true);
+        BoeBot.digitalWrite(13, false);
     }
 
 

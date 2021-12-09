@@ -20,7 +20,7 @@ public class BluetoothBehaviour implements Behaviour {
     public void process() {
         String input = bluetoothLogic.read();
         if(!input.isEmpty()){
-            System.out.println(input);
+            System.out.println("bluetooth read input: " + input);
             bluetoothListener.omBluetoothMessage(input);
         }
     }
