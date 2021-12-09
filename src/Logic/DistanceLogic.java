@@ -62,31 +62,31 @@ public class DistanceLogic implements Logic {
 //                this.distance = pulse * 0.034f / 2f;
 //            }
 //        }
-
-        ultrasonic.set(false);
-
-        BoeBot.wait(5);
-
-        ultrasonic.set(true);
-
-        BoeBot.wait(10);
-
-        ultrasonic.set(false);
-
-        while(!ultrasonic.read()) {
-
-        }
-
-        long startTime = System.nanoTime();
-
-        while(ultrasonic.read()) {
-
-        }
-
-        long endTime = System.nanoTime();
-
-        this.pulse = (endTime - startTime);
-        this.distance = (float) (pulse / 1e3 /2 /29.1);
+//
+//        ultrasonic.set(false);
+//
+//        BoeBot.wait(5);
+//
+//        ultrasonic.set(true);
+//
+//        BoeBot.wait(10);
+//
+//        ultrasonic.set(false);
+//
+//        while(!ultrasonic.read()) {
+//
+//        }
+//
+//        long startTime = System.nanoTime();
+//
+//        while(ultrasonic.read()) {
+//
+//        }
+//
+//        long endTime = System.nanoTime();
+//
+//        this.pulse = (endTime - startTime);
+//        this.distance = (float) (pulse / 1e3 /2 /29.1);
     }
 
     @Override

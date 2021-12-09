@@ -14,15 +14,20 @@ public class Main {
 
         BluetoothLogic bluetoothLogic = new BluetoothLogic(115200);
 
+        robot.run();
+
         while (true) {
 
-            String input = bluetoothLogic.read();
+//            String input = bluetoothLogic.read();
+//
+//            if(!input.isEmpty()) {
+//                bluetoothLogic.send(input);
+//
+//                System.out.println("input: " + input);
+//            }
 
-            if(!input.isEmpty()) {
-                bluetoothLogic.send(input);
 
-                System.out.println("input: " + input);
-            }
+
             BoeBot.wait(1);
         }
     }

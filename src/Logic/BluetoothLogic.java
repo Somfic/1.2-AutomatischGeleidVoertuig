@@ -2,12 +2,8 @@ package Logic;
 
 import Hardware.Bluetooth;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
-public class BluetoothLogic {
+public class    BluetoothLogic implements Logic {
     private Bluetooth bluetooth;
 
     public BluetoothLogic(int baudrate) {
@@ -35,6 +31,13 @@ public class BluetoothLogic {
     }
 
 
+    @Override
+    public void process() {
 
+    }
 
+    @Override
+    public void reset() {
+
+    }
 }

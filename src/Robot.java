@@ -1,4 +1,6 @@
 import Behaviour.*;
+import Behaviour.Bluetooth.BluetoothBehaviour;
+import Behaviour.Bluetooth.BluetoothListener;
 import Behaviour.Buzzer.*;
 import Behaviour.Distance.DistanceBehaviour;
 import Behaviour.Lights.*;
@@ -18,15 +20,17 @@ public class Robot implements StartStopListener {
     private InfraredLogic infrared = new InfraredLogic(3);
     private DistanceLogic distance = new DistanceLogic(10, 11);
     private WhiskerLogic whiskers = new WhiskerLogic(11, 14);
+    private BluetoothLogic bluetooth = new BluetoothLogic(115200);
 
     private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, whiskers);
     private LightsBehaviour blinkerBehaviour = new LightsBehaviour(lights, motors);
     private RemoteBehaviour remoteBehaviour = new RemoteBehaviour(movementBehaviour, infrared);
     private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, infrared, motors);
     private DistanceBehaviour distanceBehaviour = new DistanceBehaviour(distance);
+    private BluetoothBehaviour bluetoothBehaviour = new BluetoothBehaviour(movementBehaviour, this.bluetooth);
 
-    private Logic[] logics = {lights, buzzer, motors, infrared, distance};
-    private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour, remoteBehaviour, buzzerBehaviour, distanceBehaviour};
+    private Logic[] logics = {lights, buzzer, motors, infrared, distance, bluetooth};
+    private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour, remoteBehaviour, buzzerBehaviour, distanceBehaviour, bluetoothBehaviour};
 
     private StartStopBehaviour startStopBehaviour = new StartStopBehaviour(this, infrared);
 
@@ -72,11 +76,14 @@ public class Robot implements StartStopListener {
     }
 
     private void processAll() {
+
         for (Behaviour behaviour : this.behaviours) {
+//            System.out.println("behavior: " + behaviour.getClass().getSimpleName());
             behaviour.process();
         }
 
         for (Logic logic : this.logics) {
+//            System.out.println("logic: " + logic.getClass().getSimpleName());
             logic.process();
         }
     }
@@ -90,4 +97,5 @@ public class Robot implements StartStopListener {
             logic.reset();
         }
     }
+
 }
