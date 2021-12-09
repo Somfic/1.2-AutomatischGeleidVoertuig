@@ -14,11 +14,15 @@ public class RobotTest {
     public void run(){
         while (true){
             if (button1.getState()){
+                System.out.println("opening");
                 gripperLogic.open();
             }
             if (button2.getState()){
+                System.out.println("closing");
                 gripperLogic.close();
             }
+
+            gripperLogic.process();
 
             BoeBot.wait(1);
         }
