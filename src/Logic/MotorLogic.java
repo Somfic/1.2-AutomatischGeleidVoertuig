@@ -59,6 +59,10 @@ public class MotorLogic implements Logic {
         this.acceleration = acceleration;
     }
 
+    public boolean isAccelerating() {
+        return this.leftTargetPulse != this.leftPulse || this.rightTargetPulse != this.rightPulse;
+    }
+
     public void setMove(float speed, float angle) {
         this.targetSpeed = speed;
         this.targetAngle = angle;

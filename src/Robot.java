@@ -1,6 +1,10 @@
 import Behaviour.*;
-import Behaviour.StartStop.StartStopBehaviour;
-import Behaviour.StartStop.StartStopListener;
+import Behaviour.Buzzer.*;
+import Behaviour.Distance.DistanceBehaviour;
+import Behaviour.Lights.*;
+import Behaviour.Movement.*;
+import Behaviour.Remote.*;
+import Behaviour.StartStop.*;
 import Hardware.Led;
 import Logic.*;
 import TI.BoeBot;
@@ -12,14 +16,17 @@ public class Robot implements StartStopListener {
     private BuzzerLogic buzzer = new BuzzerLogic(2);
     private MotorLogic motors = new MotorLogic(12, 13);
     private InfraredLogic infrared = new InfraredLogic(3);
+    private DistanceLogic distance = new DistanceLogic(10, 11);
+    private WhiskerLogic whiskers = new WhiskerLogic(11, 14);
 
-    private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, infrared);
-    private BlinkerBehaviour blinkerBehaviour = new BlinkerBehaviour(lights, motors);
-    private RemoteBehaviour remoteBehaviour = new RemoteBehaviour(infrared);
+    private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, whiskers);
+    private LightsBehaviour blinkerBehaviour = new LightsBehaviour(lights, motors);
+    private RemoteBehaviour remoteBehaviour = new RemoteBehaviour(movementBehaviour, infrared);
     private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, infrared, motors);
+    private DistanceBehaviour distanceBehaviour = new DistanceBehaviour(distance);
 
-    private Logic[] logics = {lights, buzzer, motors, infrared};
-    private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour, remoteBehaviour, buzzerBehaviour};
+    private Logic[] logics = {lights, buzzer, motors, infrared, distance};
+    private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour, remoteBehaviour, buzzerBehaviour, distanceBehaviour};
 
     private StartStopBehaviour startStopBehaviour = new StartStopBehaviour(this, infrared);
 
@@ -34,7 +41,7 @@ public class Robot implements StartStopListener {
         while (true) {
             BoeBot.wait(1);
 
-            // Process the start/stop behaviour separately from the rest 
+            // Process the start/stop behaviour separately from the rest
             // of the behaviours so that the robot can be stopped at any time
             startStopBehaviour.process();
 
@@ -46,8 +53,6 @@ public class Robot implements StartStopListener {
 
     @Override
     public void onStartStop(boolean shouldStop) {
-        System.out.println(shouldStop);
-
         if(shouldStop) {
 
             resetAll();

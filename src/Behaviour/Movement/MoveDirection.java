@@ -1,4 +1,6 @@
-package Behaviour;
+package Behaviour.Movement;
+
+import Behaviour.Behaviour;
 
 public enum MoveDirection {
     Forwards,

@@ -1,6 +1,7 @@
 package Logic;
 
 import Hardware.Infrared;
+import TI.Timer;
 
 public class InfraredLogic implements Logic {
 
@@ -12,11 +13,15 @@ public class InfraredLogic implements Logic {
 
     private int lastCode;
 
+    private Timer timeout = new Timer(250);
+
     @Override
     public void process() {
         int pulseLength = infrared.getValue(false, 10000);
 
         if(pulseLength > 2000) {
+            timeout.mark();
+
             // Started a new signal
 
             int[] lengths = new int[12];
@@ -36,9 +41,12 @@ public class InfraredLogic implements Logic {
             }
 
             this.lastCode = output;
+        } else {
+            if(timeout.timeout()) {
+                this.lastCode = -1;
+            }
         }
     }
-
 
     public int getLastCode() {
         return this.lastCode;
@@ -46,6 +54,6 @@ public class InfraredLogic implements Logic {
 
     @Override
     public void reset() {
-        this.lastCode = 0;
+        this.lastCode = -1;
     }
 }

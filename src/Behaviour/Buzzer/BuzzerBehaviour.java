@@ -1,11 +1,15 @@
-package Behaviour;
+package Behaviour.Buzzer;
 
 
+import Behaviour.Behaviour;
+import Logger.Logger;
 import Logic.BuzzerLogic;
 import Logic.InfraredLogic;
 import Logic.MotorLogic;
 
 public class BuzzerBehaviour implements Behaviour {
+
+    private final Logger logger = new Logger(this);
 
     private final BuzzerLogic buzzerLogic;
     private final InfraredLogic infraredLogic;

@@ -1,6 +1,8 @@
-package Behaviour;
+package Behaviour.Lights;
 
+import Behaviour.Behaviour;
 import Configuration.Config;
+import Logger.Logger;
 import Logic.LedLight;
 import Logic.LedLogic;
 import Logic.MotorLogic;
@@ -8,7 +10,9 @@ import TI.Timer;
 
 import java.awt.*;
 
-public class BlinkerBehaviour implements Behaviour {
+public class LightsBehaviour implements Behaviour {
+
+    private final Logger logger = new Logger(this);
 
     private final LedLogic lights;
     private final MotorLogic motors;
@@ -20,7 +24,7 @@ public class BlinkerBehaviour implements Behaviour {
 
     private Timer timer = new Timer(300);
 
-    public BlinkerBehaviour(LedLogic lights, MotorLogic motors) {
+    public LightsBehaviour(LedLogic lights, MotorLogic motors) {
 
         this.lights = lights;
         this.motors = motors;
@@ -57,9 +61,6 @@ public class BlinkerBehaviour implements Behaviour {
                 blinkerColor = Config.LED_BLINKER_COLOR_ON;
             }
 
-            // Reset everything
-            this.lights.reset();
-
             // Default front lights
             this.lights.set(LedLight.FrontRight, frontColor);
             this.lights.set(LedLight.FrontLeft, frontColor);
@@ -72,7 +73,7 @@ public class BlinkerBehaviour implements Behaviour {
 
 
             // Standing still
-            if(speed == 0 && angle == 0) {
+            if(speed == 0 && angle == 0 && motors.isAccelerating()) {
                 // Brakes
                 this.lights.set(LedLight.BackLeft, brakeColor);
                 this.lights.set(LedLight.BackMiddle, brakeColor);

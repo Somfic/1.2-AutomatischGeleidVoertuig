@@ -58,4 +58,6 @@ public class Config {
     public static final int REMOTE_DOWN = 159;
 
     public static final int REMOTE_LEFT = 155;
+
+    public static final int REMOTE_NO_BUTTON = -1;
 }
