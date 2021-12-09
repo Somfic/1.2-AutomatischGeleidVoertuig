@@ -201,7 +201,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     }
 
     @Override
-    public void omBluetoothMessage(String input) {
+    public void onBluetoothMessage(String input) {
         input = input.toLowerCase();
 
         if (input.equals("w")) {
