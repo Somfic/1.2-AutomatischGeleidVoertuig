@@ -111,14 +111,16 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             /*
             The code below is used for the ultrasone sensors
              */
+//            if(this.distance.getPulse() < 300 && this.moveDirection == MoveDirection.Forwards){
+//                this.moveDirection = MoveDirection.Stationary;
+//            }
 
-            if (this.distance.getPulse() < 1500 && this.distance.getPulse() > 0) {
-                addMovementToQueue("Braking", 0, 0, 5, 500);
-                addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
-                addMovementToQueue("Stopping", 0, 0, 5,500);
+            if (this.distance.getPulse() < 1500 && this.distance.getPulse() > 0 && this.moveDirection == MoveDirection.Forwards) {
+                //calculate braking speed depending on distance to obstacle
+                int brakingSpeed = (int) ((1500 - this.distance.getPulse()) / 50);
+
+                addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
                 return;
-            } else {
-                this.moveDirection = MoveDirection.Forwards;
             }
 
             this.acceleration = Math.max(1, this.acceleration);

@@ -40,9 +40,6 @@ public class DistanceLogic implements Logic {
             BoeBot.wait(1);
             BoeBot.digitalWrite(10, false);
             this.pulse = BoeBot.pulseIn(11, true, 10000);
-            if (this.pulse > 0) {
-                System.out.println("Pulse: " + pulse);
-            }
             timer.setInterval(50);
         }
     }

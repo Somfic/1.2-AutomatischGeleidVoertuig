@@ -33,9 +33,9 @@ public class Bluetooth {
     }
 
     public void reset(){
-        BoeBot.setMode(13, PinMode.Output);
-        BoeBot.digitalWrite(13, true);
-        BoeBot.digitalWrite(13, false);
+        BoeBot.setMode(15, PinMode.Output);
+        BoeBot.digitalWrite(15, true);
+        BoeBot.digitalWrite(15, false);
     }
 
 
