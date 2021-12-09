@@ -1,7 +1,11 @@
 package Logic;
 
+import Behaviour.Movement.Movement;
+import Behaviour.Movement.MovementBehaviour;
+import Hardware.ServoMotor;
 import Hardware.Ultrasonic;
 import TI.BoeBot;
+import TI.PinMode;
 import TI.Timer;
 
 public class DistanceLogic implements Logic {
@@ -12,10 +16,12 @@ public class DistanceLogic implements Logic {
     private Step step = Step.ResetPulse;
 
     private float distance = 0;
-    private float pulse = 0;
+    private float pulse;
+
 
     public DistanceLogic(int triggerPin, int echoPin) {
         this.ultrasonic = new Ultrasonic(triggerPin, echoPin);
+        this.pulse = 0;
     }
 
     public float getDistance() {
@@ -28,65 +34,14 @@ public class DistanceLogic implements Logic {
 
     @Override
     public void process() {
-//        if(timer.timeout()) {
-//            if (this.step == Step.ResetPulse) {
-//                ultrasonic.set(false);
-//
-//                this.timer.setInterval(2);
-//                this.timer.mark();
-//
-//                this.step = Step.StartPulse;
-//            } else if (this.step == Step.StartPulse) {
-//                ultrasonic.set(true);
-//
-//                this.timer.setInterval(10);
-//                this.timer.mark();
-//
-//                this.step = Step.EndPulse;
-//            } else if (this.step == Step.EndPulse) {
-//                ultrasonic.set(false);
-//
-//                this.timer.setInterval(1);
-//                this.timer.mark();
-//
-//                this.step = Step.ReadEcho;
-//            } else if (this.step == Step.ReadEcho) {
-//                int pulse = ultrasonic.read();
-//
-//                this.timer.setInterval(1000);
-//                this.timer.mark();
-//
-//                this.step = Step.ResetPulse;
-//
-//                this.pulse = pulse;
-//                this.distance = pulse * 0.034f / 2f;
-//            }
-//        }
 
-        ultrasonic.set(false);
-
-        BoeBot.wait(5);
-
-        ultrasonic.set(true);
-
-        BoeBot.wait(10);
-
-        ultrasonic.set(false);
-
-        while(!ultrasonic.read()) {
-
+        if (timer.timeout()) {
+            BoeBot.digitalWrite(10, true);
+            BoeBot.wait(1);
+            BoeBot.digitalWrite(10, false);
+            this.pulse = BoeBot.pulseIn(11, true, 10000);
+            timer.setInterval(50);
         }
-
-        long startTime = System.nanoTime();
-
-        while(ultrasonic.read()) {
-
-        }
-
-        long endTime = System.nanoTime();
-
-        this.pulse = (endTime - startTime);
-        this.distance = (float) (pulse / 1e3 /2 /29.1);
     }
 
     @Override
