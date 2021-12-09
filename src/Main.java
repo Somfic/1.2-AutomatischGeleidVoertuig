@@ -1,7 +1,8 @@
+
 public class Main {
 
     public static void main(String[] args) {
-        Robot robot = new Robot();
+        RobotTest robot = new RobotTest();
 
         robot.run();
     }
