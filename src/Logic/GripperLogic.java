@@ -4,17 +4,16 @@ import Hardware.ServoMotor;
 import TI.Timer;
 
 public class GripperLogic implements Logic {
-    //private final int DISTANCE_TO_ENDS = 100000;
 
-    private final int DEFAULT_SPEED = 1500;
-    private final int MAX_SPEED = 200;
-    private final int ACCELERATION = 10;
-    private final int DETERMINED_SPEED = 500;
-    private final Timer intervalTimer = new Timer(100);
+    private final int SPEED = 1;
+    private final Timer intervalTimer = new Timer(6);
+
+    private final int OPENED_DISTANCE = 1750;
+    private final int CLOSED_DISTANCE = 1000;
 
     private int state = 0;
 
-    private int currentSpeed = 1500;
+    private int currentPlace = OPENED_DISTANCE;
 
     private ServoMotor gripper;
 
@@ -34,22 +33,19 @@ public class GripperLogic implements Logic {
     public void process(){
         if (this.intervalTimer.timeout()) {
             if (this.state == 1) {
-                if (currentSpeed < DEFAULT_SPEED + DETERMINED_SPEED) {
-                    currentSpeed += ACCELERATION;
-                    this.gripper.set(currentSpeed);
+                if (currentPlace < OPENED_DISTANCE) {
+                    currentPlace += SPEED;
+                    this.gripper.set(currentPlace);
                 } else {
-                   // state = 0;
+                    state = 0;
                 }
             } else if (state == -1) {
-                if (currentSpeed > DEFAULT_SPEED - DETERMINED_SPEED) {
-                    currentSpeed -= ACCELERATION;
-                    this.gripper.set(currentSpeed);
+                if (currentPlace > CLOSED_DISTANCE) {
+                    currentPlace -= SPEED;
+                    this.gripper.set(currentPlace);
                 } else {
-                   // state = 0;
+                     state = 0;
                 }
-            } else {
-                currentSpeed = DEFAULT_SPEED;
-                this.gripper.set(currentSpeed);
             }
         }
     }
