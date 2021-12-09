@@ -1,6 +1,7 @@
 package Behaviour.Movement;
 
 import Behaviour.Behaviour;
+import Behaviour.Bluetooth.BluetoothListener;
 import Behaviour.Remote.RemoteListener;
 import Configuration.Config;
 import Hardware.Switch;
@@ -13,7 +14,7 @@ import TI.Timer;
 
 import java.util.ArrayList;
 
-public class MovementBehaviour implements Behaviour, RemoteListener {
+public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothListener {
 
     private final Logger logger = new Logger(this);
 
@@ -200,6 +201,58 @@ public class MovementBehaviour implements Behaviour, RemoteListener {
         } else if(code == Config.REMOTE_FORWARDS) {
             this.acceleration += 1;
         } else if(code == Config.REMOTE_BACKWARDS) {
+            this.acceleration -= 1;
+        }
+    }
+
+    @Override
+    public void omBluetoothMessage(String input) {
+        input = input.toLowerCase();
+
+        if(input.equals("w")) {
+
+            // Move forwards
+            // If we are moving backwards, stop
+            if(this.moveDirection == MoveDirection.Backwards) {
+                this.moveDirection = MoveDirection.Stationary;
+            } else {
+                this.moveDirection = MoveDirection.Forwards;
+            }
+
+        } else if(input.equals("s")) {
+
+            // Move backwards
+            // If we are moving forwards, stop
+            if(this.moveDirection == MoveDirection.Forwards) {
+                this.moveDirection = MoveDirection.Stationary;
+            } else {
+                this.moveDirection = MoveDirection.Backwards;
+            }
+
+        } else if(input.equals("d")) {
+
+            // Move to the right
+            // If we are moving to the left, stop
+            if(this.moveDirection == MoveDirection.Left) {
+                this.moveDirection = MoveDirection.Stationary;
+            } else {
+                this.moveDirection = MoveDirection.Right;
+            }
+
+        } else if(input.equals("a")) {
+
+            // Move to the left
+            // If we are moving to the right, stop
+            if(this.moveDirection == MoveDirection.Right) {
+                this.moveDirection = MoveDirection.Stationary;
+            } else {
+                this.moveDirection = MoveDirection.Left;
+            }
+        } else if(input.equals(" ")) {
+            this.moveDirection = MoveDirection.Stationary;
+        } else if(input.equals("+")) {
+            this.acceleration += 1;
+        } else if(input.equals("-")) {
             this.acceleration -= 1;
         }
     }
