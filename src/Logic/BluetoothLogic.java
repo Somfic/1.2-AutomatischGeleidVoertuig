@@ -3,7 +3,7 @@ package Logic;
 import Hardware.Bluetooth;
 
 
-public class    BluetoothLogic implements Logic {
+public class BluetoothLogic implements Logic {
     private Bluetooth bluetooth;
 
     public BluetoothLogic(int baudrate) {
