@@ -4,8 +4,8 @@ import Hardware.Switch;
 
 public class WhiskerLogic implements Logic {
 
-    private Switch leftWhisker;
-    private Switch rightWhisker;
+    private final Switch leftWhisker;
+    private final Switch rightWhisker;
 
     private boolean hasObstacleLeft;
     private boolean hasObstacleRight;

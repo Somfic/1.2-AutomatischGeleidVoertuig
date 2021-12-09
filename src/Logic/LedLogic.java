@@ -1,18 +1,17 @@
 package Logic;
 
 import Logger.Logger;
-import TI.*;
+import TI.BoeBot;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The LedLogic class is used to control the blinking of the LEDs.
  */
 public class LedLogic implements Logic {
 
-    private Logger logger = new Logger(this);
+    private final Logger logger = new Logger(this);
 
     private HashMap<LedLight, Color> pendingColors;
     private HashMap<LedLight, Color> setColors;

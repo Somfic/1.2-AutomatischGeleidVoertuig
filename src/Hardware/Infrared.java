@@ -4,7 +4,7 @@ import TI.BoeBot;
 import TI.PinMode;
 
 public class Infrared {
-    private int pin;
+    private final int pin;
 
     public Infrared(int pin) {
         this.pin = pin;

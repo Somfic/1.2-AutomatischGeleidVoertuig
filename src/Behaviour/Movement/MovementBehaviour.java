@@ -18,13 +18,13 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     private final Logger logger = new Logger(this);
 
-    private MotorLogic motor;
+    private final MotorLogic motor;
     private WhiskerLogic whiskers;
-    private DistanceLogic distance;
+    private final DistanceLogic distance;
 
     private Timer timer;
 
-    private ArrayList<Movement> movementQueue = new ArrayList<Movement>();
+    private final ArrayList<Movement> movementQueue = new ArrayList<Movement>();
     private boolean isExecutingMovement;
 
     //public MovementBehaviour(MotorLogic motorLogic, WhiskerLogic whiskers) {

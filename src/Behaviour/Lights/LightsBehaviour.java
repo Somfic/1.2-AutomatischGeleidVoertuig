@@ -22,7 +22,7 @@ public class LightsBehaviour implements Behaviour {
     private float oldSpeed = 0;
     private float oldAngle = 0;
 
-    private Timer timer = new Timer(300);
+    private final Timer timer = new Timer(300);
 
     public LightsBehaviour(LedLogic lights, MotorLogic motors) {
 

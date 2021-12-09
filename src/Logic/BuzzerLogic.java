@@ -8,10 +8,10 @@ import TI.Timer;
  */
 public class BuzzerLogic implements Logic {
     private boolean state;
-    private Timer timer;
+    private final Timer timer;
     private boolean active = false;
 
-    private Buzzer buzzer;
+    private final Buzzer buzzer;
 
     /**
      * Constructor for the BuzzerLogic class.

@@ -6,10 +6,10 @@ import Logic.InfraredLogic;
 
 public class RemoteBehaviour implements Behaviour {
 
-    private Logger logger = new Logger(this);
+    private final Logger logger = new Logger(this);
 
-    private RemoteListener remoteListener;
-    private InfraredLogic infraredLogic;
+    private final RemoteListener remoteListener;
+    private final InfraredLogic infraredLogic;
 
     public RemoteBehaviour(RemoteListener remoteListener, InfraredLogic infraredLogic) {
 

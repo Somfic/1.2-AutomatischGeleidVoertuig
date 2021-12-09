@@ -1,21 +1,17 @@
 package Logic;
 
-import Behaviour.Movement.Movement;
-import Behaviour.Movement.MovementBehaviour;
-import Hardware.ServoMotor;
 import Hardware.Ultrasonic;
 import TI.BoeBot;
-import TI.PinMode;
 import TI.Timer;
 
 public class DistanceLogic implements Logic {
 
-    private Ultrasonic ultrasonic;
+    private final Ultrasonic ultrasonic;
 
-    private Timer timer = new Timer(0);
+    private final Timer timer = new Timer(0);
     private Step step = Step.ResetPulse;
 
-    private float distance = 0;
+    private final float distance = 0;
     private float pulse;
 
 

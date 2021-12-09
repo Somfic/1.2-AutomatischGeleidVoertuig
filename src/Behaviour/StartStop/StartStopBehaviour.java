@@ -10,14 +10,14 @@ import TI.Timer;
 
 public class StartStopBehaviour implements Behaviour {
 
-    private Logger logger = new Logger(this);
+    private final Logger logger = new Logger(this);
 
     private Switch startButton;
     private Switch stopButton;
 
-    private InfraredLogic infrared;
+    private final InfraredLogic infrared;
 
-    private StartStopListener startStopListener;
+    private final StartStopListener startStopListener;
 
     private boolean shouldStop;
 

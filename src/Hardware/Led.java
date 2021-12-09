@@ -1,13 +1,15 @@
 package Hardware;
 
-import TI.*;
+
+import TI.BoeBot;
+
 import java.awt.*;
 
 /**
  * The Led class is used to control a LED.
  */
 public class Led {
-    private int pin;
+    private final int pin;
 
     /**
      * Constructor for the LED class.

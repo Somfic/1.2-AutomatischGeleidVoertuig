@@ -5,7 +5,7 @@ import TI.PinMode;
 import TI.SerialConnection;
 
 public class Bluetooth {
-    private SerialConnection serial;
+    private final SerialConnection serial;
 
     public Bluetooth(int baudrate) {
         serial = new SerialConnection(baudrate);
@@ -18,13 +18,7 @@ public class Bluetooth {
 
     //check if there is a bluetooth message to read
     public boolean canRead(){
-        if(this.serial.available() > 0){
-            return true;
-        }
-        else{
-            return false;
-
-        }
+        return this.serial.available() > 0;
     }
 
     //sends given bytes to bluetooth reciever

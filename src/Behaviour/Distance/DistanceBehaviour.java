@@ -8,7 +8,7 @@ public class DistanceBehaviour implements Behaviour {
 
     private final Logger logger = new Logger(this);
 
-    private DistanceLogic distance;
+    private final DistanceLogic distance;
 
     private float lastDistance = 0;
 

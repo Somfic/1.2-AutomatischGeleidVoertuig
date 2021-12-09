@@ -5,8 +5,8 @@ import TI.PinMode;
 
 public class Ultrasonic {
 
-    private int triggerPin;
-    private int echoPin;
+    private final int triggerPin;
+    private final int echoPin;
 
     public Ultrasonic(int triggerPin, int echoPin) {
         this.triggerPin = triggerPin;

@@ -5,7 +5,7 @@ import TI.Timer;
 
 public class InfraredLogic implements Logic {
 
-    private Infrared infrared;
+    private final Infrared infrared;
 
     public InfraredLogic(int pin) {
         this.infrared = new Infrared(pin);
@@ -13,7 +13,7 @@ public class InfraredLogic implements Logic {
 
     private int lastCode;
 
-    private Timer timeout = new Timer(250);
+    private final Timer timeout = new Timer(250);
 
     @Override
     public void process() {

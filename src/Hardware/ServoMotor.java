@@ -4,7 +4,7 @@ import TI.Servo;
 
 public class ServoMotor {
 
-    private Servo servo;
+    private final Servo servo;
 
     public ServoMotor(int pin) {
         this.servo = new Servo(pin);

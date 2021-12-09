@@ -1,13 +1,14 @@
 package Behaviour.Bluetooth;
+
 import Behaviour.Behaviour;
 import Logger.Logger;
 import Logic.BluetoothLogic;
 
 public class BluetoothBehaviour implements Behaviour {
-    private BluetoothLogic bluetoothLogic;
-    private BluetoothListener bluetoothListener;
+    private final BluetoothLogic bluetoothLogic;
+    private final BluetoothListener bluetoothListener;
 
-    private Logger logger = new Logger(this);
+    private final Logger logger = new Logger(this);
 
     public BluetoothBehaviour(BluetoothListener bluetoothListener, BluetoothLogic bluetoothLogic) {
         this.bluetoothListener = bluetoothListener;
@@ -22,7 +23,7 @@ public class BluetoothBehaviour implements Behaviour {
     @Override
     public void process() {
         String input = bluetoothLogic.read();
-        if(!input.isEmpty()){
+        if (!input.isEmpty()) {
             logger.info(input);
             bluetoothListener.onBluetoothMessage(input);
         }

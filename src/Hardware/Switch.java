@@ -5,7 +5,7 @@ import TI.PinMode;
 
 public class Switch {
 
-    private int pin;
+    private final int pin;
 
     /**
      * Reads the state of switches, such as buttons and whiskers.

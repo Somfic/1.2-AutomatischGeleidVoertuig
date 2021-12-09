@@ -1,6 +1,5 @@
 package Behaviour.Buzzer;
 
-
 import Behaviour.Behaviour;
 import Logger.Logger;
 import Logic.BuzzerLogic;
@@ -13,7 +12,7 @@ public class BuzzerBehaviour implements Behaviour {
 
     private final BuzzerLogic buzzerLogic;
     private final InfraredLogic infraredLogic;
-    private MotorLogic motorLogic;
+    private final MotorLogic motorLogic;
 
     public BuzzerBehaviour(BuzzerLogic buzzerLogic, InfraredLogic infraredLogic, MotorLogic motorLogic) {
         this.buzzerLogic = buzzerLogic;

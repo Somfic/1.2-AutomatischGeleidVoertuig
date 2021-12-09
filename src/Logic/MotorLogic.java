@@ -1,15 +1,14 @@
 package Logic;
 
 import Hardware.ServoMotor;
-import TI.Servo;
 import TI.Timer;
 
 public class MotorLogic implements Logic {
 
-    private ServoMotor leftMotor;
-    private ServoMotor rightMotor;
+    private final ServoMotor leftMotor;
+    private final ServoMotor rightMotor;
 
-    private Timer timer;
+    private final Timer timer;
 
     final private int STATIONAIRY_SPEED = 1500;
     final private int MAX_SPEED = 100;

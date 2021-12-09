@@ -4,7 +4,7 @@ import Hardware.Bluetooth;
 
 
 public class BluetoothLogic implements Logic {
-    private Bluetooth bluetooth;
+    private final Bluetooth bluetooth;
 
     public BluetoothLogic(int baudrate) {
         this.bluetooth = new Bluetooth(baudrate);

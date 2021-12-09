@@ -1,14 +1,17 @@
 package Hardware;
 
-import TI.*;
+
+import TI.BoeBot;
+import TI.PWM;
+import TI.PinMode;
 
 /**
  * The Buzzer class is used to control a buzzer.
  */
 public class Buzzer {
-    private int pin;
+    private final int pin;
 
-    private PWM pwm;
+    private final PWM pwm;
 
     /**
      * Constructor for the Buzzer class.
