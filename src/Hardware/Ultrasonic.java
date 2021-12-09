@@ -11,6 +11,9 @@ public class Ultrasonic {
     public Ultrasonic(int triggerPin, int echoPin) {
         this.triggerPin = triggerPin;
         this.echoPin = echoPin;
+
+        BoeBot.setMode(this.triggerPin, PinMode.Output);
+        BoeBot.setMode(this.echoPin, PinMode.Input);
     }
 
     public void set(boolean value) {

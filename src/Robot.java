@@ -19,7 +19,7 @@ public class Robot implements StartStopListener {
     private DistanceLogic distance = new DistanceLogic(10, 11);
     private WhiskerLogic whiskers = new WhiskerLogic(11, 14);
 
-    private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, whiskers);
+    private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, distance);
     private LightsBehaviour blinkerBehaviour = new LightsBehaviour(lights, motors);
     private RemoteBehaviour remoteBehaviour = new RemoteBehaviour(movementBehaviour, infrared);
     private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, infrared, motors);
