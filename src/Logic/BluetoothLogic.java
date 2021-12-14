@@ -41,5 +41,6 @@ public class BluetoothLogic implements Logic {
     @Override
     public void reset() {
         bluetooth.reset();
+        read();
     }
 }
