@@ -8,6 +8,7 @@ public class InfraredLogic implements Logic {
     private final Infrared INFRARED;
     private final Timer TIMEOUT = new Timer(250);
     private int lastCode;
+    private int devideId;
 
     public InfraredLogic(int pin) {
         this.INFRARED = new Infrared(pin);
@@ -38,7 +39,11 @@ public class InfraredLogic implements Logic {
                 }
             }
 
-            this.lastCode = output;
+            // Extract the first 5 bits from the output
+            this.devideId = output & 0x1F;
+
+            // Extract the last 7 bits from the output
+            this.lastCode = output >> 5;
         } else {
             if (TIMEOUT.timeout()) {
                 this.lastCode = -1;
@@ -48,6 +53,10 @@ public class InfraredLogic implements Logic {
 
     public int getLastCode() {
         return this.lastCode;
+    }
+
+    public int getDeviceId() {
+        return this.devideId;
     }
 
     @Override
