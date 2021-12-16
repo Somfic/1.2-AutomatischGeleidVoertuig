@@ -4,20 +4,20 @@ import Hardware.Buzzer;
 import TI.Timer;
 
 /**
- * The BuzzerLogic class is used to control a buzzer.
+ * The BuzzerLogic class is used to control a BUZZER.
  */
 public class BuzzerLogic implements Logic {
+    private final Timer TIMER;
+    private final Buzzer BUZZER;
     private boolean state;
-    private Timer timer;
     private boolean active = false;
-
-    private Buzzer buzzer = new Buzzer(5);
 
     /**
      * Constructor for the BuzzerLogic class.
      */
-    public BuzzerLogic() {
-        timer = new Timer(300);
+    public BuzzerLogic(int pin) {
+        TIMER = new Timer(300);
+        this.BUZZER = new Buzzer(pin);
     }
 
     public void setIsBuzzing(boolean state) {
@@ -25,45 +25,51 @@ public class BuzzerLogic implements Logic {
     }
 
     /**
-     * Sets the interval of the buzzer.
-     * @param interval The interval of the buzzer in milliseconds.
+     * Sets the interval of the BUZZER.
+     *
+     * @param interval The interval of the BUZZER in milliseconds.
      */
     public void setInterval(int interval) {
-        this.timer.setInterval(interval);
+        this.TIMER.setInterval(interval);
     }
 
     /**
-     * Sets the tone frequency of the buzzer.
-     * @param frequency The frequency of the buzzer in Hertz.
+     * Sets the tone frequency of the BUZZER.
+     *
+     * @param frequency The frequency of the BUZZER in Hertz.
      */
     public void setFrequency(int frequency) {
-        this.buzzer.setFrequency(frequency);
+        this.BUZZER.setFrequency(frequency);
     }
 
     /**
-     * Processes the buzzer logic.
+     * Processes the BUZZER logic.
      */
     @Override
     public void process() {
         if (active) {
-            if (timer.timeout()) {
-                timer.mark();
+            if (TIMER.timeout()) {
+                TIMER.mark();
 
-                // Toggle the buzzer state
+                // Toggle the BUZZER state
                 this.state = !this.state;
             }
 
             if (this.state) {
-                this.buzzer.play(10);
+                this.BUZZER.play();
+            } else {
+                this.BUZZER.stop();
             }
+        } else {
+            this.BUZZER.stop();
         }
     }
 
     /**
-     * Resets the buzzer.
+     * Resets the BUZZER.
      */
     @Override
-    public void reset(){
-        this.buzzer.play(0);
+    public void reset() {
+        this.BUZZER.stop();
     }
 }

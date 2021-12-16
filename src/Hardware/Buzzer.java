@@ -1,37 +1,50 @@
 package Hardware;
 
-import TI.*;
+
+import TI.BoeBot;
+import TI.PWM;
+import TI.PinMode;
 
 /**
  * The Buzzer class is used to control a buzzer.
  */
 public class Buzzer {
-    private int pin;
-    private int frequency = 1000;
+    private final int PIN;
+
+    private final PWM PWM;
 
     /**
      * Constructor for the Buzzer class.
-     * @param pin The pin the buzzer is connected to.
+     *
+     * @param pin The PIN the buzzer is connected to.
      */
     public Buzzer(int pin) {
         BoeBot.setMode(pin, PinMode.Output);
-        this.pin = pin;
+        this.PWM = new PWM(pin, 254);
+        this.PIN = pin;
     }
 
     /**
      * Sets the frequency of the tone.
+     *
      * @param frequency The frequency of the tone.
      */
     public void setFrequency(int frequency) {
-        this.frequency = frequency;
+        this.PWM.update(frequency);
     }
 
     /**
-     * Plays a tone.
-     * @param time The duration of the tone.
+     * Starts playing a tone.
      */
-    public void play(int time) {
-        BoeBot.freqOut(this.pin, this.frequency, time);
+    public void play() {
+        this.PWM.start();
+    }
+
+    /**
+     * Stops playing a tone.
+     */
+    public void stop() {
+        this.PWM.stop();
     }
 }
 

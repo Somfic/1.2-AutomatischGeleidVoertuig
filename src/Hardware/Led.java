@@ -1,28 +1,32 @@
 package Hardware;
 
-import TI.*;
+
+import TI.BoeBot;
+
 import java.awt.*;
 
 /**
  * The Led class is used to control a LED.
  */
 public class Led {
-    private int pin;
+    private final int PIN;
 
     /**
      * Constructor for the LED class.
-     * @param pin The pin the LED is connected to.
+     *
+     * @param pin The PIN the LED is connected to.
      */
     public Led(int pin) {
-       this.pin = pin;
+        this.PIN = pin;
     }
 
     /**
      * Sets the color of the LED.
+     *
      * @param color The color of the LED.
      */
     public void set(Color color) {
-        BoeBot.rgbSet(pin, color);
+        BoeBot.rgbSet(PIN, color);
         BoeBot.rgbShow();
     }
 
@@ -30,7 +34,7 @@ public class Led {
      * Clears the LED.
      */
     public void reset() {
-        BoeBot.rgbSet(pin, Color.black);
+        BoeBot.rgbSet(PIN, Color.black);
         BoeBot.rgbShow();
     }
 }
