@@ -25,9 +25,11 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private Timer timer;
     private boolean isExecutingMovement;
 
+    private boolean isOnLineFollowerMode = false;
 
     private MoveDirection moveDirection = MoveDirection.STATIONARY;
     private float acceleration = 5;
+
     public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance, LineFollowerLogic linefollower) {
         this.DISTANCE = distance;
         this.MOTOR = motorLogic;
@@ -74,59 +76,99 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             timer.setInterval(100);
 
             /*
-            The code below is used for the whiskers
+             * The code below is used for the whiskers
              */
 
-//            if (this.whiskers.hasObstacleLeft() && this.whiskers.hasObstacleRight()) {
-//                addMovementToQueue("Braking", 0, 0, 100, 500);
-//                addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
-//                addMovementToQueue("Stopping", 0, 0, 5,500);
-//                return;
-//            }
-//
-//            if (this.whiskers.hasObstacleRight()) {
-//                addMovementToQueue("Braking", 0, 0, 100,500);
-//                addMovementToQueue("Backing up for left turn", -0.5f, 0, 5,3000);
-//                addMovementToQueue("Turn left", 0, 0.5f, 10,1700);
-//                addMovementToQueue("Stopping", 0, 0, 5,500);
-//
-//                return;
-//
-//            }
-//
-//            if (this.whiskers.hasObstacleLeft()) {
-//                addMovementToQueue("Braking", 0, 0, 100,500);
-//                addMovementToQueue("Backing up for right turn", -0.5f, 0,  5,3000);
-//                addMovementToQueue("Turn right", 0, -0.5f, 10,1700);
-//                addMovementToQueue("Stopping", 0, 0, 5,500);
-//                return;
-//            }
+            // if (this.whiskers.hasObstacleLeft() && this.whiskers.hasObstacleRight()) {
+            // addMovementToQueue("Braking", 0, 0, 100, 500);
+            // addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
+            // addMovementToQueue("Stopping", 0, 0, 5,500);
+            // return;
+            // }
+            //
+            // if (this.whiskers.hasObstacleRight()) {
+            // addMovementToQueue("Braking", 0, 0, 100,500);
+            // addMovementToQueue("Backing up for left turn", -0.5f, 0, 5,3000);
+            // addMovementToQueue("Turn left", 0, 0.5f, 10,1700);
+            // addMovementToQueue("Stopping", 0, 0, 5,500);
+            //
+            // return;
+            //
+            // }
+            //
+            // if (this.whiskers.hasObstacleLeft()) {
+            // addMovementToQueue("Braking", 0, 0, 100,500);
+            // addMovementToQueue("Backing up for right turn", -0.5f, 0, 5,3000);
+            // addMovementToQueue("Turn right", 0, -0.5f, 10,1700);
+            // addMovementToQueue("Stopping", 0, 0, 5,500);
+            // return;
+            // }
 
             /*
-            The code below is used for the ultrasone sensors
+             * The code below is used for the ultrasone sensors
              */
 
-            if (this.DISTANCE.getDistance() < 20 && this.DISTANCE.getPulse() > 0 && this.moveDirection == MoveDirection.FORWARDS) {
-                //calculate braking speed depending on DISTANCE to obstacle
+            if (this.DISTANCE.getDistance() < 20 && this.DISTANCE.getPulse() > 0
+                    && this.moveDirection == MoveDirection.FORWARDS) {
+                // calculate braking speed depending on DISTANCE to obstacle
                 int brakingSpeed = (int) ((1500 - this.DISTANCE.getPulse()) / 50);
-
 
                 addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
                 return;
             }
 
-            if (!this.LINEFOLLOWER.getStateCenter()){
-                if (!this.LINEFOLLOWER.getStateRight()){
+            //
+            if (isOnLineFollowerMode) {
+                boolean left = this.LINEFOLLOWER.getStateLeft();
+                boolean center = this.LINEFOLLOWER.getStateCenter();
+                boolean right = this.LINEFOLLOWER.getStateRight();
+
+                if (left && center && right && this.moveDirection != MoveDirection.FORWARDS) {
+                    // Everything is on the line, drive straight
+                    this.moveDirection = MoveDirection.FORWARDS;
+                    this.LOGGER.info("Everything ok, following line");
+                }
+
+                else if (!left && (center || right) && this.moveDirection != MoveDirection.RIGHT) {
+                    // Left is off the line, turn right
                     this.moveDirection = MoveDirection.RIGHT;
-                } else if (!this.LINEFOLLOWER.getStateLeft()){
+
+                    this.LOGGER.info("Left is off the line, turning right");
+                }
+
+                else if ((left || center) && !right && this.moveDirection != MoveDirection.LEFT) {
+                    // Right is off the line, turn left
                     this.moveDirection = MoveDirection.LEFT;
+
+                    this.LOGGER.info("Right is off the line, turning left");
+                }
+
+                else if (!left && !center && !right && this.moveDirection != MoveDirection.STATIONARY) {
+                    // Everything is off the line, stop!
+                    this.moveDirection = MoveDirection.STATIONARY;
+
+                    this.LOGGER.info("Everything is off the line, stopping");
+                }
+
+                else {
+                    // Something is off the line, but not all, so drive straight
+                    this.moveDirection = MoveDirection.FORWARDS;
+                }
+
+                if (!this.LINEFOLLOWER.getStateCenter()) {
+                    if (!this.LINEFOLLOWER.getStateRight()) {
+                        this.moveDirection = MoveDirection.RIGHT;
+                    } else if (!this.LINEFOLLOWER.getStateLeft()) {
+                        this.moveDirection = MoveDirection.LEFT;
+                    }
                 }
             }
 
+            // Clamp acceleration between 1 and 30
             this.acceleration = Math.max(1, this.acceleration);
             this.acceleration = Math.min(30, this.acceleration);
 
-
+            //
             MOTOR.setAcceleration(this.acceleration);
             if (this.moveDirection == MoveDirection.FORWARDS) {
                 MOTOR.setMove(1, 0);
@@ -158,46 +200,59 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     @Override
     public void onRemoteButtonPressed(int code) {
-        if (code == Config.REMOTE_CHANNEL_PLUS) {
 
-            // Move forwards
-            // If we are moving backwards, stop
-            if (this.moveDirection == MoveDirection.BACKWARDS) {
-                this.moveDirection = MoveDirection.STATIONARY;
-            } else {
-                this.moveDirection = MoveDirection.FORWARDS;
+        boolean wantsToGoToLineFollowerMode = code == Config.REMOTE_CD_ENTER;
+
+        if (wantsToGoToLineFollowerMode && !isOnLineFollowerMode) {
+            this.LOGGER.info("Switched to line follower mode");
+            this.isOnLineFollowerMode = true;
+        }
+        
+        else if (!isOnLineFollowerMode) {
+            this.LOGGER.info("Switched to automatic mode");
+
+            if (code == Config.REMOTE_CHANNEL_PLUS) {
+                // Move forwards
+                // If we are moving backwards, stop
+                if (this.moveDirection == MoveDirection.BACKWARDS) {
+                    this.moveDirection = MoveDirection.STATIONARY;
+                } else {
+                    this.moveDirection = MoveDirection.FORWARDS;
+                }
+
+            } else if (code == Config.REMOTE_CHANNEL_MIN) {
+
+                // Move backwards
+                // If we are moving forwards, stop
+                if (this.moveDirection == MoveDirection.FORWARDS) {
+                    this.moveDirection = MoveDirection.STATIONARY;
+                } else {
+                    this.moveDirection = MoveDirection.BACKWARDS;
+                }
+
+            } else if (code == Config.REMOTE_VOLUME_PLUS) {
+
+                // Move to the right
+                // If we are moving to the left, stop
+                if (this.moveDirection == MoveDirection.LEFT) {
+                    this.moveDirection = MoveDirection.STATIONARY;
+                } else {
+                    this.moveDirection = MoveDirection.RIGHT;
+                }
+
+            } else if (code == Config.REMOTE_VOLUME_MIN) {
+
+                // Move to the left
+                // If we are moving to the right, stop
+                if (this.moveDirection == MoveDirection.RIGHT) {
+                    this.moveDirection = MoveDirection.STATIONARY;
+                } else {
+                    this.moveDirection = MoveDirection.LEFT;
+                }
             }
+        }
 
-        } else if (code == Config.REMOTE_CHANNEL_MIN) {
-
-            // Move backwards
-            // If we are moving forwards, stop
-            if (this.moveDirection == MoveDirection.FORWARDS) {
-                this.moveDirection = MoveDirection.STATIONARY;
-            } else {
-                this.moveDirection = MoveDirection.BACKWARDS;
-            }
-
-        } else if (code == Config.REMOTE_VOLUME_PLUS) {
-
-            // Move to the right
-            // If we are moving to the left, stop
-            if (this.moveDirection == MoveDirection.LEFT) {
-                this.moveDirection = MoveDirection.STATIONARY;
-            } else {
-                this.moveDirection = MoveDirection.RIGHT;
-            }
-
-        } else if (code == Config.REMOTE_VOLUME_MIN) {
-
-            // Move to the left
-            // If we are moving to the right, stop
-            if (this.moveDirection == MoveDirection.RIGHT) {
-                this.moveDirection = MoveDirection.STATIONARY;
-            } else {
-                this.moveDirection = MoveDirection.LEFT;
-            }
-        } else if (code == Config.REMOTE_STOP) {
+        if (code == Config.REMOTE_STOP) {
             this.moveDirection = MoveDirection.STATIONARY;
         } else if (code == Config.REMOTE_FORWARDS) {
             this.acceleration += 1;
@@ -258,5 +313,3 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
         }
     }
 }
-
-

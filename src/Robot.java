@@ -22,8 +22,9 @@ public class Robot implements StartStopListener {
     private WhiskerLogic whiskers = new WhiskerLogic(11, 15);
     private BluetoothLogic bluetooth = new BluetoothLogic(115200);
     private GripperLogic grippers = new GripperLogic(14);
+    private LineFollowerLogic lineFollower = new LineFollowerLogic(0, 1, 2);
 
-    private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, distance);
+    private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, distance, lineFollower);
     private LightsBehaviour blinkerBehaviour = new LightsBehaviour(lights, motors);
     private RemoteBehaviour remoteBehaviour = new RemoteBehaviour(movementBehaviour, infrared);
     private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, motors);
@@ -31,7 +32,7 @@ public class Robot implements StartStopListener {
     private BluetoothBehaviour bluetoothBehaviour = new BluetoothBehaviour(movementBehaviour, this.bluetooth);
     private GripperBehaviour gripperBehaviour = new GripperBehaviour(grippers, infrared);
 
-    private Logic[] logics = {lights, buzzer, motors, infrared, distance, bluetooth, grippers};
+    private Logic[] logics = {lights, buzzer, motors, infrared, distance, bluetooth, grippers, lineFollower};
     private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour, remoteBehaviour, buzzerBehaviour, distanceBehaviour, bluetoothBehaviour, gripperBehaviour};
 
     private StartStopBehaviour startStopBehaviour = new StartStopBehaviour(this, infrared);
