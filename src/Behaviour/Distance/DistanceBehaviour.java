@@ -27,8 +27,6 @@ public class DistanceBehaviour implements Behaviour {
 
         if (measuredDistance != this.lastDistance) {
             this.lastDistance = measuredDistance;
-
-            LOGGER.info(measuredDistance + " cm");
         }
     }
 
