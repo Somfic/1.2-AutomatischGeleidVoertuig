@@ -73,30 +73,30 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             The code below is used for the whiskers
              */
 
-            if (this.whiskers.hasObstacleLeft() && this.whiskers.hasObstacleRight()) {
-                addMovementToQueue("Braking", 0, 0, 100, 500);
-                addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
-                addMovementToQueue("Stopping", 0, 0, 5,500);
-                return;
-            }
-
-            if (this.whiskers.hasObstacleRight()) {
-                addMovementToQueue("Braking", 0, 0, 100,500);
-                addMovementToQueue("Backing up for left turn", -0.5f, 0, 5,3000);
-                addMovementToQueue("Turn left", 0, 0.5f, 10,1700);
-                addMovementToQueue("Stopping", 0, 0, 5,500);
-
-                return;
-
-            }
-
-            if (this.whiskers.hasObstacleLeft()) {
-                addMovementToQueue("Braking", 0, 0, 100,500);
-                addMovementToQueue("Backing up for right turn", -0.5f, 0,  5,3000);
-                addMovementToQueue("Turn right", 0, -0.5f, 10,1700);
-                addMovementToQueue("Stopping", 0, 0, 5,500);
-                return;
-            }
+//            if (this.whiskers.hasObstacleLeft() && this.whiskers.hasObstacleRight()) {
+//                addMovementToQueue("Braking", 0, 0, 100, 500);
+//                addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
+//                addMovementToQueue("Stopping", 0, 0, 5,500);
+//                return;
+//            }
+//
+//            if (this.whiskers.hasObstacleRight()) {
+//                addMovementToQueue("Braking", 0, 0, 100,500);
+//                addMovementToQueue("Backing up for left turn", -0.5f, 0, 5,3000);
+//                addMovementToQueue("Turn left", 0, 0.5f, 10,1700);
+//                addMovementToQueue("Stopping", 0, 0, 5,500);
+//
+//                return;
+//
+//            }
+//
+//            if (this.whiskers.hasObstacleLeft()) {
+//                addMovementToQueue("Braking", 0, 0, 100,500);
+//                addMovementToQueue("Backing up for right turn", -0.5f, 0,  5,3000);
+//                addMovementToQueue("Turn right", 0, -0.5f, 10,1700);
+//                addMovementToQueue("Stopping", 0, 0, 5,500);
+//                return;
+//            }
 
             /*
             The code below is used for the ultrasone sensors
