@@ -9,8 +9,7 @@ public class DistanceLogic implements Logic {
     private final Ultrasonic ultrasonic;
 
     private final Timer timer = new Timer(0);
-    private final float distance = 0;
-    private Step step = Step.ResetPulse;
+    private float distance = 0;
     private float pulse;
 
 
@@ -20,6 +19,9 @@ public class DistanceLogic implements Logic {
     }
 
     public float getDistance() {
+        if (this.pulse != -2){
+            this.distance = this.pulse/58;
+        }
         return this.distance;
     }
 
@@ -41,16 +43,7 @@ public class DistanceLogic implements Logic {
 
     @Override
     public void reset() {
-        this.step = Step.ReadEcho;
         this.timer.setInterval(0);
         this.timer.mark();
-    }
-
-
-    private enum Step {
-        ResetPulse,
-        StartPulse,
-        EndPulse,
-        ReadEcho
     }
 }

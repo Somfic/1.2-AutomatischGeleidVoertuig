@@ -43,6 +43,8 @@ public class Config {
 
     public static final int REMOTE_ZERO = 137;
 
+    public static final int REMOTE_RETURN = 140;
+
     public static final int REMOTE_BACKWARDS = 460;
 
     public static final int REMOTE_PLAY = 462;

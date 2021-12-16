@@ -17,21 +17,21 @@ public class GripperLogic implements Logic {
 
     private ServoMotor gripper;
 
-    public GripperLogic(int pin){
+    public GripperLogic(int pin) {
         this.gripper = new ServoMotor(pin);
         this.gripper.start();
         this.gripper.set(OPENED_DISTANCE);
     }
 
-    public void close(){
+    public void close() {
         this.state = -1;
     }
 
-    public void open(){
+    public void open() {
         this.state = 1;
     }
 
-    public void process(){
+    public void process() {
         if (this.intervalTimer.timeout()) {
             if (this.state == 1) {
                 if (currentPlace < OPENED_DISTANCE) {
@@ -45,13 +45,13 @@ public class GripperLogic implements Logic {
                     currentPlace -= SPEED;
                     this.gripper.set(currentPlace);
                 } else {
-                     state = 0;
+                    state = 0;
                 }
             }
         }
     }
 
-    public void reset(){
+    public void reset() {
         this.gripper.set(OPENED_DISTANCE);
     }
 
