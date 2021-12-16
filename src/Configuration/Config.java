@@ -65,4 +65,6 @@ public class Config {
     public static final int REMOTE_CD_ENTER = 458;
 
     public static final int REMOTE_NO_BUTTON = -1;
+
+    public static final int REMOTE_RECORD_BUTTON = 157;
 }

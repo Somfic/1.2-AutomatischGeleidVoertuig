@@ -127,30 +127,30 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 boolean right = this.LINEFOLLOWER.getStateRight();
 
                 // Print the status of the linefollowers
-                this.LOGGER.info((left ? 1 : 0) + " " + (center ? 1 : 0) + " " + (right ? 1 : 0) + " ");
+                //this.LOGGER.info((left ? 1 : 0) + " " + (center ? 1 : 0) + " " + (right ? 1 : 0) + " ");
 
                 if (left && center && right && this.moveDirection != MoveDirection.FORWARDS) {
                     // Everything is on the line, drive straight
                     this.moveDirection = MoveDirection.FORWARDS;
-                   // this.LOGGER.info("Everything ok, following line");
+                    this.LOGGER.info("Everything ok, following line");
                 } else if (!left && (center || right) && this.moveDirection != MoveDirection.RIGHT) {
                     // Left is off the line, turn right
-                    this.moveDirection = MoveDirection.RIGHT;
-
-                   // this.LOGGER.info("Left is off the line, turning right");
-                } else if ((left || center) && !right && this.moveDirection != MoveDirection.LEFT) {
-                    // Right is off the line, turn left
                     this.moveDirection = MoveDirection.LEFT;
 
-                   // this.LOGGER.info("Right is off the line, turning left");
+                    this.LOGGER.info("Left is on the line, turning left");
+                } else if ((left || center) && !right && this.moveDirection != MoveDirection.LEFT) {
+                    // Right is off the line, turn left
+                    this.moveDirection = MoveDirection.RIGHT;
+
+                    this.LOGGER.info("Right is on the line, turning right");
                 } else if (!left && !center && !right && this.moveDirection != MoveDirection.STATIONARY) {
                     // Everything is off the line, stop!
                     this.moveDirection = MoveDirection.STATIONARY;
 
-                   // this.LOGGER.info("Everything is off the line, stopping");
+                    this.LOGGER.info("Everything is off the line, stopping");
                 } else {
                     // Something is off the line, but not all, so drive straight
-                    this.moveDirection = MoveDirection.FORWARDS;
+                    //this.moveDirection = MoveDirection.FORWARDS;
                 }
             }
 
@@ -259,6 +259,10 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             this.acceleration += 1;
         } else if (code == Config.REMOTE_BACKWARDS) {
             this.acceleration -= 1;
+        }
+
+        if (code == Config.REMOTE_RECORD_BUTTON){
+            this.LINEFOLLOWER.calibrate();
         }
     }
 
