@@ -108,19 +108,6 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
              * The code below is used for the ultrasone sensors
              */
 
-            if (this.DISTANCE.getDistance() < 20 &&
-                    this.DISTANCE.getPulse() > 0
-                    && this.moveDirection == MoveDirection.FORWARDS) {
-                // calculate braking speed depending on DISTANCE to obstacle
-                int brakingSpeed = (int) ((1500 - this.DISTANCE.getPulse()) / 50);
-
-                this.acceleration = brakingSpeed;
-                this.moveDirection = MoveDirection.STATIONARY;
-
-                //addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
-                return;
-            }
-
             if (isOnLineFollowerMode) {
                 boolean left = this.LINEFOLLOWER.getStateLeft();
                 boolean center = this.LINEFOLLOWER.getStateCenter();
@@ -152,6 +139,19 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                     // Something is off the line, but not all, so drive straight
                     //this.moveDirection = MoveDirection.FORWARDS;
                 }
+            }
+
+            if (this.DISTANCE.getDistance() < 20 &&
+                    this.DISTANCE.getPulse() > 0
+                    && this.moveDirection == MoveDirection.FORWARDS) {
+                // calculate braking speed depending on DISTANCE to obstacle
+                int brakingSpeed = (int) ((1500 - this.DISTANCE.getPulse()) / 50);
+
+                this.acceleration = brakingSpeed;
+                this.moveDirection = MoveDirection.STATIONARY;
+
+                //addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
+                return;
             }
 
             // Clamp acceleration between 1 and 30
