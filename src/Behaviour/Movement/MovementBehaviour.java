@@ -263,6 +263,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
         if (code == Config.REMOTE_RECORD_BUTTON){
             this.LINEFOLLOWER.calibrate();
+            this.LOGGER.debug("Calibrating line followers");
         }
     }
 
