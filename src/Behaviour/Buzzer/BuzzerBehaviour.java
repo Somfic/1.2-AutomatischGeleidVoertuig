@@ -3,21 +3,18 @@ package Behaviour.Buzzer;
 import Behaviour.Behaviour;
 import Logger.Logger;
 import Logic.BuzzerLogic;
-import Logic.InfraredLogic;
 import Logic.MotorLogic;
 
 public class BuzzerBehaviour implements Behaviour {
 
-    private final Logger logger = new Logger(this);
+    private final Logger LOGGER = new Logger(this);
 
-    private final BuzzerLogic buzzerLogic;
-    private final InfraredLogic infraredLogic;
-    private final MotorLogic motorLogic;
+    private final BuzzerLogic BUZZER_LOGIC;
+    private final MotorLogic MOTOR_LOGIC;
 
-    public BuzzerBehaviour(BuzzerLogic buzzerLogic, InfraredLogic infraredLogic, MotorLogic motorLogic) {
-        this.buzzerLogic = buzzerLogic;
-        this.infraredLogic = infraredLogic;
-        this.motorLogic = motorLogic;
+    public BuzzerBehaviour(BuzzerLogic buzzerLogic, MotorLogic motorLogic) {
+        this.BUZZER_LOGIC = buzzerLogic;
+        this.MOTOR_LOGIC = motorLogic;
     }
 
     @Override
@@ -27,9 +24,9 @@ public class BuzzerBehaviour implements Behaviour {
 
     @Override
     public void process() {
-        boolean shouldBeep = this.motorLogic.getTargetSpeed() < 0;
+        boolean shouldBeep = this.MOTOR_LOGIC.getTargetSpeed() < 0;
 
-        this.buzzerLogic.setIsBuzzing(shouldBeep);
+        this.BUZZER_LOGIC.setIsBuzzing(shouldBeep);
     }
 
     @Override

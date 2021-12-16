@@ -5,13 +5,13 @@ import TI.Timer;
 
 public class MotorLogic implements Logic {
 
-    private final ServoMotor leftMotor;
-    private final ServoMotor rightMotor;
+    private final ServoMotor LEFT_MOTOR;
+    private final ServoMotor RIGHT_MOTOR;
 
-    private final Timer timer;
+    private final Timer TIMER;
 
-    final private int STATIONAIRY_SPEED = 1500;
-    final private int MAX_SPEED = 100;
+    private final int STATIONARY_SPEED = 1500;
+    private final int MAX_SPEED = 100;
 
     private float targetSpeed = 0;
     private float targetAngle = 0;
@@ -25,15 +25,15 @@ public class MotorLogic implements Logic {
     private float acceleration = 10;
 
     public MotorLogic(int pinLeftMotor, int pinRightMotor) {
-        this.leftMotor = new ServoMotor(pinLeftMotor);
-        this.rightMotor = new ServoMotor(pinRightMotor);
+        this.LEFT_MOTOR = new ServoMotor(pinLeftMotor);
+        this.RIGHT_MOTOR = new ServoMotor(pinRightMotor);
 
-        this.timer = new Timer(100);
+        this.TIMER = new Timer(100);
     }
 
     public void start() {
-        this.rightMotor.start();
-        this.leftMotor.start();
+        this.RIGHT_MOTOR.start();
+        this.LEFT_MOTOR.start();
     }
 
     public void stop() {
@@ -42,8 +42,8 @@ public class MotorLogic implements Logic {
         leftTargetPulse = 0;
         rightTargetPulse = 0;
 
-        this.rightMotor.stop();
-        this.leftMotor.stop();
+        this.RIGHT_MOTOR.stop();
+        this.LEFT_MOTOR.stop();
     }
 
     public float getTargetSpeed() {
@@ -75,8 +75,8 @@ public class MotorLogic implements Logic {
 
     @Override
     public void process() {
-        if (timer.timeout()) {
-            timer.mark();
+        if (TIMER.timeout()) {
+            TIMER.mark();
 
             // Calculate the left pulse based on the acceleration
             int leftDelta = leftTargetPulse - leftPulse;
@@ -100,8 +100,8 @@ public class MotorLogic implements Logic {
                 rightPulse += Math.min(rightDelta, acceleration);
             }
 
-            rightMotor.set(STATIONAIRY_SPEED - leftPulse);
-            leftMotor.set(STATIONAIRY_SPEED + rightPulse);
+            RIGHT_MOTOR.set(STATIONARY_SPEED - leftPulse);
+            LEFT_MOTOR.set(STATIONARY_SPEED + rightPulse);
         }
     }
 

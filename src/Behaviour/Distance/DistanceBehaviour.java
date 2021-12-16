@@ -6,15 +6,14 @@ import Logic.DistanceLogic;
 
 public class DistanceBehaviour implements Behaviour {
 
-    private final Logger logger = new Logger(this);
+    private final Logger LOGGER = new Logger(this);
 
-    private final DistanceLogic distance;
+    private final DistanceLogic DISTANCE;
 
     private float lastDistance = 0;
 
     public DistanceBehaviour(DistanceLogic distance) {
-
-        this.distance = distance;
+        this.DISTANCE = distance;
     }
 
     @Override
@@ -24,12 +23,12 @@ public class DistanceBehaviour implements Behaviour {
 
     @Override
     public void process() {
-        float measuredDistance = this.distance.getDistance();
+        float measuredDistance = this.DISTANCE.getDistance();
 
         if (measuredDistance != this.lastDistance) {
             this.lastDistance = measuredDistance;
 
-            logger.info(Math.round(measuredDistance) + " cm");
+            LOGGER.info(Math.round(measuredDistance) + " cm");
         }
     }
 

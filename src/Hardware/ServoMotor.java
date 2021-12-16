@@ -4,23 +4,23 @@ import TI.Servo;
 
 public class ServoMotor {
 
-    private final Servo servo;
+    private final Servo SERVO;
 
     public ServoMotor(int pin) {
-        this.servo = new Servo(pin);
+        this.SERVO = new Servo(pin);
     }
 
     // starts the motor
     public void start() {
-        this.servo.start();
+        this.SERVO.start();
     }
 
     // stops the motor
     public void stop() {
-        this.servo.stop();
+        this.SERVO.stop();
     }
 
     public void set(int pulse) {
-        this.servo.update(pulse);
+        this.SERVO.update(pulse);
     }
 }

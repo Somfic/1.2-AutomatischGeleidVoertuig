@@ -1,6 +1,5 @@
 import Behaviour.*;
 import Behaviour.Bluetooth.BluetoothBehaviour;
-import Behaviour.Bluetooth.BluetoothListener;
 import Behaviour.Buzzer.*;
 import Behaviour.Distance.DistanceBehaviour;
 import Behaviour.Gripper.GripperBehaviour;
@@ -27,7 +26,7 @@ public class Robot implements StartStopListener {
     private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, distance);
     private LightsBehaviour blinkerBehaviour = new LightsBehaviour(lights, motors);
     private RemoteBehaviour remoteBehaviour = new RemoteBehaviour(movementBehaviour, infrared);
-    private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, infrared, motors);
+    private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, motors);
     private DistanceBehaviour distanceBehaviour = new DistanceBehaviour(distance);
     private BluetoothBehaviour bluetoothBehaviour = new BluetoothBehaviour(movementBehaviour, this.bluetooth);
     private GripperBehaviour gripperBehaviour = new GripperBehaviour(grippers, infrared);

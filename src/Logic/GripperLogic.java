@@ -6,7 +6,7 @@ import TI.Timer;
 public class GripperLogic implements Logic {
 
     private final int SPEED = 1;
-    private final Timer intervalTimer = new Timer(6);
+    private final Timer INTERVAL_TIMER = new Timer(6);
 
     private final int OPENED_DISTANCE = 1900;
     private final int CLOSED_DISTANCE = 1025;
@@ -31,7 +31,7 @@ public class GripperLogic implements Logic {
     }
 
     public void process(){
-        if (this.intervalTimer.timeout()) {
+        if (this.INTERVAL_TIMER.timeout()) {
             if (this.state == OPENING_STATE) {
                 if (currentPlace < OPENED_DISTANCE) {
                     currentPlace += SPEED;

@@ -4,14 +4,14 @@ import TI.BoeBot;
 import TI.PinMode;
 
 public class Infrared {
-    private final int pin;
+    private final int PIN;
 
     public Infrared(int pin) {
-        this.pin = pin;
+        this.PIN = pin;
         BoeBot.setMode(pin, PinMode.Input);
     }
 
     public int getValue(boolean state, int timeout) {
-        return BoeBot.pulseIn(this.pin, state, timeout);
+        return BoeBot.pulseIn(this.PIN, state, timeout);
     }
 }

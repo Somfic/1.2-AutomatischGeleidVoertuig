@@ -2,7 +2,7 @@ package Logger;
 
 public class Logger {
 
-    private final String name;
+    private final String NAME;
 
     /**
      * Creates a new logger for the given class instance
@@ -10,7 +10,7 @@ public class Logger {
      * @param classInstance The instance of the class to log for
      */
     public Logger(Object classInstance) {
-        this.name = classInstance.getClass().getSimpleName();
+        this.NAME = classInstance.getClass().getSimpleName();
     }
 
     /**
@@ -57,7 +57,7 @@ public class Logger {
      */
     public void log(LogLevel logLevel, String message) {
         // Log the message between square brackets
-        System.out.println("[" + logLevel.toString() + "] [" + this.name + "] " + message);
+        System.out.println("[" + logLevel.toString() + "] [" + this.NAME + "] " + message);
     }
 }
 

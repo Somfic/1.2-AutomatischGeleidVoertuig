@@ -12,19 +12,19 @@ import java.awt.*;
 
 public class LightsBehaviour implements Behaviour {
 
-    private final Logger logger = new Logger(this);
+    private final Logger LOGGER = new Logger(this);
 
-    private final LedLogic lights;
-    private final MotorLogic motors;
-    private final Timer timer = new Timer(300);
+    private final LedLogic LIGHTS;
+    private final MotorLogic MOTORS;
+    private final Timer TIMER = new Timer(300);
     private boolean lightsAreOn;
     private float oldSpeed = 0;
     private float oldAngle = 0;
 
     public LightsBehaviour(LedLogic lights, MotorLogic motors) {
 
-        this.lights = lights;
-        this.motors = motors;
+        this.LIGHTS = lights;
+        this.MOTORS = motors;
     }
 
     @Override
@@ -34,16 +34,16 @@ public class LightsBehaviour implements Behaviour {
 
     @Override
     public void process() {
-        float speed = this.motors.getTargetSpeed();
-        float angle = this.motors.getTargetAngle();
+        float speed = this.MOTORS.getTargetSpeed();
+        float angle = this.MOTORS.getTargetAngle();
 
-        if (timer.timeout() || speed != oldSpeed || angle != oldAngle) {
-            timer.mark();
+        if (TIMER.timeout() || speed != oldSpeed || angle != oldAngle) {
+            TIMER.mark();
 
             this.oldSpeed = speed;
             this.oldAngle = angle;
 
-            // Toggle whether the lights are on
+            // Toggle whether the LIGHTS are on
             this.lightsAreOn = !this.lightsAreOn;
 
             Color frontColor = Color.white;
@@ -58,43 +58,43 @@ public class LightsBehaviour implements Behaviour {
                 blinkerColor = Config.LED_BLINKER_COLOR_ON;
             }
 
-            // Default front lights
-            this.lights.set(LedLight.FrontRight, frontColor);
-            this.lights.set(LedLight.FrontLeft, frontColor);
-            this.lights.clear(LedLight.FrontMiddle);
+            // Default front LIGHTS
+            this.LIGHTS.set(LedLight.FRONT_RIGHT, frontColor);
+            this.LIGHTS.set(LedLight.FRONT_LEFT, frontColor);
+            this.LIGHTS.clear(LedLight.FRONT_MIDDLE);
 
-            // Default back lights
-            this.lights.set(LedLight.BackLeft, backColor);
-            this.lights.set(LedLight.BackRight, backColor);
-            this.lights.clear(LedLight.BackMiddle);
+            // Default back LIGHTS
+            this.LIGHTS.set(LedLight.BACK_LEFT, backColor);
+            this.LIGHTS.set(LedLight.BACK_RIGHT, backColor);
+            this.LIGHTS.clear(LedLight.BACK_MIDDLE);
 
 
             // Standing still
-            if (speed == 0 && angle == 0 && motors.isAccelerating()) {
+            if (speed == 0 && angle == 0 && MOTORS.isAccelerating()) {
                 // Brakes
-                this.lights.set(LedLight.BackLeft, brakeColor);
-                this.lights.set(LedLight.BackMiddle, brakeColor);
-                this.lights.set(LedLight.BackRight, brakeColor);
+                this.LIGHTS.set(LedLight.BACK_LEFT, brakeColor);
+                this.LIGHTS.set(LedLight.BACK_MIDDLE, brakeColor);
+                this.LIGHTS.set(LedLight.BACK_RIGHT, brakeColor);
             }
 
             // Reversing
             if (speed < 0) {
                 // Reverse light
-                this.lights.set(LedLight.BackRight, reverseColor);
+                this.LIGHTS.set(LedLight.BACK_RIGHT, reverseColor);
             }
 
             // Going left
             if (angle > 0) {
                 // Blink left
-                this.lights.set(LedLight.FrontLeft, blinkerColor);
-                this.lights.set(LedLight.BackLeft, blinkerColor);
+                this.LIGHTS.set(LedLight.FRONT_LEFT, blinkerColor);
+                this.LIGHTS.set(LedLight.BACK_LEFT, blinkerColor);
             }
 
             // Going right
             else if (angle < 0) {
                 // Blink right
-                this.lights.set(LedLight.FrontRight, blinkerColor);
-                this.lights.set(LedLight.BackRight, blinkerColor);
+                this.LIGHTS.set(LedLight.FRONT_RIGHT, blinkerColor);
+                this.LIGHTS.set(LedLight.BACK_RIGHT, blinkerColor);
             }
         }
     }

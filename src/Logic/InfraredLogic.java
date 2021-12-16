@@ -5,20 +5,20 @@ import TI.Timer;
 
 public class InfraredLogic implements Logic {
 
-    private final Infrared infrared;
-    private final Timer timeout = new Timer(250);
+    private final Infrared INFRARED;
+    private final Timer TIMEOUT = new Timer(250);
     private int lastCode;
 
     public InfraredLogic(int pin) {
-        this.infrared = new Infrared(pin);
+        this.INFRARED = new Infrared(pin);
     }
 
     @Override
     public void process() {
-        int pulseLength = infrared.getValue(false, 10000);
+        int pulseLength = INFRARED.getValue(false, 10000);
 
         if (pulseLength > 2000) {
-            timeout.mark();
+            TIMEOUT.mark();
 
             // Started a new signal
 
@@ -26,7 +26,7 @@ public class InfraredLogic implements Logic {
             int output = 0;
 
             for (int i = 0; i < 12; i++) {
-                lengths[i] = infrared.getValue(false, 10000);
+                lengths[i] = INFRARED.getValue(false, 10000);
 
                 if (lengths[i] > 800) {
                     output = output | (1 << i);
@@ -40,7 +40,7 @@ public class InfraredLogic implements Logic {
 
             this.lastCode = output;
         } else {
-            if (timeout.timeout()) {
+            if (TIMEOUT.timeout()) {
                 this.lastCode = -1;
             }
         }
