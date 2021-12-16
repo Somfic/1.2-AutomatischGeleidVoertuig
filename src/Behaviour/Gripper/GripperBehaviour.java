@@ -9,7 +9,6 @@ public class GripperBehaviour implements Behaviour {
     private final GripperLogic GRIPPER_LOGIC;
     private final int OPENING_STATE = 1;
     private final int CLOSING_STATE = -1;
-    private boolean isOpen = true;
 
     private final InfraredLogic INFRARED_LOGIC;
 
@@ -23,12 +22,10 @@ public class GripperBehaviour implements Behaviour {
     }
 
     public void open(){
-        isOpen = true;
         this.GRIPPER_LOGIC.setState(OPENING_STATE);
     }
 
     public void close() {
-        isOpen = false;
         this.GRIPPER_LOGIC.setState(CLOSING_STATE);
     }
 
@@ -44,8 +41,7 @@ public class GripperBehaviour implements Behaviour {
         }
     }
 
-    public void reset(){;
-    
+    public void reset(){
 
     }
 }
