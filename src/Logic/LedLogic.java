@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class LedLogic implements Logic {
 
-    private final Logger logger = new Logger(this);
+    private final Logger LOGGER = new Logger(this);
 
     private HashMap<LedLight, Color> pendingColors;
     private HashMap<LedLight, Color> setColors;
@@ -46,7 +46,7 @@ public class LedLogic implements Logic {
                 int g = (int) Math.ceil(color.getGreen() * brightness);
                 int b = (int) Math.ceil(color.getBlue() * brightness);
 
-                logger.warn("Setting LED " + light.toString() + " to " + " (" + r + ", " + g + ", " + b + ")");
+                LOGGER.warn("Setting LED " + light.toString() + " to " + " (" + r + ", " + g + ", " + b + ")");
 
                 BoeBot.rgbSet(getLightAddress(light), r, g, b);
                 BoeBot.rgbShow();
@@ -70,22 +70,22 @@ public class LedLogic implements Logic {
 
     public int getLightAddress(LedLight led) {
         switch (led) {
-            case BackRight:
+            case BACK_RIGHT:
                 return 0;
 
-            case BackMiddle:
+            case BACK_MIDDLE:
                 return 1;
 
-            case BackLeft:
+            case BACK_LEFT:
                 return 2;
 
-            case FrontLeft:
+            case FRONT_LEFT:
                 return 3;
 
-            case FrontMiddle:
+            case FRONT_MIDDLE:
                 return 4;
 
-            case FrontRight:
+            case FRONT_RIGHT:
                 return 5;
 
             default:

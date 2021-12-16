@@ -14,24 +14,20 @@ import java.util.ArrayList;
 
 public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothListener {
 
-    private final Logger logger = new Logger(this);
+    private final Logger LOGGER = new Logger(this);
 
-    private final MotorLogic motor;
-    private final DistanceLogic distance;
-    private final ArrayList<Movement> movementQueue = new ArrayList<Movement>();
+    private final MotorLogic MOTOR;
+    private final DistanceLogic DISTANCE;
+    private final ArrayList<Movement> MOVEMENT_QUEUE = new ArrayList<Movement>();
     private WhiskerLogic whiskers;
     private Timer timer;
     private boolean isExecutingMovement;
 
-    //public MovementBehaviour(MotorLogic motorLogic, WhiskerLogic whiskers) {
-    //    this.motor = motorLogic;
-    //    this.whiskers = whiskers;
-    //}
-    private MoveDirection moveDirection = MoveDirection.Stationary;
+    private MoveDirection moveDirection = MoveDirection.STATIONARY;
     private float acceleration = 5;
     public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance) {
-        this.distance = distance;
-        this.motor = motorLogic;
+        this.DISTANCE = distance;
+        this.MOTOR = motorLogic;
     }
 
     @Override
@@ -45,27 +41,27 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             timer.mark();
 
             // Previous command finished executing, remove it from the commands list
-            if (isExecutingMovement && this.movementQueue.size() > 0) {
-                Movement movement = this.movementQueue.get(0);
+            if (isExecutingMovement && this.MOVEMENT_QUEUE.size() > 0) {
+                Movement movement = this.MOVEMENT_QUEUE.get(0);
 
-                logger.debug("Finished " + movement.name);
+                LOGGER.debug("Finished " + movement.name);
 
-                this.movementQueue.remove(0);
+                this.MOVEMENT_QUEUE.remove(0);
                 isExecutingMovement = false;
             }
 
             // If there are more commands to run, run those first
-            if (this.movementQueue.size() > 0) {
-                Movement movement = this.movementQueue.get(0);
+            if (this.MOVEMENT_QUEUE.size() > 0) {
+                Movement movement = this.MOVEMENT_QUEUE.get(0);
 
-                motor.setAcceleration(movement.acceleration);
-                motor.setMove(movement.speed, movement.angle);
+                MOTOR.setAcceleration(movement.acceleration);
+                MOTOR.setMove(movement.speed, movement.angle);
 
                 timer.setInterval(movement.duration);
                 timer.mark();
 
                 isExecutingMovement = true;
-                logger.debug("Starting " + movement.name + " (" + movement.duration + "ms)");
+                LOGGER.debug("Starting " + movement.name + " (" + movement.duration + "ms)");
 
                 return;
             }
@@ -77,41 +73,38 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             The code below is used for the whiskers
              */
 
-            //if (this.whiskers.hasObstacleLeft() && this.whiskers.hasObstacleRight()) {
-            //    addMovementToQueue("Braking", 0, 0, 100, 500);
-            //    addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
-            //    addMovementToQueue("Stopping", 0, 0, 5,500);
-            //    return;
-            //}
-//
-            //if (this.whiskers.hasObstacleRight()) {
-            //    addMovementToQueue("Braking", 0, 0, 100,500);
-            //    addMovementToQueue("Backing up for left turn", -0.5f, 0, 5,3000);
-            //    addMovementToQueue("Turn left", 0, 0.5f, 10,1700);
-            //    addMovementToQueue("Stopping", 0, 0, 5,500);
-//
-            //    return;
-//
-            //}
-//
-            //if (this.whiskers.hasObstacleLeft()) {
-            //    addMovementToQueue("Braking", 0, 0, 100,500);
-            //    addMovementToQueue("Backing up for right turn", -0.5f, 0,  5,3000);
-            //    addMovementToQueue("Turn right", 0, -0.5f, 10,1700);
-            //    addMovementToQueue("Stopping", 0, 0, 5,500);
-            //    return;
-            //}
+            if (this.whiskers.hasObstacleLeft() && this.whiskers.hasObstacleRight()) {
+                addMovementToQueue("Braking", 0, 0, 100, 500);
+                addMovementToQueue("Backing up", -0.5f, 0, 5, 1500);
+                addMovementToQueue("Stopping", 0, 0, 5,500);
+                return;
+            }
+
+            if (this.whiskers.hasObstacleRight()) {
+                addMovementToQueue("Braking", 0, 0, 100,500);
+                addMovementToQueue("Backing up for left turn", -0.5f, 0, 5,3000);
+                addMovementToQueue("Turn left", 0, 0.5f, 10,1700);
+                addMovementToQueue("Stopping", 0, 0, 5,500);
+
+                return;
+
+            }
+
+            if (this.whiskers.hasObstacleLeft()) {
+                addMovementToQueue("Braking", 0, 0, 100,500);
+                addMovementToQueue("Backing up for right turn", -0.5f, 0,  5,3000);
+                addMovementToQueue("Turn right", 0, -0.5f, 10,1700);
+                addMovementToQueue("Stopping", 0, 0, 5,500);
+                return;
+            }
 
             /*
             The code below is used for the ultrasone sensors
              */
-//            if(this.distance.getPulse() < 300 && this.moveDirection == MoveDirection.Forwards){
-//                this.moveDirection = MoveDirection.Stationary;
-//            }
 
-            if (this.distance.getPulse() < 1500 && this.distance.getPulse() > 0 && this.moveDirection == MoveDirection.Forwards) {
-                //calculate braking speed depending on distance to obstacle
-                int brakingSpeed = (int) ((1500 - this.distance.getPulse()) / 50);
+            if (this.DISTANCE.getPulse() < 1500 && this.DISTANCE.getPulse() > 0 && this.moveDirection == MoveDirection.Forwards) {
+                //calculate braking speed depending on DISTANCE to obstacle
+                int brakingSpeed = (int) ((1500 - this.DISTANCE.getPulse()) / 50);
 
                 addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
                 return;
@@ -121,32 +114,32 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             this.acceleration = Math.min(30, this.acceleration);
 
 
-            motor.setAcceleration(this.acceleration);
+            MOTOR.setAcceleration(this.acceleration);
             if (this.moveDirection == MoveDirection.Forwards) {
-                motor.setMove(1, 0);
-            } else if (this.moveDirection == MoveDirection.Backwards) {
-                motor.setMove(-1, 0);
-            } else if (this.moveDirection == MoveDirection.Left) {
-                motor.setMove(0, 0.5f);
-            } else if (this.moveDirection == MoveDirection.Right) {
-                motor.setMove(0, -0.5f);
-            } else if (this.moveDirection == MoveDirection.Stationary) {
-                motor.setMove(0, 0);
+                MOTOR.setMove(1, 0);
+            } else if (this.moveDirection == MoveDirection.BACKWARDS) {
+                MOTOR.setMove(-1, 0);
+            } else if (this.moveDirection == MoveDirection.LEFT) {
+                MOTOR.setMove(0, 0.5f);
+            } else if (this.moveDirection == MoveDirection.RIGHT) {
+                MOTOR.setMove(0, -0.5f);
+            } else if (this.moveDirection == MoveDirection.STATIONARY) {
+                MOTOR.setMove(0, 0);
             }
         }
     }
 
     private void addMovementToQueue(String name, float targetSpeed, float targetAngle, int acceleration, int duration) {
         Movement movement = new Movement(name, targetSpeed, targetAngle, acceleration, duration);
-        movementQueue.add(movement);
+        MOVEMENT_QUEUE.add(movement);
     }
 
     @Override
     public void reset() {
-        movementQueue.clear();
+        MOVEMENT_QUEUE.clear();
         isExecutingMovement = false;
 
-        this.moveDirection = MoveDirection.Stationary;
+        this.moveDirection = MoveDirection.STATIONARY;
         this.acceleration = 5;
     }
 
@@ -156,8 +149,8 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
             // Move forwards
             // If we are moving backwards, stop
-            if (this.moveDirection == MoveDirection.Backwards) {
-                this.moveDirection = MoveDirection.Stationary;
+            if (this.moveDirection == MoveDirection.BACKWARDS) {
+                this.moveDirection = MoveDirection.STATIONARY;
             } else {
                 this.moveDirection = MoveDirection.Forwards;
             }
@@ -167,32 +160,32 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             // Move backwards
             // If we are moving forwards, stop
             if (this.moveDirection == MoveDirection.Forwards) {
-                this.moveDirection = MoveDirection.Stationary;
+                this.moveDirection = MoveDirection.STATIONARY;
             } else {
-                this.moveDirection = MoveDirection.Backwards;
+                this.moveDirection = MoveDirection.BACKWARDS;
             }
 
         } else if (code == Config.REMOTE_VOLUME_PLUS) {
 
             // Move to the right
             // If we are moving to the left, stop
-            if (this.moveDirection == MoveDirection.Left) {
-                this.moveDirection = MoveDirection.Stationary;
+            if (this.moveDirection == MoveDirection.LEFT) {
+                this.moveDirection = MoveDirection.STATIONARY;
             } else {
-                this.moveDirection = MoveDirection.Right;
+                this.moveDirection = MoveDirection.RIGHT;
             }
 
         } else if (code == Config.REMOTE_VOLUME_MIN) {
 
             // Move to the left
             // If we are moving to the right, stop
-            if (this.moveDirection == MoveDirection.Right) {
-                this.moveDirection = MoveDirection.Stationary;
+            if (this.moveDirection == MoveDirection.RIGHT) {
+                this.moveDirection = MoveDirection.STATIONARY;
             } else {
-                this.moveDirection = MoveDirection.Left;
+                this.moveDirection = MoveDirection.LEFT;
             }
         } else if (code == Config.REMOTE_STOP) {
-            this.moveDirection = MoveDirection.Stationary;
+            this.moveDirection = MoveDirection.STATIONARY;
         } else if (code == Config.REMOTE_FORWARDS) {
             this.acceleration += 1;
         } else if (code == Config.REMOTE_BACKWARDS) {
@@ -208,8 +201,8 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
             // Move forwards
             // If we are moving backwards, stop
-            if (this.moveDirection == MoveDirection.Backwards) {
-                this.moveDirection = MoveDirection.Stationary;
+            if (this.moveDirection == MoveDirection.BACKWARDS) {
+                this.moveDirection = MoveDirection.STATIONARY;
             } else {
                 this.moveDirection = MoveDirection.Forwards;
             }
@@ -219,32 +212,32 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             // Move backwards
             // If we are moving forwards, stop
             if (this.moveDirection == MoveDirection.Forwards) {
-                this.moveDirection = MoveDirection.Stationary;
+                this.moveDirection = MoveDirection.STATIONARY;
             } else {
-                this.moveDirection = MoveDirection.Backwards;
+                this.moveDirection = MoveDirection.BACKWARDS;
             }
 
         } else if (input.equals("d")) {
 
             // Move to the right
             // If we are moving to the left, stop
-            if (this.moveDirection == MoveDirection.Left) {
-                this.moveDirection = MoveDirection.Stationary;
+            if (this.moveDirection == MoveDirection.LEFT) {
+                this.moveDirection = MoveDirection.STATIONARY;
             } else {
-                this.moveDirection = MoveDirection.Right;
+                this.moveDirection = MoveDirection.RIGHT;
             }
 
         } else if (input.equals("a")) {
 
             // Move to the left
             // If we are moving to the right, stop
-            if (this.moveDirection == MoveDirection.Right) {
-                this.moveDirection = MoveDirection.Stationary;
+            if (this.moveDirection == MoveDirection.RIGHT) {
+                this.moveDirection = MoveDirection.STATIONARY;
             } else {
-                this.moveDirection = MoveDirection.Left;
+                this.moveDirection = MoveDirection.LEFT;
             }
         } else if (input.equals(" ")) {
-            this.moveDirection = MoveDirection.Stationary;
+            this.moveDirection = MoveDirection.STATIONARY;
         } else if (input.equals("+")) {
             this.acceleration += 1;
         } else if (input.equals("-")) {

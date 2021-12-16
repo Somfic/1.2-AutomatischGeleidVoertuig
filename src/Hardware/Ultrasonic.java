@@ -5,31 +5,24 @@ import TI.PinMode;
 
 public class Ultrasonic {
 
-    private final int triggerPin;
-    private final int echoPin;
+    private final int TRIGGER_PIN;
+    private final int ECHO_PIN;
 
     public Ultrasonic(int triggerPin, int echoPin) {
-        this.triggerPin = triggerPin;
-        this.echoPin = echoPin;
+        this.TRIGGER_PIN = triggerPin;
+        this.ECHO_PIN = echoPin;
 
-        BoeBot.setMode(this.triggerPin, PinMode.Output);
-        BoeBot.setMode(this.echoPin, PinMode.Input);
+        BoeBot.setMode(this.TRIGGER_PIN, PinMode.Output);
+        BoeBot.setMode(this.ECHO_PIN, PinMode.Input);
     }
 
     public void set(boolean value) {
-        BoeBot.setMode(this.triggerPin, PinMode.Output);
-        BoeBot.digitalWrite(this.triggerPin, value);
+        BoeBot.setMode(this.TRIGGER_PIN, PinMode.Output);
+        BoeBot.digitalWrite(this.TRIGGER_PIN, value);
     }
 
-    //
     public boolean read() {
-        BoeBot.setMode(this.echoPin, PinMode.Input);
-        return BoeBot.digitalRead(this.echoPin);
+        BoeBot.setMode(this.ECHO_PIN, PinMode.Input);
+        return BoeBot.digitalRead(this.ECHO_PIN);
     }
-
-
-//    public int read() {
-//        BoeBot.setMode(this.echoPin, PinMode.Input);
-//        return BoeBot.pulseIn(this.echoPin, true, 10000);
-//    }
 }

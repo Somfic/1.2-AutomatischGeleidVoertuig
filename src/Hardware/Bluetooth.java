@@ -5,25 +5,25 @@ import TI.PinMode;
 import TI.SerialConnection;
 
 public class Bluetooth {
-    private final SerialConnection serial;
+    private final SerialConnection SERIAL;
 
     public Bluetooth(int baudrate) {
-        serial = new SerialConnection(baudrate);
+        SERIAL = new SerialConnection(baudrate);
     }
 
     //reads a recieved byte
     public int readByte() {
-        return serial.readByte();
+        return SERIAL.readByte();
     }
 
     //check if there is a bluetooth message to read
     public boolean canRead() {
-        return this.serial.available() > 0;
+        return this.SERIAL.available() > 0;
     }
 
     //sends given bytes to bluetooth reciever
     public void sendByte(int message) {
-        this.serial.writeByte(message);
+        this.SERIAL.writeByte(message);
     }
 
     public void reset() {

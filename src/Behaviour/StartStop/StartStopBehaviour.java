@@ -8,17 +8,17 @@ import Logic.InfraredLogic;
 
 public class StartStopBehaviour implements Behaviour {
 
-    private final Logger logger = new Logger(this);
-    private final InfraredLogic infrared;
-    private final StartStopListener startStopListener;
+    private final Logger LOGGER = new Logger(this);
+    private final InfraredLogic INFRARED;
+    private final StartStopListener START_STOP_LISTENER;
     private Switch startButton;
     private Switch stopButton;
     private boolean shouldStop;
 
 
     public StartStopBehaviour(StartStopListener startStopListener, InfraredLogic infrared) {
-        this.startStopListener = startStopListener;
-        this.infrared = infrared;
+        this.START_STOP_LISTENER = startStopListener;
+        this.INFRARED = infrared;
     }
 
     @Override
@@ -30,36 +30,36 @@ public class StartStopBehaviour implements Behaviour {
     @Override
     public void process() {
 
-        // Process the infrared
-        infrared.process();
+        // Process the INFRARED
+        INFRARED.process();
 
         // Check if the stop button is pressed when the start button isn't
-        if (infrared.getLastCode() == Config.REMOTE_POWER || (this.stopButton.getState() && !this.startButton.getState())) {
+        if (INFRARED.getLastCode() == Config.REMOTE_POWER || (this.stopButton.getState() && !this.startButton.getState())) {
 
             // Only trigger the stop behaviour is the robot is currently running
             if (!this.shouldStop) {
 
                 this.shouldStop = true;
 
-                this.logger.info("Stopping the robot");
+                this.LOGGER.info("Stopping the robot");
 
                 // Invoke the callback, the robot should stop
-                this.startStopListener.onStartStop(true);
+                this.START_STOP_LISTENER.onStartStop(true);
             }
         }
 
         // Check if the start button is pressed when the stop button isn't
-        if (infrared.getLastCode() == Config.REMOTE_MUTE || (this.startButton.getState() && !this.stopButton.getState())) {
+        if (INFRARED.getLastCode() == Config.REMOTE_MUTE || (this.startButton.getState() && !this.stopButton.getState())) {
 
             // Only trigger the start behaviour is the robot is currently stopped
             if (this.shouldStop) {
 
                 this.shouldStop = false;
 
-                this.logger.info("Starting the robot");
+                this.LOGGER.info("Starting the robot");
 
                 // Invoke the callback, the robot should start
-                this.startStopListener.onStartStop(false);
+                this.START_STOP_LISTENER.onStartStop(false);
             }
         }
     }
@@ -70,6 +70,6 @@ public class StartStopBehaviour implements Behaviour {
 
     @Override
     public void reset() {
-        this.infrared.reset();
+        this.INFRARED.reset();
     }
 }

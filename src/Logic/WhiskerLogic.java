@@ -4,15 +4,15 @@ import Hardware.Switch;
 
 public class WhiskerLogic implements Logic {
 
-    private final Switch leftWhisker;
-    private final Switch rightWhisker;
+    private final Switch LEFT_WHISKER;
+    private final Switch RIGHT_WHISKER;
 
     private boolean hasObstacleLeft;
     private boolean hasObstacleRight;
 
     public WhiskerLogic(int pinLeft, int pinRight) {
-        this.leftWhisker = new Switch(pinLeft);
-        this.rightWhisker = new Switch(pinRight);
+        this.LEFT_WHISKER = new Switch(pinLeft);
+        this.RIGHT_WHISKER = new Switch(pinRight);
     }
 
     public boolean hasObstacleLeft() {
@@ -25,8 +25,8 @@ public class WhiskerLogic implements Logic {
 
     @Override
     public void process() {
-        this.hasObstacleLeft = this.leftWhisker.getState();
-        this.hasObstacleRight = this.rightWhisker.getState();
+        this.hasObstacleLeft = this.LEFT_WHISKER.getState();
+        this.hasObstacleRight = this.RIGHT_WHISKER.getState();
     }
 
     @Override

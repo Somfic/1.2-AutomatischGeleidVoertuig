@@ -4,19 +4,19 @@ import Hardware.LineFollower;
 
 public class LineFollowerLogic implements Logic {
 
-    private final LineFollower lineFollowerLeft;
-    private final LineFollower lineFollowerMiddle;
-    private final LineFollower lineFollowerRight;
+    private final LineFollower LINE_FOLLOWER_LEFT;
+    private final LineFollower LINE_FOLLOWER_MIDDLE;
+    private final LineFollower LINE_FOLLOWER_RIGHT;
 
     public LineFollowerLogic(int pinLeft, int pinCenter, int pinRight) {
-        this.lineFollowerLeft = new LineFollower(pinLeft);
-        this.lineFollowerMiddle = new LineFollower(pinCenter);
-        this.lineFollowerRight = new LineFollower(pinRight);
+        this.LINE_FOLLOWER_LEFT = new LineFollower(pinLeft);
+        this.LINE_FOLLOWER_MIDDLE = new LineFollower(pinCenter);
+        this.LINE_FOLLOWER_RIGHT = new LineFollower(pinRight);
     }
 
     @Override
     public void process() {
-        // int this.lineFollowerRight.getValue();
+
     }
 
     @Override

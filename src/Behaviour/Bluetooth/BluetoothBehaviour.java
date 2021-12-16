@@ -5,14 +5,14 @@ import Logger.Logger;
 import Logic.BluetoothLogic;
 
 public class BluetoothBehaviour implements Behaviour {
-    private final BluetoothLogic bluetoothLogic;
-    private final BluetoothListener bluetoothListener;
+    private final BluetoothLogic BLUETOOTH_LOGIC;
+    private final BluetoothListener BLUETOOTH_LISTENER;
 
-    private final Logger logger = new Logger(this);
+    private final Logger LOGGER = new Logger(this);
 
     public BluetoothBehaviour(BluetoothListener bluetoothListener, BluetoothLogic bluetoothLogic) {
-        this.bluetoothListener = bluetoothListener;
-        this.bluetoothLogic = bluetoothLogic;
+        this.BLUETOOTH_LISTENER = bluetoothListener;
+        this.BLUETOOTH_LOGIC = bluetoothLogic;
     }
 
     @Override
@@ -22,15 +22,15 @@ public class BluetoothBehaviour implements Behaviour {
 
     @Override
     public void process() {
-        String input = bluetoothLogic.read();
+        String input = BLUETOOTH_LOGIC.read();
         if (!input.isEmpty()) {
-            logger.info(input);
-            bluetoothListener.onBluetoothMessage(input);
+            LOGGER.info(input);
+            BLUETOOTH_LISTENER.onBluetoothMessage(input);
         }
     }
 
     @Override
     public void reset() {
-        bluetoothLogic.read();
+        BLUETOOTH_LOGIC.read();
     }
 }

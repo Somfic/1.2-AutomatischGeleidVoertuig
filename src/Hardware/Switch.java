@@ -5,7 +5,7 @@ import TI.PinMode;
 
 public class Switch {
 
-    private final int pin;
+    private final int PIN;
 
     /**
      * Reads the state of switches, such as buttons and whiskers.
@@ -13,8 +13,8 @@ public class Switch {
      * @param pin of the breadboard which the switch uses.
      */
     public Switch(int pin) {
-        this.pin = pin;
-        BoeBot.setMode(this.pin, PinMode.Input);
+        this.PIN = pin;
+        BoeBot.setMode(this.PIN, PinMode.Input);
     }
 
     /**
@@ -23,6 +23,6 @@ public class Switch {
      * @return boolean containing the current state of the switch.
      */
     public boolean getState() {
-        return !BoeBot.digitalRead(this.pin);
+        return !BoeBot.digitalRead(this.PIN);
     }
 }

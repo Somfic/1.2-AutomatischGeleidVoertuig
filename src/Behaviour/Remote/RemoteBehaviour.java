@@ -6,16 +6,16 @@ import Logic.InfraredLogic;
 
 public class RemoteBehaviour implements Behaviour {
 
-    private final Logger logger = new Logger(this);
+    private final Logger LOGGER = new Logger(this);
 
-    private final RemoteListener remoteListener;
-    private final InfraredLogic infraredLogic;
+    private final RemoteListener REMOTE_LISTENER;
+    private final InfraredLogic INFRARED_LOGIC;
     private int lastCode = 0;
 
     public RemoteBehaviour(RemoteListener remoteListener, InfraredLogic infraredLogic) {
 
-        this.remoteListener = remoteListener;
-        this.infraredLogic = infraredLogic;
+        this.REMOTE_LISTENER = remoteListener;
+        this.INFRARED_LOGIC = infraredLogic;
     }
 
     @Override
@@ -25,18 +25,18 @@ public class RemoteBehaviour implements Behaviour {
 
     @Override
     public void process() {
-        int newCode = this.infraredLogic.getLastCode();
+        int newCode = this.INFRARED_LOGIC.getLastCode();
 
         if (this.lastCode != newCode) {
             this.lastCode = newCode;
 
             if (newCode == -1) {
-                this.logger.debug("Released button");
+                this.LOGGER.debug("Released button");
             } else {
-                this.logger.debug("Pressed " + newCode);
+                this.LOGGER.debug("Pressed " + newCode);
             }
 
-            this.remoteListener.onRemoteButtonPressed(newCode);
+            this.REMOTE_LISTENER.onRemoteButtonPressed(newCode);
         }
     }
 
