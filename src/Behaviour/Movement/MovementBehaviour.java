@@ -108,16 +108,19 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
              * The code below is used for the ultrasone sensors
              */
 
-            if (this.DISTANCE.getDistance() < 20 && this.DISTANCE.getPulse() > 0
-                    && this.moveDirection == MoveDirection.FORWARDS) {
+            if (this.DISTANCE.getDistance() < 20 && 
+                this.DISTANCE.getPulse() > 0 
+                && this.moveDirection == MoveDirection.FORWARDS) {
                 // calculate braking speed depending on DISTANCE to obstacle
                 int brakingSpeed = (int) ((1500 - this.DISTANCE.getPulse()) / 50);
 
-                addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
+                this.acceleration = brakingSpeed;
+                this.moveDirection = MoveDirection.STATIONARY;
+
+                //addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
                 return;
             }
 
-            //
             if (isOnLineFollowerMode) {
                 boolean left = this.LINEFOLLOWER.getStateLeft();
                 boolean center = this.LINEFOLLOWER.getStateCenter();
@@ -154,21 +157,13 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                     // Something is off the line, but not all, so drive straight
                     this.moveDirection = MoveDirection.FORWARDS;
                 }
-
-                if (!this.LINEFOLLOWER.getStateCenter()) {
-                    if (!this.LINEFOLLOWER.getStateRight()) {
-                        this.moveDirection = MoveDirection.RIGHT;
-                    } else if (!this.LINEFOLLOWER.getStateLeft()) {
-                        this.moveDirection = MoveDirection.LEFT;
-                    }
-                }
             }
 
             // Clamp acceleration between 1 and 30
             this.acceleration = Math.max(1, this.acceleration);
             this.acceleration = Math.min(30, this.acceleration);
 
-            //
+            // Set the motor speed and acceleration
             MOTOR.setAcceleration(this.acceleration);
             if (this.moveDirection == MoveDirection.FORWARDS) {
                 MOTOR.setMove(1, 0);
@@ -209,7 +204,9 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
         }
         
         else if (!isOnLineFollowerMode) {
-            this.LOGGER.info("Switched to automatic mode");
+            this.LOGGER.info("Switched to manual mode (remote)");
+
+            this.isOnLineFollowerMode = false;
 
             if (code == Config.REMOTE_CHANNEL_PLUS) {
                 // Move forwards
@@ -263,6 +260,13 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     @Override
     public void onBluetoothMessage(String input) {
+
+        if(isOnLineFollowerMode) {
+            this.LOGGER.info("Switched to manual mode (bluetooth)");
+        }
+
+        this.isOnLineFollowerMode = false;
+
         input = input.toLowerCase();
 
         if (input.equals("w")) {
