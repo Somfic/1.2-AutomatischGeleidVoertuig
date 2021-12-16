@@ -1,7 +1,7 @@
 package Behaviour.Movement;
 
 public enum MoveDirection {
-    Forwards,
+    FORWARDS,
     BACKWARDS,
     LEFT,
     RIGHT,

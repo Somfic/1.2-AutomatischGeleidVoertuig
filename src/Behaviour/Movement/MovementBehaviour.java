@@ -102,7 +102,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             The code below is used for the ultrasone sensors
              */
 
-            if (this.DISTANCE.getPulse() < 1500 && this.DISTANCE.getPulse() > 0 && this.moveDirection == MoveDirection.Forwards) {
+            if (this.DISTANCE.getPulse() < 1500 && this.DISTANCE.getPulse() > 0 && this.moveDirection == MoveDirection.FORWARDS) {
                 //calculate braking speed depending on DISTANCE to obstacle
                 int brakingSpeed = (int) ((1500 - this.DISTANCE.getPulse()) / 50);
 
@@ -115,7 +115,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
 
             MOTOR.setAcceleration(this.acceleration);
-            if (this.moveDirection == MoveDirection.Forwards) {
+            if (this.moveDirection == MoveDirection.FORWARDS) {
                 MOTOR.setMove(1, 0);
             } else if (this.moveDirection == MoveDirection.BACKWARDS) {
                 MOTOR.setMove(-1, 0);
@@ -152,14 +152,14 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             if (this.moveDirection == MoveDirection.BACKWARDS) {
                 this.moveDirection = MoveDirection.STATIONARY;
             } else {
-                this.moveDirection = MoveDirection.Forwards;
+                this.moveDirection = MoveDirection.FORWARDS;
             }
 
         } else if (code == Config.REMOTE_CHANNEL_MIN) {
 
             // Move backwards
             // If we are moving forwards, stop
-            if (this.moveDirection == MoveDirection.Forwards) {
+            if (this.moveDirection == MoveDirection.FORWARDS) {
                 this.moveDirection = MoveDirection.STATIONARY;
             } else {
                 this.moveDirection = MoveDirection.BACKWARDS;
@@ -204,14 +204,14 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             if (this.moveDirection == MoveDirection.BACKWARDS) {
                 this.moveDirection = MoveDirection.STATIONARY;
             } else {
-                this.moveDirection = MoveDirection.Forwards;
+                this.moveDirection = MoveDirection.FORWARDS;
             }
 
         } else if (input.equals("s")) {
 
             // Move backwards
             // If we are moving forwards, stop
-            if (this.moveDirection == MoveDirection.Forwards) {
+            if (this.moveDirection == MoveDirection.FORWARDS) {
                 this.moveDirection = MoveDirection.STATIONARY;
             } else {
                 this.moveDirection = MoveDirection.BACKWARDS;

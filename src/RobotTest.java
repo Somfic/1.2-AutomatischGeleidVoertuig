@@ -6,7 +6,7 @@ import TI.BoeBot;
 public class RobotTest {
     private Switch button1 = new Switch(0);
     private Switch button2 = new Switch(1);
-    private GripperLogic gripperLogic = new GripperLogic(14, );
+    private GripperLogic gripperLogic = new GripperLogic(14);
 
     public RobotTest(){
     }
