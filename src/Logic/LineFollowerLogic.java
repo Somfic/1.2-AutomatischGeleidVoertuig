@@ -27,10 +27,10 @@ public class LineFollowerLogic implements Logic {
     }
 
     public boolean getStateCenter(){
-        if (this.LINE_FOLLOWER_CENTER.getValue() < 800){
-            this.stateCenter = false;
-        } else {
+        if (this.LINE_FOLLOWER_CENTER.getValue() > 800){
             this.stateCenter = true;
+        } else {
+            this.stateCenter = false;
         }
         return this.stateCenter;
     }

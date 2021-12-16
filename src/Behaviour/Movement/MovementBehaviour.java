@@ -6,6 +6,7 @@ import Behaviour.Remote.RemoteListener;
 import Configuration.Config;
 import Logger.Logger;
 import Logic.DistanceLogic;
+import Logic.LineFollowerLogic;
 import Logic.MotorLogic;
 import Logic.WhiskerLogic;
 import TI.Timer;
@@ -18,16 +19,19 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     private final MotorLogic MOTOR;
     private final DistanceLogic DISTANCE;
+    private final LineFollowerLogic LINEFOLLOWER;
     private final ArrayList<Movement> MOVEMENT_QUEUE = new ArrayList<Movement>();
     private WhiskerLogic whiskers;
     private Timer timer;
     private boolean isExecutingMovement;
 
+
     private MoveDirection moveDirection = MoveDirection.STATIONARY;
     private float acceleration = 5;
-    public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance) {
+    public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance, LineFollowerLogic linefollower) {
         this.DISTANCE = distance;
         this.MOTOR = motorLogic;
+        this.LINEFOLLOWER = linefollower;
     }
 
     @Override
@@ -109,6 +113,14 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
                 addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
                 return;
+            }
+
+            if (!this.LINEFOLLOWER.getStateCenter()){
+                if (!this.LINEFOLLOWER.getStateRight()){
+                    this.moveDirection = MoveDirection.RIGHT;
+                } else if (!this.LINEFOLLOWER.getStateLeft()){
+                    this.moveDirection = MoveDirection.LEFT;
+                }
             }
 
             this.acceleration = Math.max(1, this.acceleration);
