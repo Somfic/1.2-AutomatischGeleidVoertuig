@@ -2,7 +2,7 @@
 public class Main {
 
     public static void main(String[] args) {
-        RobotTest robot = new RobotTest();
+        Robot robot = new Robot();
 
         robot.run();
     }

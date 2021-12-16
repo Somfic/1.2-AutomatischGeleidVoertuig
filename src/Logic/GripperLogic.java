@@ -8,8 +8,8 @@ public class GripperLogic implements Logic {
     private final int SPEED = 1;
     private final Timer intervalTimer = new Timer(6);
 
-    private final int OPENED_DISTANCE = 1750;
-    private final int CLOSED_DISTANCE = 1000;
+    private final int OPENED_DISTANCE = 1900;
+    private final int CLOSED_DISTANCE = 1025;
 
     private int state = 0;
 
@@ -20,6 +20,7 @@ public class GripperLogic implements Logic {
     public GripperLogic(int pin){
         this.gripper = new ServoMotor(pin);
         this.gripper.start();
+        this.gripper.set(OPENED_DISTANCE);
     }
 
     public void close(){
@@ -51,7 +52,7 @@ public class GripperLogic implements Logic {
     }
 
     public void reset(){
-        open();
+        this.gripper.set(OPENED_DISTANCE);
     }
 
 }
