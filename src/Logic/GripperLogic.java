@@ -11,7 +11,10 @@ public class GripperLogic implements Logic {
     private final int OPENED_DISTANCE = 1900;
     private final int CLOSED_DISTANCE = 1025;
 
-    private int state = 0;
+    private final int DEFAULT_STATE = 0;
+    private final int CLOSING_STATE = -1;
+    private final int OPENING_STATE = 1;
+    private int state = DEFAULT_STATE;
 
     private int currentPlace = OPENED_DISTANCE;
 
@@ -23,29 +26,25 @@ public class GripperLogic implements Logic {
         this.gripper.set(OPENED_DISTANCE);
     }
 
-    public void close() {
-        this.state = -1;
-    }
-
-    public void open() {
-        this.state = 1;
+    public void setState(int state){
+        this.state = state;
     }
 
     public void process(){
         if (this.INTERVAL_TIMER.timeout()) {
-            if (this.state == 1) {
+            if (this.state == OPENING_STATE) {
                 if (currentPlace < OPENED_DISTANCE) {
                     currentPlace += SPEED;
                     this.gripper.set(currentPlace);
                 } else {
-                    state = 0;
+                    state = DEFAULT_STATE;
                 }
-            } else if (state == -1) {
+            } else if (state == CLOSING_STATE) {
                 if (currentPlace > CLOSED_DISTANCE) {
                     currentPlace -= SPEED;
                     this.gripper.set(currentPlace);
                 } else {
-                    state = 0;
+                     state = DEFAULT_STATE;
                 }
             }
         }

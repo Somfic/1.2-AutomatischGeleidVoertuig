@@ -2,6 +2,7 @@ import Behaviour.*;
 import Behaviour.Bluetooth.BluetoothBehaviour;
 import Behaviour.Buzzer.*;
 import Behaviour.Distance.DistanceBehaviour;
+import Behaviour.Gripper.GripperBehaviour;
 import Behaviour.Lights.*;
 import Behaviour.Movement.*;
 import Behaviour.Remote.*;
@@ -18,8 +19,9 @@ public class Robot implements StartStopListener {
     private MotorLogic motors = new MotorLogic(12, 13);
     private InfraredLogic infrared = new InfraredLogic(3);
     private DistanceLogic distance = new DistanceLogic(10, 11);
-    private WhiskerLogic whiskers = new WhiskerLogic(11, 14);
+    private WhiskerLogic whiskers = new WhiskerLogic(11, 15);
     private BluetoothLogic bluetooth = new BluetoothLogic(115200);
+    private GripperLogic grippers = new GripperLogic(14);
 
     private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, distance);
     private LightsBehaviour blinkerBehaviour = new LightsBehaviour(lights, motors);
@@ -27,9 +29,10 @@ public class Robot implements StartStopListener {
     private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, motors);
     private DistanceBehaviour distanceBehaviour = new DistanceBehaviour(distance);
     private BluetoothBehaviour bluetoothBehaviour = new BluetoothBehaviour(movementBehaviour, this.bluetooth);
+    private GripperBehaviour gripperBehaviour = new GripperBehaviour(grippers, infrared);
 
-    private Logic[] logics = {lights, buzzer, motors, infrared, distance, bluetooth};
-    private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour, remoteBehaviour, buzzerBehaviour, distanceBehaviour, bluetoothBehaviour};
+    private Logic[] logics = {lights, buzzer, motors, infrared, distance, bluetooth, grippers};
+    private Behaviour[] behaviours = {movementBehaviour, blinkerBehaviour, remoteBehaviour, buzzerBehaviour, distanceBehaviour, bluetoothBehaviour, gripperBehaviour};
 
     private StartStopBehaviour startStopBehaviour = new StartStopBehaviour(this, infrared);
 
