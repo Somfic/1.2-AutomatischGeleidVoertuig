@@ -108,9 +108,9 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
              * The code below is used for the ultrasone sensors
              */
 
-            if (this.DISTANCE.getDistance() < 20 && 
-                this.DISTANCE.getPulse() > 0 
-                && this.moveDirection == MoveDirection.FORWARDS) {
+            if (this.DISTANCE.getDistance() < 20 &&
+                    this.DISTANCE.getPulse() > 0
+                    && this.moveDirection == MoveDirection.FORWARDS) {
                 // calculate braking speed depending on DISTANCE to obstacle
                 int brakingSpeed = (int) ((1500 - this.DISTANCE.getPulse()) / 50);
 
@@ -126,34 +126,29 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 boolean center = this.LINEFOLLOWER.getStateCenter();
                 boolean right = this.LINEFOLLOWER.getStateRight();
 
+                // Print the status of the linefollowers
+                this.LOGGER.info((left ? 1 : 0) + " " + (center ? 1 : 0) + " " + (right ? 1 : 0) + " ");
+
                 if (left && center && right && this.moveDirection != MoveDirection.FORWARDS) {
                     // Everything is on the line, drive straight
                     this.moveDirection = MoveDirection.FORWARDS;
-                    this.LOGGER.info("Everything ok, following line");
-                }
-
-                else if (!left && (center || right) && this.moveDirection != MoveDirection.RIGHT) {
+                   // this.LOGGER.info("Everything ok, following line");
+                } else if (!left && (center || right) && this.moveDirection != MoveDirection.RIGHT) {
                     // Left is off the line, turn right
                     this.moveDirection = MoveDirection.RIGHT;
 
-                    this.LOGGER.info("Left is off the line, turning right");
-                }
-
-                else if ((left || center) && !right && this.moveDirection != MoveDirection.LEFT) {
+                   // this.LOGGER.info("Left is off the line, turning right");
+                } else if ((left || center) && !right && this.moveDirection != MoveDirection.LEFT) {
                     // Right is off the line, turn left
                     this.moveDirection = MoveDirection.LEFT;
 
-                    this.LOGGER.info("Right is off the line, turning left");
-                }
-
-                else if (!left && !center && !right && this.moveDirection != MoveDirection.STATIONARY) {
+                   // this.LOGGER.info("Right is off the line, turning left");
+                } else if (!left && !center && !right && this.moveDirection != MoveDirection.STATIONARY) {
                     // Everything is off the line, stop!
                     this.moveDirection = MoveDirection.STATIONARY;
 
-                    this.LOGGER.info("Everything is off the line, stopping");
-                }
-
-                else {
+                   // this.LOGGER.info("Everything is off the line, stopping");
+                } else {
                     // Something is off the line, but not all, so drive straight
                     this.moveDirection = MoveDirection.FORWARDS;
                 }
@@ -196,18 +191,27 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     @Override
     public void onRemoteButtonPressed(int code) {
 
+        if (code == -1)
+            return;
+
         boolean wantsToGoToLineFollowerMode = code == Config.REMOTE_CD_ENTER;
 
         if (wantsToGoToLineFollowerMode && !isOnLineFollowerMode) {
             this.LOGGER.info("Switched to line follower mode");
             this.isOnLineFollowerMode = true;
+            this.moveDirection = MoveDirection.STATIONARY;
+
+            return;
         }
-        
-        else if (!isOnLineFollowerMode) {
+
+        if (isOnLineFollowerMode && !wantsToGoToLineFollowerMode) {
             this.LOGGER.info("Switched to manual mode (remote)");
-
+            this.moveDirection = MoveDirection.STATIONARY;
             this.isOnLineFollowerMode = false;
+            return;
+        }
 
+        if (!isOnLineFollowerMode) {
             if (code == Config.REMOTE_CHANNEL_PLUS) {
                 // Move forwards
                 // If we are moving backwards, stop
@@ -261,7 +265,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     @Override
     public void onBluetoothMessage(String input) {
 
-        if(isOnLineFollowerMode) {
+        if (isOnLineFollowerMode) {
             this.LOGGER.info("Switched to manual mode (bluetooth)");
         }
 

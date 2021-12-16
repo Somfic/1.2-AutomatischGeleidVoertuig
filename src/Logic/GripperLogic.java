@@ -53,6 +53,7 @@ public class GripperLogic implements Logic {
     public void reset() {
         this.gripper.set(OPENED_DISTANCE);
         this.currentPlace = OPENED_DISTANCE;
+        this.state = DEFAULT_STATE;
     }
 
 }

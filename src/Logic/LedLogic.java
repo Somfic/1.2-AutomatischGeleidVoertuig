@@ -46,7 +46,7 @@ public class LedLogic implements Logic {
                 int g = (int) Math.ceil(color.getGreen() * brightness);
                 int b = (int) Math.ceil(color.getBlue() * brightness);
 
-                LOGGER.warn("Setting LED " + light.toString() + " to " + " (" + r + ", " + g + ", " + b + ")");
+                //LOGGER.debug("Setting LED " + light.toString() + " to " + " (" + r + ", " + g + ", " + b + ")");
 
                 BoeBot.rgbSet(getLightAddress(light), r, g, b);
                 BoeBot.rgbShow();
