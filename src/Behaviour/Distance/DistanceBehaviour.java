@@ -10,7 +10,7 @@ public class DistanceBehaviour implements Behaviour {
 
     private final DistanceLogic DISTANCE;
 
-    private float lastDistance = 0;
+    private int lastDistance = 0;
 
     public DistanceBehaviour(DistanceLogic distance) {
         this.DISTANCE = distance;
@@ -23,12 +23,12 @@ public class DistanceBehaviour implements Behaviour {
 
     @Override
     public void process() {
-        float measuredDistance = this.DISTANCE.getDistance();
+        int measuredDistance = Math.round(this.DISTANCE.getDistance());
 
         if (measuredDistance != this.lastDistance) {
             this.lastDistance = measuredDistance;
 
-            LOGGER.info(Math.round(measuredDistance) + " cm");
+            LOGGER.info(measuredDistance + " cm");
         }
     }
 

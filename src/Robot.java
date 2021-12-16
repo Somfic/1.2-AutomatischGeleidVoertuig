@@ -17,7 +17,7 @@ public class Robot implements StartStopListener {
     private LedLogic lights = new LedLogic();
     private BuzzerLogic buzzer = new BuzzerLogic(2);
     private MotorLogic motors = new MotorLogic(12, 13);
-    private InfraredLogic infrared = new InfraredLogic(3);
+    private InfraredLogic infrared = new InfraredLogic(8);
     private DistanceLogic distance = new DistanceLogic(10, 11);
     private WhiskerLogic whiskers = new WhiskerLogic(11, 15);
     private BluetoothLogic bluetooth = new BluetoothLogic(115200);

@@ -9,13 +9,13 @@ public class GripperBehaviour implements Behaviour {
     private final GripperLogic GRIPPER_LOGIC;
     private final int OPENING_STATE = 1;
     private final int CLOSING_STATE = -1;
-    private int currentState = 0;
+    private boolean isOpen = true;
 
     private final InfraredLogic INFRARED_LOGIC;
 
     //TODO: change these codes to the correct ones
-    private final int OPENING_CODE = 0;
-    private final int CLOSING_CODE = 0;
+    private final int OPENING_CODE = 184;
+    private final int CLOSING_CODE = 191;
 
     public GripperBehaviour(GripperLogic gripperLogic, InfraredLogic infraredLogic){
         this.GRIPPER_LOGIC = gripperLogic;
@@ -23,12 +23,12 @@ public class GripperBehaviour implements Behaviour {
     }
 
     public void open(){
-        currentState = OPENING_STATE;
+        isOpen = true;
         this.GRIPPER_LOGIC.setState(OPENING_STATE);
     }
 
     public void close() {
-        currentState = CLOSING_STATE;
+        isOpen = false;
         this.GRIPPER_LOGIC.setState(CLOSING_STATE);
     }
 
@@ -44,7 +44,8 @@ public class GripperBehaviour implements Behaviour {
         }
     }
 
-    public void reset(){
+    public void reset(){;
+    
 
     }
 }

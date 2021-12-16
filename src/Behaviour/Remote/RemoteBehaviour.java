@@ -25,6 +25,7 @@ public class RemoteBehaviour implements Behaviour {
 
     @Override
     public void process() {
+
         int newCode = this.INFRARED_LOGIC.getLastCode();
         int deviceId = this.INFRARED_LOGIC.getDeviceId();
 
@@ -34,7 +35,7 @@ public class RemoteBehaviour implements Behaviour {
             if (newCode == -1) {
                 this.LOGGER.debug("Released button");
             } else {
-                this.LOGGER.debug("Pressed " + newCode + " on device " + deviceId + "(" + );
+                this.LOGGER.debug("Pressed " + newCode + " on device " + deviceId);
             }
 
             this.REMOTE_LISTENER.onRemoteButtonPressed(newCode);

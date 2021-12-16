@@ -1,6 +1,7 @@
 package Logic;
 
 import Hardware.Infrared;
+import Logger.Logger;
 import TI.Timer;
 
 public class InfraredLogic implements Logic {
@@ -9,6 +10,8 @@ public class InfraredLogic implements Logic {
     private final Timer TIMEOUT = new Timer(250);
     private int lastCode;
     private int devideId;
+
+    private final Logger LOGGER = new Logger(this);
 
     public InfraredLogic(int pin) {
         this.INFRARED = new Infrared(pin);
@@ -39,11 +42,13 @@ public class InfraredLogic implements Logic {
                 }
             }
 
+            // Log the output as binary
+           // LOGGER.debug("Received: " + Integer.toBinaryString(output));
+
             // Extract the first 5 bits from the output
             this.devideId = output & 0x1F;
 
-            // Extract the last 7 bits from the output
-            this.lastCode = output >> 5;
+            this.lastCode = output;
         } else {
             if (TIMEOUT.timeout()) {
                 this.lastCode = -1;

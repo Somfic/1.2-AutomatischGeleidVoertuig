@@ -5,7 +5,7 @@ import TI.Timer;
 
 public class GripperLogic implements Logic {
 
-    private final int SPEED = 1;
+    private final int SPEED = 10;
     private final Timer INTERVAL_TIMER = new Timer(6);
 
     private final int OPENED_DISTANCE = 1900;

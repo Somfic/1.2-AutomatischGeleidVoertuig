@@ -15,11 +15,11 @@ public class RobotTest {
         while (true){
             if (button1.getState()){
                 System.out.println("opening");
-                gripperLogic.open();
+               // gripperLogic.open();
             }
             if (button2.getState()){
                 System.out.println("closing");
-                gripperLogic.close();
+                //gripperLogic.close();
             }
 
             gripperLogic.process();
