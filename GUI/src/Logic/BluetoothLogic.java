@@ -70,8 +70,10 @@ public class BluetoothLogic {
     public void setPort(int port) {
         try {
 
-            // Close the Bluetooth port
-            this.connection.closePort();
+            if(isConnected()) {
+                // Close the Bluetooth port
+                this.connection.closePort();
+            }
 
         } catch (SerialPortException e) {
             e.printStackTrace();
