@@ -12,8 +12,14 @@ public class BluetoothLogic implements Logic {
     //reads an input from BLUETOOTH as a string
     public String read() {
         if (BLUETOOTH.canRead()) {
-            int input = BLUETOOTH.readByte();
-            return Character.toString((char) input);
+            String output = "";
+
+            while(BLUETOOTH.canRead()) {
+                int input = BLUETOOTH.readByte();
+                output += (char) input;
+            }
+
+            return output;
         } else {
             return "";
         }

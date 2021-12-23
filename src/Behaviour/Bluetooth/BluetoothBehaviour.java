@@ -3,12 +3,15 @@ package Behaviour.Bluetooth;
 import Behaviour.Behaviour;
 import Logger.Logger;
 import Logic.BluetoothLogic;
+import TI.Timer;
 
 public class BluetoothBehaviour implements Behaviour {
     private final BluetoothLogic BLUETOOTH_LOGIC;
     private final BluetoothListener BLUETOOTH_LISTENER;
 
     private final Logger LOGGER = new Logger(this);
+
+    private final Timer TIMER = new Timer(250);
 
     public BluetoothBehaviour(BluetoothListener bluetoothListener, BluetoothLogic bluetoothLogic) {
         this.BLUETOOTH_LISTENER = bluetoothListener;
@@ -22,10 +25,14 @@ public class BluetoothBehaviour implements Behaviour {
 
     @Override
     public void process() {
-        String input = BLUETOOTH_LOGIC.read();
-        if (!input.isEmpty()) {
-            LOGGER.info(input);
-            BLUETOOTH_LISTENER.onBluetoothMessage(input);
+        if(TIMER.timeout()) {
+            TIMER.mark();
+
+            String input = BLUETOOTH_LOGIC.read();
+            if (!input.isEmpty()) {
+                LOGGER.info("Received: " + input);
+                BLUETOOTH_LISTENER.onBluetoothMessage(input);
+            }
         }
     }
 
