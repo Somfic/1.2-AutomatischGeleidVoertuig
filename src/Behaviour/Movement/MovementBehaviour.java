@@ -5,10 +5,7 @@ import Behaviour.Bluetooth.BluetoothListener;
 import Behaviour.Remote.RemoteListener;
 import Configuration.Config;
 import Logger.Logger;
-import Logic.DistanceLogic;
-import Logic.LineFollowerLogic;
-import Logic.MotorLogic;
-import Logic.WhiskerLogic;
+import Logic.*;
 import TI.Timer;
 
 import java.util.ArrayList;
@@ -20,6 +17,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private final MotorLogic MOTOR;
     private final DistanceLogic DISTANCE;
     private final LineFollowerLogic LINEFOLLOWER;
+    private final BuzzerLogic BUZZER;
     private final ArrayList<Movement> MOVEMENT_QUEUE = new ArrayList<Movement>();
     private WhiskerLogic whiskers;
     private Timer timer;
@@ -30,10 +28,11 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private MoveDirection moveDirection = MoveDirection.STATIONARY;
     private float acceleration = 5;
 
-    public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance, LineFollowerLogic linefollower) {
+    public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance, LineFollowerLogic lineFollower, BuzzerLogic buzzerLogic) {
         this.DISTANCE = distance;
         this.MOTOR = motorLogic;
-        this.LINEFOLLOWER = linefollower;
+        this.LINEFOLLOWER = lineFollower;
+        this.BUZZER = buzzerLogic;
     }
 
     @Override
@@ -263,6 +262,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
         if (code == Config.REMOTE_RECORD_BUTTON){
             this.LINEFOLLOWER.calibrate();
+            this.BUZZER.buzzOnce(200);
             this.LOGGER.debug("Calibrating line followers");
         }
     }

@@ -24,7 +24,7 @@ public class Robot implements StartStopListener {
     private GripperLogic grippers = new GripperLogic(14);
     private LineFollowerLogic lineFollower = new LineFollowerLogic(0, 1, 2);
 
-    private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, distance, lineFollower);
+    private MovementBehaviour movementBehaviour = new MovementBehaviour(motors, distance, lineFollower, buzzer);
     private LightsBehaviour blinkerBehaviour = new LightsBehaviour(lights, motors);
     private RemoteBehaviour remoteBehaviour = new RemoteBehaviour(movementBehaviour, infrared);
     private BuzzerBehaviour buzzerBehaviour = new BuzzerBehaviour(buzzer, motors);

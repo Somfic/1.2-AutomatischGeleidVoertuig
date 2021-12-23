@@ -12,6 +12,9 @@ public class BuzzerLogic implements Logic {
     private boolean state;
     private boolean active = false;
 
+    private Timer buzzTimeOut;
+    private boolean buzzOnceBoolean = false;
+
     /**
      * Constructor for the BuzzerLogic class.
      */
@@ -43,6 +46,17 @@ public class BuzzerLogic implements Logic {
     }
 
     /**
+     * Makes the BUZZER buzz once.
+     *
+     * @param  length The length of the buzz in milliseconds.
+     */
+    public void buzzOnce(int length){
+        buzzTimeOut = new Timer(length);
+        this.BUZZER.play();
+        this.buzzOnceBoolean = true;
+    }
+
+    /**
      * Processes the BUZZER logic.
      */
     @Override
@@ -62,6 +76,14 @@ public class BuzzerLogic implements Logic {
             }
         } else {
             this.BUZZER.stop();
+        }
+
+        if (this.buzzOnceBoolean) {
+            this.BUZZER.play();
+            if (this.buzzTimeOut.timeout()) {
+                this.BUZZER.stop();
+                this.buzzOnceBoolean = false;
+            }
         }
     }
 
