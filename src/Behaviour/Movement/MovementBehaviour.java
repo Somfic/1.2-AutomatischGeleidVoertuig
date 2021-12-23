@@ -121,17 +121,21 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                     this.LOGGER.info("Everything ok, following line");
                 } else if (!left && (center || right) && this.moveDirection != MoveDirection.RIGHT) {
                     // Left is off the line, turn right
+
+                    this.acceleration = 20;
                     this.moveDirection = MoveDirection.LEFT;
 
                     this.LOGGER.info("Left is on the line, turning left");
                 } else if ((left || center) && !right && this.moveDirection != MoveDirection.LEFT) {
                     // Right is off the line, turn left
+
+                    this.acceleration = 20;
                     this.moveDirection = MoveDirection.RIGHT;
 
                     this.LOGGER.info("Right is on the line, turning right");
                 } else if (!left && !center && !right && this.moveDirection != MoveDirection.STATIONARY) {
                     // Everything is off the line, stop!
-                    this.moveDirection = MoveDirection.STATIONARY;
+                    //this.moveDirection = MoveDirection.STATIONARY;
 
                     this.LOGGER.info("Everything is off the line, stopping");
                 } else {
@@ -198,7 +202,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
         if (wantsToGoToLineFollowerMode && !isOnLineFollowerMode) {
             this.LOGGER.info("Switched to line follower mode");
             this.isOnLineFollowerMode = true;
-            this.moveDirection = MoveDirection.STATIONARY;
+            this.moveDirection = MoveDirection.FORWARDS;
 
             return;
         }
