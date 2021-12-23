@@ -5,25 +5,28 @@ import jssc.SerialPortException;
 
 public class BluetoothLogic {
 
-    public BluetoothLogic() {
+    private BluetoothListener listener;
 
+    public BluetoothLogic(BluetoothListener listener) {
+
+        this.listener = listener;
     }
 
     private SerialPort connection;
 
     public void send(String message) {
-//        try {
-//
-//            // Write data to the Bluetooth port
-//            this.connection.writeString(message);
-//
-//        } catch (SerialPortException e) {
-//            e.printStackTrace();
-//        }
+        try {
+
+            // Write data to the Bluetooth port
+            this.connection.writeString(message);
+
+        } catch (SerialPortException e) {
+            e.printStackTrace();
+        }
     }
 
     public void send(String message, String argument) {
-        String command = message + ": " + argument;
+        String command = message + ":" + argument;
         send(command);
     }
 
@@ -50,6 +53,8 @@ public class BluetoothLogic {
                     SerialPort.DATABITS_8,
                     SerialPort.STOPBITS_1,
                     SerialPort.PARITY_NONE);
+
+            this.listener.onBluetoothOpenend();
 
         } catch (SerialPortException e) {
             e.printStackTrace();

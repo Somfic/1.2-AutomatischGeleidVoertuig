@@ -1,3 +1,4 @@
+import Logic.BluetoothListener;
 import Logic.BluetoothLogic;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -13,23 +14,25 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.CullFace;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
-public class RobotGui extends Application {
+public class RobotGui extends Application implements BluetoothListener {
 
     private boolean isLineFollowingMode = true;
-    private final BluetoothLogic BLUETOOTH;
+    private BluetoothLogic BLUETOOTH = new BluetoothLogic(this);
 
     private BorderPane mainPane;
     private Pane lineFollowerPane;
     private Pane manualPane;
 
-    private Button startStopButton;
+    private Stage stage;
 
-    public RobotGui() {
-        BLUETOOTH = new BluetoothLogic();
-    }
+    private Button startStopButton;
+    private Scene connectingScene;
+    private Scene mainScene;
+
 
     public void run() {
         launch(RobotGui.class);
@@ -38,13 +41,24 @@ public class RobotGui extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        // lijn volger modus
-        // stoppen
-        // kalibreren
-        // (toeter)
+        this.stage = stage;
 
-        // Build the scene components
+        // Build the scenes
+        mainScene = buildMainScene();
+        connectingScene = buildConnectingScene();
+
+        // Show the scene
+        stage.setTitle("BoeBot");
+
+        stage.setScene(connectingScene);
+
+        //stage.setMaximized(true);
+        stage.show();
+    }
+
+    public Scene buildMainScene() {
         Pane taskBar = buildTaskbar();
+
         lineFollowerPane = buildLineFollowerPane();
         manualPane = buildManualPane();
 
@@ -55,14 +69,24 @@ public class RobotGui extends Application {
         // Set the main component
         setMainPane();
 
-        // Build the scene
-        Scene scene = new Scene(mainPane);
+        // Build the main scene
+        return new Scene(mainPane);
+    }
 
-        // Show the scene
-        stage.setTitle("BoeBot");
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.show();
+    public Scene buildConnectingScene() {
+        // Build the connecting scene
+        BorderPane pane = new BorderPane();
+        pane.setCenter(new Text("Connecting to BoeBot ..."));
+
+        Button connectButton = new Button("Connect");
+        connectButton.setOnAction(e -> {
+            BLUETOOTH.setPort(4);
+            BLUETOOTH.open();
+        });
+
+        pane.setBottom(connectButton);
+
+        return new Scene(pane);
     }
 
     public Pane buildLineFollowerPane() {
@@ -164,5 +188,10 @@ public class RobotGui extends Application {
         } else {
             mainPane.setCenter(manualPane);
         }
+    }
+
+    @Override
+    public void onBluetoothOpenend() {
+        stage.setScene(mainScene);
     }
 }
