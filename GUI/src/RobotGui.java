@@ -1,5 +1,7 @@
+import Logger.Logger;
 import Logic.BluetoothListener;
 import Logic.BluetoothLogic;
+import Logic.BluetoothMessage;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -17,8 +19,13 @@ import javafx.scene.shape.CullFace;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
+import jssc.SerialPortException;
+import Logger.LoggerListener;
+import Logger.LogMessage;
 
-public class RobotGui extends Application implements BluetoothListener {
+public class RobotGui extends Application implements BluetoothListener, LoggerListener {
 
     private boolean isLineFollowingMode = true;
     private BluetoothLogic BLUETOOTH = new BluetoothLogic(this);
@@ -32,14 +39,15 @@ public class RobotGui extends Application implements BluetoothListener {
     private Button startStopButton;
     private Scene connectingScene;
     private Scene mainScene;
+    private TextArea loggerMessage;
 
-
-    public void run() {
-        launch(RobotGui.class);
-    }
+    private Logger logger = new Logger(this);
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
+
+        Logger.setSource("Gui");
+        Logger.setListener(this);
 
         this.stage = stage;
 
@@ -120,8 +128,7 @@ public class RobotGui extends Application implements BluetoothListener {
         // logs
         VBox logger = new VBox();
         Label loggerName = new Label("LOGGER");
-        TextArea loggerMessage = new TextArea();
-        loggerMessage.setText("Hello world!");
+        loggerMessage = new TextArea();
         logger.getChildren().addAll(loggerName, loggerMessage);
 
         BorderPane pane = new BorderPane();
@@ -191,7 +198,24 @@ public class RobotGui extends Application implements BluetoothListener {
     }
 
     @Override
-    public void onBluetoothOpenend() {
-        stage.setScene(mainScene);
+    public void onBluetoothMessage(BluetoothMessage message) {
+        if(message.getType().equals("log")) {
+            loggerMessage.appendText(message.getValue() + "\n");
+        }
+    }
+
+    @Override
+    public void onBluetoothOpened(boolean isOpen) {
+
+        if(isOpen) {
+            this.stage.setScene(mainScene);
+        } else {
+            this.stage.setScene(connectingScene);
+        }
+    }
+
+    @Override
+    public void onLogMessage(LogMessage logMessage) {
+        loggerMessage.appendText(logMessage.getClassName() + "\n");
     }
 }

@@ -2,10 +2,12 @@ package Behaviour.Bluetooth;
 
 import Behaviour.Behaviour;
 import Logger.Logger;
+import Logger.LoggerListener;
+import Logger.LogMessage;
 import Logic.BluetoothLogic;
 import TI.Timer;
 
-public class BluetoothBehaviour implements Behaviour {
+public class BluetoothBehaviour implements Behaviour, LoggerListener {
     private final BluetoothLogic BLUETOOTH_LOGIC;
     private final BluetoothListener BLUETOOTH_LISTENER;
 
@@ -39,5 +41,10 @@ public class BluetoothBehaviour implements Behaviour {
     @Override
     public void reset() {
         BLUETOOTH_LOGIC.read();
+    }
+
+    @Override
+    public void onLogMessage(LogMessage logMessage) {
+        this.BLUETOOTH_LOGIC.send("log", logMessage.toString());
     }
 }

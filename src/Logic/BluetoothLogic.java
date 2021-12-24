@@ -27,14 +27,26 @@ public class BluetoothLogic implements Logic {
 
     //send a string to a receiver
     public void send(String message) {
+
+        // Start of text
+        send(2);
+
         for (int i = 0; i < message.length(); i++) {
-            send(message.charAt(i));
+            send((int) message.charAt(i));
         }
+
+        // End of text
+        send(3);
+    }
+
+    public void send(String message, String argument) {
+        String command = message + ":" + argument;
+        send(command);
     }
 
     //send a single character to a receiver
-    public void send(char letter) {
-        this.BLUETOOTH.sendByte(letter);
+    private void send(int value) {
+        this.BLUETOOTH.sendByte(value);
     }
 
 

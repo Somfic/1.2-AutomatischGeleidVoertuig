@@ -8,6 +8,7 @@ import Behaviour.Movement.*;
 import Behaviour.Remote.*;
 import Behaviour.StartStop.*;
 import Hardware.Led;
+import Logger.Logger;
 import Logic.*;
 import TI.BoeBot;
 
@@ -40,6 +41,9 @@ public class Robot implements StartStopListener {
     private Led indicatorLed = new Led(1);
 
     public void run() {
+
+        Logger.setSource("Robot");
+        Logger.setListener(bluetoothBehaviour);
 
         initialiseAll();
         resetAll();

@@ -1,6 +1,17 @@
 package Logger;
 
+
 public class Logger {
+
+    private static LoggerListener listener;
+    public static void setListener(LoggerListener listener) {
+        Logger.listener = listener;
+    }
+
+    private static String source;
+    public static void setSource(String source) {
+        Logger.source = source;
+    }
 
     private final String NAME;
 
@@ -55,9 +66,15 @@ public class Logger {
      * @param logLevel The level of the message
      * @param message  The message to log
      */
+    @SuppressWarnings("Duplicates") // BoeBot uploader doesn't allow dependencies in other modules, so code duplication is necessarily
     public void log(LogLevel logLevel, String message) {
-        // Log the message between square brackets
-        System.out.println("[" + logLevel.toString() + "] [" + this.NAME + "] " + message);
+        LogMessage logMessage = new LogMessage(Logger.source, this.NAME, logLevel, message);
+
+        Logger.listener.onLogMessage(logMessage);
+
+        // Print the log message
+        String content = "[" + String.format("%1$5s", logLevel.toString()) + "] ["+String.format("%1$5s", Logger.source)+"] [" + this.NAME + "] " + message;
+        System.out.println(content);
     }
 }
 

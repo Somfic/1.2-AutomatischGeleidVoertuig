@@ -1,5 +1,7 @@
 package Logic;
 
 public interface BluetoothListener {
-    public void onBluetoothOpenend();
+    void onBluetoothMessage(BluetoothMessage message);
+
+    void onBluetoothOpened(boolean isOpen);
 }

@@ -1,14 +1,18 @@
 package Logic;
 
+import Logger.Logger;
 import jssc.SerialPort;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 
-public class BluetoothLogic {
+public class BluetoothLogic implements SerialPortEventListener {
+
+    private Logger logger = new Logger(this);
 
     private BluetoothListener listener;
 
     public BluetoothLogic(BluetoothListener listener) {
-
         this.listener = listener;
     }
 
@@ -16,6 +20,8 @@ public class BluetoothLogic {
 
     public void send(String message) {
         try {
+
+            logger.debug("Outgoing: " + message);
 
             // Write data to the Bluetooth port
             this.connection.writeString(message);
@@ -30,20 +36,10 @@ public class BluetoothLogic {
         send(command);
     }
 
-    public String receive() {
-        try {
-
-            // Read data from the Bluetooth port
-            return this.connection.readString();
-
-        } catch (SerialPortException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public void open() {
         try {
+
+            logger.debug("Connecting on port " + this.connection.getPortName());
 
             // Open the Bluetooth port
             this.connection.openPort();
@@ -54,34 +50,45 @@ public class BluetoothLogic {
                     SerialPort.STOPBITS_1,
                     SerialPort.PARITY_NONE);
 
-            this.listener.onBluetoothOpenend();
+            this.connection.addEventListener(this);
+
+            logger.info("Bluetooth connected");
+
+            this.listener.onBluetoothOpened(true);
 
         } catch (SerialPortException e) {
-            e.printStackTrace();
+            logger.error("Could not connect to Bluetooth on port " + this.connection.getPortName());
+            logger.warn(e.getMessage());
         }
     }
 
     public void close() {
         try {
 
+            logger.debug("Closing on port " + this.connection.getPortName());
+
+            this.connection.removeEventListener();
+
             // Close the Bluetooth port
             this.connection.closePort();
 
+            logger.info("Bluetooth closed");
+
+            this.listener.onBluetoothOpened(false);
+
         } catch (SerialPortException e) {
-            e.printStackTrace();
+            logger.error("Could not close Bluetooth on port " + this.connection.getPortName());
+            logger.warn(e.getMessage());
         }
     }
 
     public void setPort(int port) {
-        try {
 
-            if(isConnected()) {
-                // Close the Bluetooth port
-                this.connection.closePort();
-            }
+        logger.debug("Setting port to " + port);
 
-        } catch (SerialPortException e) {
-            e.printStackTrace();
+        if (isConnected()) {
+            // Close the Bluetooth port
+            close();
         }
 
         this.connection = new SerialPort("COM" + port);
@@ -89,5 +96,43 @@ public class BluetoothLogic {
 
     public boolean isConnected() {
         return this.connection != null && this.connection.isOpened();
+    }
+
+    private String messageBuffer;
+
+    @Override
+    public void serialEvent(SerialPortEvent serialPortEvent) {
+        try {
+            var port = serialPortEvent.getPort();
+
+            for (byte b : port.readBytes()) {
+
+                // Start of text, clear the buffer
+                if (b == 2) {
+                    messageBuffer = "";
+                }
+
+                // End of text, send buffer to callback
+                else if (b == 3) {
+                    BluetoothMessage message = new BluetoothMessage(messageBuffer);
+
+                    if(message.getType().equals("log")) {
+                        // todo: parse this into LogMessage
+                        System.out.println(message.getValue());
+                    } else {
+                        logger.info("Incoming: " + messageBuffer);
+                    }
+
+                    listener.onBluetoothMessage(message);
+                }
+
+                // Normal character
+                else {
+                    messageBuffer += (char) b;
+                }
+            }
+        } catch (SerialPortException e) {
+            e.printStackTrace();
+        }
     }
 }
