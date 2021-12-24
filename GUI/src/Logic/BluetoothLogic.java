@@ -134,8 +134,6 @@ public class BluetoothLogic implements SerialPortEventListener {
                         String content = parts[3];
 
                         logger.log(new LogMessage(source, className, level, content));
-                    } else {
-                        logger.info("Incoming: " + messageBuffer);
                     }
 
                     listener.onBluetoothMessage(message);
