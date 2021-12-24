@@ -1,14 +1,15 @@
 package Logger;
 
-
 public class Logger {
 
     private static LoggerListener listener;
+
     public static void setListener(LoggerListener listener) {
         Logger.listener = listener;
     }
 
     private static String source;
+
     public static void setSource(String source) {
         Logger.source = source;
     }
@@ -66,15 +67,55 @@ public class Logger {
      * @param logLevel The level of the message
      * @param message  The message to log
      */
-    @SuppressWarnings("Duplicates") // BoeBot uploader doesn't allow dependencies in other modules, so code duplication is necessarily
+    @SuppressWarnings("Duplicates") // BoeBot uploader doesn't allow dependencies in other modules, so code
+                                    // duplication is necessarily
     public void log(LogLevel logLevel, String message) {
         LogMessage logMessage = new LogMessage(Logger.source, this.NAME, logLevel, message);
+        log(logMessage);
+    }
 
-        Logger.listener.onLogMessage(logMessage);
+    public void log(LogMessage message) {
+        Logger.listener.onLogMessage(message);
+        print(message);
+    }
 
-        // Print the log message
-        String content = "[" + String.format("%1$5s", logLevel.toString()) + "] ["+String.format("%1$5s", Logger.source)+"] [" + this.NAME + "] " + message;
+    private void print(LogMessage message) {
+        String content = "";
+
+        String gray = "\u001B[90m";
+        String red = "\u001B[31m";
+        String green = "\u001B[32m";
+        String yellow = "\u001B[33m";
+        String blue = "\u001B[34m";
+        String magenta = "\u001B[35m";
+        String cyan = "\u001B[36m";
+        String white = "\u001B[37m";
+
+        // Print the log level
+        switch (message.getLevel()) {
+            case DEBUG:
+                content += gray + "[" + green + "DEBUG" + gray + "]";
+                break;
+            case INFO:
+                content += gray + "[" + blue + " INFO" + gray + "]";
+                break;
+            case WARNING:
+                content += gray + "[" + yellow + "WARN" + gray + "]";
+                break;
+            case ERROR:
+                content += gray + "[" + red + "ERROR" + gray + "]";
+                break;
+        }
+
+        // Print the source of the message
+        content += " " + gray + "[" + cyan + message.getSource() + gray + ":";
+
+        // Print the name of the class
+        content += magenta + message.getClassName() + gray + "]";
+
+        // Print the message
+        content += " " + white + message.getMessage();
+
         System.out.println(content);
     }
 }
-

@@ -1,6 +1,8 @@
 package Logic;
 
 import Logger.Logger;
+import Logger.LogLevel;
+import Logger.LogMessage;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -103,9 +105,15 @@ public class BluetoothLogic implements SerialPortEventListener {
     @Override
     public void serialEvent(SerialPortEvent serialPortEvent) {
         try {
-            var port = serialPortEvent.getPort();
+            SerialPort port = serialPortEvent.getPort();
 
-            for (byte b : port.readBytes()) {
+            byte[] bytes = port.readBytes();
+
+            if(bytes == null) {
+                return;
+            }
+
+            for (byte b : bytes) {
 
                 // Start of text, clear the buffer
                 if (b == 2) {
@@ -117,8 +125,17 @@ public class BluetoothLogic implements SerialPortEventListener {
                     BluetoothMessage message = new BluetoothMessage(messageBuffer);
 
                     if(message.getType().equals("log")) {
-                        // todo: parse this into LogMessage
-                        System.out.println(message.getValue());
+
+                        String[] parts =  message.getValue().split(";");
+
+                        LogLevel level = LogLevel.valueOf(parts[0]);
+                        String source = parts[1];
+                        String className = parts[2];
+                        String content = parts[3];
+
+                        logger.debug("CUSTOM: " + messageBuffer);
+
+                        logger.log(new LogMessage(source, className, level, content));
                     } else {
                         logger.info("Incoming: " + messageBuffer);
                     }
@@ -132,7 +149,8 @@ public class BluetoothLogic implements SerialPortEventListener {
                 }
             }
         } catch (SerialPortException e) {
-            e.printStackTrace();
+           logger.error("Could not process Bluetooth event");
+           logger.warn(e.getMessage());
         }
     }
 }

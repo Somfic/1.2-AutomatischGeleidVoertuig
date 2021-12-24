@@ -73,7 +73,7 @@ public class Logger {
         Logger.listener.onLogMessage(logMessage);
 
         // Print the log message
-        String content = "[" + String.format("%1$5s", logLevel.toString()) + "] ["+String.format("%1$5s", Logger.source)+"] [" + this.NAME + "] " + message;
+        String content = "[" + this.NAME + "] " + message;
         System.out.println(content);
     }
 }

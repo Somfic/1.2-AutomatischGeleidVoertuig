@@ -45,6 +45,22 @@ public class BluetoothBehaviour implements Behaviour, LoggerListener {
 
     @Override
     public void onLogMessage(LogMessage logMessage) {
-        this.BLUETOOTH_LOGIC.send("log", logMessage.toString());
+        String content = "";
+
+        content += logMessage.getLevel().toString();
+
+        content += ";";
+
+        content += logMessage.getSource();
+
+        content += ";";
+
+        content += logMessage.getClassName();
+
+        content += ";";
+
+        content += logMessage.getMessage();
+
+        this.BLUETOOTH_LOGIC.send("log", content);
     }
 }
