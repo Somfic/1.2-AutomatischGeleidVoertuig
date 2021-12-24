@@ -18,6 +18,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private final DistanceLogic DISTANCE;
     private final LineFollowerLogic LINEFOLLOWER;
     private final BuzzerLogic BUZZER;
+    private BluetoothLogic BLUETOOTH;
     private final ArrayList<Movement> MOVEMENT_QUEUE = new ArrayList<Movement>();
     private WhiskerLogic whiskers;
     private Timer timer;
@@ -28,11 +29,12 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private MoveDirection moveDirection = MoveDirection.STATIONARY;
     private float acceleration = 5;
 
-    public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance, LineFollowerLogic lineFollower, BuzzerLogic buzzerLogic) {
+    public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance, LineFollowerLogic lineFollower, BuzzerLogic buzzerLogic, BluetoothLogic bluetooth) {
         this.DISTANCE = distance;
         this.MOTOR = motorLogic;
         this.LINEFOLLOWER = lineFollower;
         this.BUZZER = buzzerLogic;
+        this.BLUETOOTH = bluetooth;
     }
 
     @Override
@@ -161,6 +163,9 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             this.acceleration = Math.max(1, this.acceleration);
             this.acceleration = Math.min(30, this.acceleration);
 
+            // Send the direction
+            this.BLUETOOTH.send("move-direction", this.moveDirection.toString());
+
             // Set the motor speed and acceleration
             MOTOR.setAcceleration(this.acceleration);
             if (this.moveDirection == MoveDirection.FORWARDS) {
@@ -168,9 +173,9 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             } else if (this.moveDirection == MoveDirection.BACKWARDS) {
                 MOTOR.setMove(-1, 0);
             } else if (this.moveDirection == MoveDirection.LEFT) {
-                MOTOR.setMove(0, 0.5f);
+                MOTOR.setMove(0, 1f);
             } else if (this.moveDirection == MoveDirection.RIGHT) {
-                MOTOR.setMove(0, -0.5f);
+                MOTOR.setMove(0, -1f);
             } else if (this.moveDirection == MoveDirection.STATIONARY) {
                 MOTOR.setMove(0, 0);
             }
@@ -302,7 +307,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 this.moveDirection = MoveDirection.BACKWARDS;
             }
 
-        } else if (input.equals("d") || input.equals("move:left")) {
+        } else if (input.equals("d") || input.equals("move:right")) {
 
             // Move to the right
             // If we are moving to the left, stop
@@ -312,7 +317,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 this.moveDirection = MoveDirection.RIGHT;
             }
 
-        } else if (input.equals("a") || input.equals("move:right")) {
+        } else if (input.equals("a") || input.equals("move:left")) {
 
             // Move to the left
             // If we are moving to the right, stop
