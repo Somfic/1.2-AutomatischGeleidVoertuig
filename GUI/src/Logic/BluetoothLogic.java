@@ -133,8 +133,6 @@ public class BluetoothLogic implements SerialPortEventListener {
                         String className = parts[2];
                         String content = parts[3];
 
-                        logger.debug("CUSTOM: " + messageBuffer);
-
                         logger.log(new LogMessage(source, className, level, content));
                     } else {
                         logger.info("Incoming: " + messageBuffer);
