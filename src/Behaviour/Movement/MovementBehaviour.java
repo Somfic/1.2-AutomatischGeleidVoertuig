@@ -282,7 +282,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
         input = input.toLowerCase();
 
-        if (input.equals("w")) {
+        if (input.equals("w") || input.equals("move:forwards")) {
 
             // Move forwards
             // If we are moving backwards, stop
@@ -292,7 +292,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 this.moveDirection = MoveDirection.FORWARDS;
             }
 
-        } else if (input.equals("s")) {
+        } else if (input.equals("s") || input.equals("move:backwards")) {
 
             // Move backwards
             // If we are moving forwards, stop
@@ -302,7 +302,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 this.moveDirection = MoveDirection.BACKWARDS;
             }
 
-        } else if (input.equals("d")) {
+        } else if (input.equals("d") || input.equals("move:left")) {
 
             // Move to the right
             // If we are moving to the left, stop
@@ -312,7 +312,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 this.moveDirection = MoveDirection.RIGHT;
             }
 
-        } else if (input.equals("a")) {
+        } else if (input.equals("a") || input.equals("move:right")) {
 
             // Move to the left
             // If we are moving to the right, stop
@@ -321,7 +321,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             } else {
                 this.moveDirection = MoveDirection.LEFT;
             }
-        } else if (input.equals(" ")) {
+        } else if (input.equals(" ") || input.equals("move:stop")) {
             this.moveDirection = MoveDirection.STATIONARY;
         } else if (input.equals("+")) {
             this.acceleration += 1;
