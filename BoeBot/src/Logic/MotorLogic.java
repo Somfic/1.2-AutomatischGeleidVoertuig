@@ -13,6 +13,8 @@ public class MotorLogic implements Logic {
     private final int STATIONARY_SPEED = 1500;
     private final int MAX_SPEED = 50;
 
+    private int maxSafeSpeed = MAX_SPEED;
+
     private float targetSpeed = 0;
     private float targetAngle = 0;
 
@@ -22,7 +24,7 @@ public class MotorLogic implements Logic {
     private int rightPulse = 0;
     private int rightTargetPulse = 0;
 
-    private float acceleration = 10;
+    private float acceleration = 1;
 
     public MotorLogic(int pinLeftMotor, int pinRightMotor) {
         this.LEFT_MOTOR = new ServoMotor(pinLeftMotor);
@@ -56,6 +58,13 @@ public class MotorLogic implements Logic {
 
     public int getMAX_SPEED(){
         return this.MAX_SPEED;
+    }
+
+    public void setMaxSafeSpeed(float maxSafeSpeed){
+        if (maxSafeSpeed > MAX_SPEED){
+            maxSafeSpeed = MAX_SPEED;
+        }
+        this.maxSafeSpeed = (int)maxSafeSpeed;
     }
 
     public void setAcceleration(float acceleration) {
@@ -103,7 +112,12 @@ public class MotorLogic implements Logic {
                 // Going forwards
                 rightPulse += Math.min(rightDelta, acceleration);
             }
-
+            if (leftPulse > maxSafeSpeed){
+                leftPulse = maxSafeSpeed;
+            }
+            if (rightPulse > maxSafeSpeed){
+                rightPulse = maxSafeSpeed;
+            }
             RIGHT_MOTOR.set(STATIONARY_SPEED - leftPulse);
             LEFT_MOTOR.set(STATIONARY_SPEED + rightPulse);
         }

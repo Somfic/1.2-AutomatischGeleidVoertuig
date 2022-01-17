@@ -30,6 +30,10 @@ public class GripperLogic implements Logic {
         this.state = state;
     }
 
+    public boolean isClosed(){
+        return (this.currentPlace - this.CLOSED_DISTANCE <= Math.abs(10));
+    }
+
     public void process(){
         if (this.INTERVAL_TIMER.timeout()) {
             if (this.state == OPENING_STATE) {
@@ -49,6 +53,8 @@ public class GripperLogic implements Logic {
             }
         }
     }
+
+
 
     public void reset() {
         this.gripper.set(OPENED_DISTANCE);
