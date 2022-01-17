@@ -54,6 +54,10 @@ public class MotorLogic implements Logic {
         return this.targetAngle;
     }
 
+    public int getMAX_SPEED(){
+        return this.MAX_SPEED;
+    }
+
     public void setAcceleration(float acceleration) {
         this.acceleration = acceleration;
     }

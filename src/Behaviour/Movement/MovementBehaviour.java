@@ -146,18 +146,18 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 }
             }
 
-            if (this.DISTANCE.getDistance() < 20 &&
-                    this.DISTANCE.getPulse() > 0
-                    && this.moveDirection == MoveDirection.FORWARDS) {
-                // calculate braking speed depending on DISTANCE to obstacle
-                int brakingSpeed = (int) ((1500 - this.DISTANCE.getPulse()) / 50);
-
-                this.acceleration = brakingSpeed;
-                this.moveDirection = MoveDirection.STATIONARY;
-
-                //addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
-                return;
-            }
+//            if (this.DISTANCE.getDistance() < 20 &&
+//                    this.DISTANCE.getPulse() > 0
+//                    && this.moveDirection == MoveDirection.FORWARDS) {
+//                // calculate braking speed depending on DISTANCE to obstacle
+//                int brakingSpeed = (int) ((1500 - this.DISTANCE.getPulse()) / 50);
+//
+//                this.acceleration = brakingSpeed;
+//                this.moveDirection = MoveDirection.STATIONARY;
+//
+//                //addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
+//                return;
+//            }
 
             // Clamp acceleration between 1 and 30
             this.acceleration = Math.max(1, this.acceleration);
@@ -178,6 +178,16 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 MOTOR.setMove(0, -1f);
             } else if (this.moveDirection == MoveDirection.STATIONARY) {
                 MOTOR.setMove(0, 0);
+            }
+
+            // Determines the speed of the robot
+            if (this.DISTANCE.getPulse() <= 1000 &&
+                    this.DISTANCE.getPulse() > 0){
+                if (this.DISTANCE.getDistance() <= 3){
+                    MOTOR.stop();
+                } else {
+                    MOTOR.setMove(MOTOR.getMAX_SPEED() * (this.DISTANCE.getPulse() / 1000), 0);
+                }
             }
         }
     }
