@@ -7,3 +7,4 @@ public enum MoveDirection {
     RIGHT,
     STATIONARY
 }
+

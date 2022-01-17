@@ -2,82 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4ab83236-fe13-458d-a15f-37d3929b8401" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/description.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../1.2-AGV.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/.idea/description.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/.idea/libraries/javafx_swt.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/GUI.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/javafx-swt.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/javafx.base.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/javafx.controls.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/javafx.fxml.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/javafx.graphics.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/javafx.media.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/javafx.swing.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/javafx.web.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/jssc-2.9.4-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/jssc-2.9.4-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/lib/jssc-2.9.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/Logger/LogLevel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/Logger/LogMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/Logger/Logger.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/Logger/LoggerListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/Logic/BluetoothListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/Logic/BluetoothLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/Logic/BluetoothMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/RobotGui.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/BoeBotLib.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Behaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Bluetooth/BluetoothBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Bluetooth/BluetoothListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Buzzer/BuzzerBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Distance/DistanceBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Gripper/GripperBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Lights/LightsBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Movement/MoveDirection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Movement/Movement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Movement/MovementBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Remote/RemoteBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Remote/RemoteListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/StartStop/StartStopBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/StartStop/StartStopListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Configuration/Config.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Bluetooth.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Buzzer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Infrared.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Led.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/LineFollower.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/ServoMotor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Switch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Ultrasonic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logger/LogLevel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logger/LogMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logger/Logger.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logger/LoggerListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/BluetoothLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/BuzzerLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/DistanceLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/GripperLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/InfraredLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/LedLight.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/LedLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/LineFollowerLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/Logic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/MotorLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/WhiskerLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Robot.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/RobotTest.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Behaviour/Movement/LookDirection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Behaviour/Movement/MoveDirection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Behaviour/Movement/MoveDirection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GUI/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -88,19 +18,125 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Robot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="40" column="42" lean-forward="true" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/RobotTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Hardware/LineFollower.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Logic/LineFollowerLogic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="20" column="28" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Behaviour/Movement/MoveDirection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Behaviour/Movement/LookDirection.java">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
-              <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+              <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Behaviour/Bluetooth/BluetoothBehaviour.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="32" column="45" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Logic/BluetoothLogic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="561">
+              <caret line="35" column="9" lean-forward="true" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>isOnLineFollowerMode</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java" />
+        <option value="$PROJECT_DIR$/src/Behaviour/Movement/MoveDirection.java" />
+        <option value="$PROJECT_DIR$/src/Behaviour/Movement/LookDirection.java" />
+      </list>
+    </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="18" />
@@ -108,7 +144,9 @@
     <option name="width" value="3028" />
     <option name="height" value="1932" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -121,6 +159,36 @@
               <item name="BoeBot" type="b2602c69:ProjectViewProjectNode" />
               <item name="BoeBot" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="BoeBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BoeBot" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BoeBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BoeBot" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Behaviour" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BoeBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BoeBot" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Behaviour" type="462c0819:PsiDirectoryNode" />
+              <item name="Movement" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BoeBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BoeBot" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Hardware" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BoeBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BoeBot" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Logic" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -132,7 +200,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1642418965604" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1642430972465" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/BoeBotLib.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
@@ -161,6 +229,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -173,56 +246,201 @@
       <option name="presentableId" value="Default" />
       <updated>1642418808291</updated>
       <workItem from="1642418809656" duration="16000" />
+      <workItem from="1642418909805" duration="8128000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16000" />
+    <option name="totallyTimeSpent" value="8144000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1513" height="965" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="UI Designer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24948454" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25292096" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Boebot Uploader" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32934132" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32934132" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Boebot Uploader" order="12" weight="0.32934132" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Maven" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Database" order="8" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/Hardware/LineFollower.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+        <state relative-caret-position="68">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Logic/LineFollowerLogic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="28" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/RobotTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="40" column="42" lean-forward="true" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Behaviour/Bluetooth/BluetoothBehaviour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="32" column="45" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Logic/BluetoothLogic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="35" column="9" lean-forward="true" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Behaviour/Movement/MoveDirection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Behaviour/Movement/LookDirection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>BoeBot</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>BoeBotLib</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

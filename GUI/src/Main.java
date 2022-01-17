@@ -1,4 +1,6 @@
+import Logger.LogMessage;
 import Logger.Logger;
+import Logger.LoggerListener;
 import Logic.BluetoothListener;
 import Logic.BluetoothLogic;
 import Logic.BluetoothMessage;
@@ -6,23 +8,17 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.CullFace;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
-import jssc.SerialPortEvent;
-import jssc.SerialPortEventListener;
-import jssc.SerialPortException;
-import Logger.LoggerListener;
-import Logger.LogMessage;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class Main extends Application implements BluetoothListener, LoggerListener {
 
@@ -41,7 +37,7 @@ public class Main extends Application implements BluetoothListener, LoggerListen
     private Scene connectingScene;
     private Scene mainScene;
 
-    private Logger logger = new Logger(this);
+    private final Logger LOGGER = new Logger(this);
 
     private TextArea robotLogArea;
     private TextArea guiLogArea;
@@ -50,6 +46,12 @@ public class Main extends Application implements BluetoothListener, LoggerListen
     private Button backwards;
     private Button left;
     private Button right;
+
+   private Point startPoint = new Point(0,0);
+   private ArrayList<Point> waypoints = new ArrayList<>();
+   private Point endPoint = new Point(0,0);
+
+    private TextArea waypointsArea;
 
     @Override
     public void start(Stage stage) {
@@ -148,13 +150,176 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         return new Scene(pane);
     }
 
+    public String mode = "";
+
+    public ArrayList<ArrayList<Button>> buttons = new ArrayList<ArrayList<Button>>();
+
     public Pane buildLineFollowerPane() {
         BorderPane pane = new BorderPane();
-        pane.setCenter(new Label("Empty ..."));
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(10, 10, 10, 10));
+
+        waypointsArea = new TextArea();
+
+        VBox buttons = new VBox();
+        Button startPositionButton = new Button("Set start position");
+        Button addWaypointButton = new Button("Add waypoint");
+        Button clearWaypointButton = new Button("Clear waypoints");
+        Button endPositionButton = new Button("Set end position");
+        Button executeButton = new Button("Upload route");
+        Button cancelButton = new Button("Clear route");
+
+
+        buttons.getChildren().add(startPositionButton);
+        buttons.getChildren().add(addWaypointButton);
+        buttons.getChildren().add(waypointsArea);
+        buttons.getChildren().add(clearWaypointButton);
+        buttons.getChildren().add(endPositionButton);
+        buttons.getChildren().add(executeButton);
+        buttons.getChildren().add(cancelButton);
+
+        startPositionButton.setOnAction(e -> {
+            mode = "start";
+            updateGrid();
+        });
+
+        addWaypointButton.setOnAction(e -> {
+            mode = "waypoint";
+            updateGrid();
+        });
+
+        clearWaypointButton.setOnAction(e -> {
+            waypoints.clear();
+            updateGrid();
+        });
+
+        endPositionButton.setOnAction(e -> {
+            mode = "end";
+            updateGrid();
+        });
+
+        executeButton.setOnAction(e -> {
+            ArrayList<Point> path = new ArrayList<>();
+            path.add(startPoint);
+            path.addAll(waypoints);
+            path.add(endPoint);
+
+            String pathString = "";
+            for (Point p : path) {
+                pathString += p.x + "," + p.y + "-";
+            }
+
+            this.BLUETOOTH.send("route", pathString);
+        });
+
+        int width = 5;
+        int height = 7;
+
+        for (int x = 0; x < height; x++) {
+            this.buttons.add(new ArrayList<>());
+
+            for (int y = 0; y < width; y++) {
+                Button button = new Button();
+                button.setPrefSize(50, 50);
+
+                int finalY = y;
+                int finalX = x;
+                button.setOnAction(e -> {
+                    LOGGER.info("Pressed: " + finalX + "," + finalY);
+
+                    processGridPress(new Point(finalX, finalY));
+                });
+                grid.add(button, x, y);
+
+                this.buttons.get(x).add(button);
+            }
+        }
+
+        pane.setRight(buttons);
+        pane.setCenter(grid);
+
+        Button calibrate = new Button("Calibrate");
+        calibrate.setOnAction(e -> {
+            BLUETOOTH.send("calibrate");
+        });
+
+        pane.setBottom(calibrate);
 
         pane.setPadding(new Insets(10, 10, 10, 10));
 
         return pane;
+    }
+
+    private void processGridPress(Point pressedPoint) {
+        if (mode.equals("start")) {
+            startPoint = pressedPoint;
+        }
+
+        if (mode.equals("waypoint")) {
+            waypoints.add(pressedPoint);
+        }
+
+
+        if (mode.equals("end")) {
+           endPoint = pressedPoint;
+        }
+
+        updateGrid();
+    }
+
+    public void updateGrid() {
+        for (int x = 0; x < buttons.size(); x++) {
+            for (int y = 0; y < buttons.get(0).size(); y++) {
+                Button button = buttons.get(x).get(y);
+
+                if (x == startPoint.x && y == startPoint.y) {
+                    // Start button
+                    button.setText("Start");
+                } else if (x == endPoint.x && y == endPoint.y) {
+                    // End button
+                    button.setText("End");
+                } else {
+                    // Normal button
+                    button.setText("");
+                    button.setDisable(false);
+                }
+            }
+        }
+
+        waypointsArea.clear();
+        for (Point waypoint : waypoints) {
+            waypointsArea.appendText(waypoint.x + ", " + waypoint.y + "\n");
+        }
+
+        int x = startPoint.x;
+        int y = startPoint.y;
+
+        ArrayList<Point> path = new ArrayList<>();
+        path.addAll(waypoints);
+        path.add(endPoint);
+
+        for(Point waypoint : path) {
+            this.LOGGER.info("Calculating path from " + x + "," + y + " to " + waypoint.x + "," + waypoint.y);
+
+            while (x != waypoint.x || y != waypoint.y) {
+                if (x < waypoint.x) {
+                    x++;
+                } else if (x > waypoint.x) {
+                    x--;
+                } else {
+                    if (y < waypoint.y) {
+                        y++;
+                    } else {
+                        y--;
+                    }
+                }
+
+                buttons.get(x).get(y).setText("X");
+            }
+        }
     }
 
     public Pane buildManualPane() {
@@ -213,7 +378,7 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         startStopButton = new Button("Start");
         startStopButton.setOnAction(e -> {
             BLUETOOTH.send("start-stop", "toggle");
-            if (startStopButton.getText().equals("Start")){
+            if (startStopButton.getText().equals("Start")) {
                 startStopButton.setText("Stop");
             } else {
                 startStopButton.setText("Start");
@@ -227,7 +392,7 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         changeMode.setOnAction(e -> {
             isLineFollowingMode = !isLineFollowingMode;
 
-            if(isLineFollowingMode) {
+            if (isLineFollowingMode) {
                 BLUETOOTH.send("mode", "line-following");
             } else {
                 BLUETOOTH.send("mode", "manual");
@@ -241,36 +406,36 @@ public class Main extends Application implements BluetoothListener, LoggerListen
 
     @Override
     public void onBluetoothMessage(BluetoothMessage message) {
-        if(message.getType().equals("move-direction")) {
-            if(message.getValue().equals("STATIONARY")) {
+        if (message.getType().equals("move-direction")) {
+            if (message.getValue().equals("STATIONARY")) {
                 backwards.setDisable(false);
                 forwards.setDisable(false);
                 left.setDisable(false);
                 right.setDisable(false);
             }
 
-            if(message.getValue().equals("LEFT")) {
+            if (message.getValue().equals("LEFT")) {
                 backwards.setDisable(false);
                 forwards.setDisable(false);
                 left.setDisable(true);
                 right.setDisable(false);
             }
 
-            if(message.getValue().equals("RIGHT")) {
+            if (message.getValue().equals("RIGHT")) {
                 backwards.setDisable(false);
                 forwards.setDisable(false);
                 left.setDisable(false);
                 right.setDisable(true);
             }
 
-            if(message.getValue().equals("FORWARDS")) {
+            if (message.getValue().equals("FORWARDS")) {
                 backwards.setDisable(false);
                 forwards.setDisable(true);
                 left.setDisable(false);
                 right.setDisable(false);
             }
 
-            if(message.getValue().equals("BACKWARDS")) {
+            if (message.getValue().equals("BACKWARDS")) {
                 backwards.setDisable(true);
                 forwards.setDisable(false);
                 left.setDisable(false);
@@ -282,7 +447,7 @@ public class Main extends Application implements BluetoothListener, LoggerListen
     @Override
     public void onBluetoothOpened(boolean isOpen) {
 
-        if(isOpen) {
+        if (isOpen) {
             this.stage.setScene(mainScene);
         } else {
             this.stage.setScene(connectingScene);
@@ -291,11 +456,11 @@ public class Main extends Application implements BluetoothListener, LoggerListen
 
     @Override
     public void onLogMessage(LogMessage logMessage) {
-        if(logMessage.getSource().equals("Robot")) {
+        if (logMessage.getSource().equals("Robot")) {
             robotLogArea.appendText(logMessage.getMessage() + "\n");
         }
 
-        if(logMessage.getSource().equals("Gui")) {
+        if (logMessage.getSource().equals("Gui")) {
             guiLogArea.appendText(logMessage.getMessage() + "\n");
         }
     }

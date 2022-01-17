@@ -1,80 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6b3d89da-76c6-4f5f-a48c-0aa43793667f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jssc_2_9_4_javadoc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/description.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../1.2-AGV.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BoeBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BoeBot/src/Behaviour/Movement/MovementBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/src/Behaviour/Movement/MovementBehaviour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BoeBot/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI.iml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RobotGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/BoeBotLib.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Behaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Bluetooth/BluetoothBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Bluetooth/BluetoothListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Buzzer/BuzzerBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Distance/DistanceBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Gripper/GripperBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Lights/LightsBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Movement/MoveDirection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Movement/Movement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Movement/MovementBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Remote/RemoteBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/Remote/RemoteListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/StartStop/StartStopBehaviour.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Behaviour/StartStop/StartStopListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Configuration/Config.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Bluetooth.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Buzzer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Infrared.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Led.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/LineFollower.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/ServoMotor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Switch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hardware/Ultrasonic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logger/LogLevel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logger/LogMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logger/Logger.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logger/LoggerListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/BluetoothLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/BuzzerLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/DistanceLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/GripperLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/InfraredLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/LedLight.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/LedLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/LineFollowerLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/Logic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/MotorLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Logic/WhiskerLogic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Robot.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/RobotTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -92,6 +32,7 @@
     <option name="width" value="3028" />
     <option name="height" value="1932" />
   </component>
+  <component name="ProjectId" id="23p7NJoZRYzj5jOMc02Lq1DdPXz" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -120,26 +61,23 @@
       <pane id="Scope" />
     </panes>
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1642418900981" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/jssc-2.9.4.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
@@ -158,6 +96,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -169,6 +108,7 @@
       <option name="presentableId" value="Default" />
       <updated>1642418825357</updated>
       <workItem from="1642418826776" duration="81000" />
+      <workItem from="1642419137763" duration="9994000" />
     </task>
     <servers />
   </component>
@@ -212,7 +152,7 @@
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Main.java">

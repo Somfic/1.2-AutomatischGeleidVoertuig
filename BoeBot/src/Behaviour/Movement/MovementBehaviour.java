@@ -8,6 +8,7 @@ import Logger.Logger;
 import Logic.*;
 import TI.Timer;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothListener {
@@ -24,10 +25,14 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private Timer timer;
     private boolean isExecutingMovement;
 
-    private boolean isOnLineFollowerMode = false;
+    private boolean isFollowingPath = false;
+    private boolean isTurningOnCrossing = false;
+    private boolean wantsToTurnLeft = true;
 
     private MoveDirection moveDirection = MoveDirection.STATIONARY;
     private float acceleration = 5;
+
+    private Point[] path;
 
     public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance, LineFollowerLogic lineFollower, BuzzerLogic buzzerLogic, BluetoothLogic bluetooth) {
         this.DISTANCE = distance;
@@ -109,7 +114,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
              * The code below is used for the ultrasone sensors
              */
 
-            if (isOnLineFollowerMode) {
+            if (isFollowingPath) {
                 boolean left = this.LINEFOLLOWER.getStateLeft();
                 boolean center = this.LINEFOLLOWER.getStateCenter();
                 boolean right = this.LINEFOLLOWER.getStateRight();
@@ -117,11 +122,43 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 // Print the status of the linefollowers
                 //this.LOGGER.info((left ? 1 : 0) + " " + (center ? 1 : 0) + " " + (right ? 1 : 0) + " ");
 
-                if (left && center && right && this.moveDirection != MoveDirection.FORWARDS) {
+                if(isTurningOnCrossing) {
+                    this.LOGGER.debug("Checking if back on line after crossing");
+
+                    if(left && center && right) {
+                        this.LOGGER.info("Back on line!");
+                        this.isTurningOnCrossing = false;
+                    }
+                } else if (left && center && right && this.moveDirection != MoveDirection.FORWARDS) {
                     // Everything is on the line, drive straight
                     this.moveDirection = MoveDirection.FORWARDS;
                     this.LOGGER.info("Everything ok, following line");
-                } else if (!left && (center || right) && this.moveDirection != MoveDirection.RIGHT) {
+                }
+                else if(!left && center && !right) {
+                    this.LOGGER.info("Detected crossing");
+
+                    this.moveDirection = MoveDirection.STATIONARY;
+                    isTurningOnCrossing = true;
+
+                    if(wantsToTurnLeft) {
+                        this.LOGGER.info("Turning left on crossing");
+                        this.moveDirection = MoveDirection.LEFT;
+
+                        addMovementToQueue("Break", 0f, 0, 10, 200);
+                        addMovementToQueue("Get into position", 0.8f, 0, 2, 1100);
+                        addMovementToQueue("Break", 0f, 0, 10, 200);
+                        addMovementToQueue("Turn left", 0, 1f, 10, 1500);
+                    } else {
+                        this.LOGGER.info("Turning right crossing");
+                        this.moveDirection = MoveDirection.RIGHT;
+
+                        addMovementToQueue("Break", 0f, 0, 10, 200);
+                        addMovementToQueue("Get into position", 0.8f, 0, 2, 1100);
+                        addMovementToQueue("Break", 0f, 0, 10, 200);
+                        addMovementToQueue("Turn right", 0, -1f, 10, 1500);
+                    }
+                }
+                else if (!left && (center || right) && this.moveDirection != MoveDirection.RIGHT) {
                     // Left is off the line, turn right
 
                     this.acceleration = 20;
@@ -214,22 +251,22 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
         boolean wantsToGoToLineFollowerMode = code == Config.REMOTE_CD_ENTER;
 
-        if (wantsToGoToLineFollowerMode && !isOnLineFollowerMode) {
+        if (wantsToGoToLineFollowerMode && !isFollowingPath) {
             this.LOGGER.info("Switched to line follower mode");
-            this.isOnLineFollowerMode = true;
+            this.isFollowingPath = true;
             this.moveDirection = MoveDirection.FORWARDS;
 
             return;
         }
 
-        if (isOnLineFollowerMode && !wantsToGoToLineFollowerMode) {
+        if (isFollowingPath && !wantsToGoToLineFollowerMode) {
             this.LOGGER.info("Switched to manual mode (remote)");
             this.moveDirection = MoveDirection.STATIONARY;
-            this.isOnLineFollowerMode = false;
+            this.isFollowingPath = false;
             return;
         }
 
-        if (!isOnLineFollowerMode) {
+        if (!isFollowingPath) {
             if (code == Config.REMOTE_CHANNEL_PLUS) {
                 // Move forwards
                 // If we are moving backwards, stop
@@ -288,13 +325,6 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     @Override
     public void onBluetoothMessage(String input) {
-
-        if (isOnLineFollowerMode) {
-            this.LOGGER.info("Switched to manual mode (bluetooth)");
-        }
-
-        this.isOnLineFollowerMode = false;
-
         input = input.toLowerCase();
 
         if (input.equals("w") || input.equals("move:forwards")) {
@@ -336,7 +366,28 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             } else {
                 this.moveDirection = MoveDirection.LEFT;
             }
-        } else if (input.equals(" ") || input.equals("move:stop")) {
+        } else if(input.equals("mode:line-following")) {
+            this.isFollowingPath = true;
+        } else if(input.equals("mode:manual")) {
+            this.isFollowingPath = false;
+        } else if(input.equals("calibrate")) {
+            this.LINEFOLLOWER.calibrate();
+        } else if(input.startsWith("route")) {
+            String rawPath = input.replace("route:", "");
+            String[] points = rawPath.split("-");
+
+            path = new Point[points.length];
+
+            for (int i = 0; i < points.length; i++) {
+                String point = points[i];
+
+                int x = Integer.parseInt(point.split(",")[0]);
+                int y = Integer.parseInt(point.split(",")[1]);
+
+                path[i] = new Point(x, y);
+            }
+        }
+        else if (input.equals(" ") || input.equals("move:stop")) {
             this.moveDirection = MoveDirection.STATIONARY;
         } else if (input.equals("+")) {
             this.acceleration += 1;
