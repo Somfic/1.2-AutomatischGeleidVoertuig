@@ -32,7 +32,11 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private MoveDirection moveDirection = MoveDirection.STATIONARY;
     private float acceleration = 5;
 
+    private Point position = new Point(0, 0);
+    private LookDirection lookDirection = LookDirection.SOUTH;
+
     private Point[] path;
+    private ArrayList<CrossDecision> crossDecisions = new ArrayList<CrossDecision>();
 
     public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance, LineFollowerLogic lineFollower, BuzzerLogic buzzerLogic, BluetoothLogic bluetooth) {
         this.DISTANCE = distance;
@@ -40,6 +44,13 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
         this.LINEFOLLOWER = lineFollower;
         this.BUZZER = buzzerLogic;
         this.BLUETOOTH = bluetooth;
+
+        crossDecisions.add(CrossDecision.Left);
+        crossDecisions.add(CrossDecision.Skip);
+        crossDecisions.add(CrossDecision.Right);
+        crossDecisions.add(CrossDecision.Right);
+        crossDecisions.add(CrossDecision.Skip);
+        crossDecisions.add(CrossDecision.Stop);
     }
 
     @Override
@@ -138,24 +149,42 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                     this.LOGGER.info("Detected crossing");
 
                     this.moveDirection = MoveDirection.STATIONARY;
-                    isTurningOnCrossing = true;
 
-                    if(wantsToTurnLeft) {
+                    CrossDecision decision = crossDecisions.remove(0);
+                    this.LOGGER.info("New decision: " + decision.toString());
+
+                    if(decision == CrossDecision.Left) {
                         this.LOGGER.info("Turning left on crossing");
                         this.moveDirection = MoveDirection.LEFT;
+                        isTurningOnCrossing = true;
 
                         addMovementToQueue("Break", 0f, 0, 10, 200);
-                        addMovementToQueue("Get into position", 0.8f, 0, 2, 1100);
+                        addMovementToQueue("Get into position", 0.8f, 0, 2, 1300);
                         addMovementToQueue("Break", 0f, 0, 10, 200);
                         addMovementToQueue("Turn left", 0, 1f, 10, 1500);
-                    } else {
+                    }
+
+                    else if(decision == CrossDecision.Right) {
                         this.LOGGER.info("Turning right crossing");
+                        isTurningOnCrossing = true;
                         this.moveDirection = MoveDirection.RIGHT;
 
                         addMovementToQueue("Break", 0f, 0, 10, 200);
-                        addMovementToQueue("Get into position", 0.8f, 0, 2, 1100);
+                        addMovementToQueue("Get into position", 0.8f, 0, 2, 1300);
                         addMovementToQueue("Break", 0f, 0, 10, 200);
                         addMovementToQueue("Turn right", 0, -1f, 10, 1500);
+                    }
+
+                    else if(decision == CrossDecision.Stop) {
+                        this.LOGGER.info("Arrived at destination");
+                        this.moveDirection = MoveDirection.STATIONARY;
+                        this.isFollowingPath = false;
+                        this.isTurningOnCrossing = false;
+                    }
+
+                    else if(decision == CrossDecision.Skip) {
+                        this.moveDirection = MoveDirection.FORWARDS;
+                        addMovementToQueue("Skip crossing", 1, 0, 5, 1000);
                     }
                 }
                 else if (!left && (center || right) && this.moveDirection != MoveDirection.RIGHT) {
@@ -386,6 +415,19 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
                 path[i] = new Point(x, y);
             }
+
+            LookDirection oldLookDirection = lookDirection;
+
+            ArrayList<CrossDecision> decisions = new ArrayList<>();
+
+            Point currentPoint = position;
+
+            for (Point wayPoint : path) {
+                decisions.addAll(calculateRoute(currentPoint, wayPoint));
+                currentPoint = wayPoint;
+            }
+
+            lookDirection = oldLookDirection;
         }
         else if (input.equals(" ") || input.equals("move:stop")) {
             this.moveDirection = MoveDirection.STATIONARY;
@@ -394,5 +436,107 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
         } else if (input.equals("-")) {
             this.acceleration -= 1;
         }
+    }
+
+    private ArrayList<CrossDecision> calculateRoute(Point from, Point to) {
+        ArrayList<CrossDecision> decisions = new ArrayList<>();
+
+        if(from.x > to.x) {
+            if(lookDirection == LookDirection.SOUTH) {
+                decisions.add(CrossDecision.Right);
+            }
+
+            if(lookDirection == LookDirection.NORTH) {
+                decisions.add(CrossDecision.Left);
+            }
+
+            if(lookDirection == LookDirection.EAST) {
+                decisions.add(CrossDecision.Turn);
+            }
+
+            if(lookDirection == LookDirection.WEST) {
+                decisions.add(CrossDecision.Skip);
+            }
+
+            lookDirection = LookDirection.WEST;
+
+            for (int i = 0; i < Math.abs(to.x - from.x) - 1; i++) {
+                decisions.add(CrossDecision.Skip);
+            }
+        }
+
+        if(from.x < to.x) {
+            if(lookDirection == LookDirection.SOUTH) {
+                decisions.add(CrossDecision.Left);
+            }
+
+            if(lookDirection == LookDirection.NORTH) {
+                decisions.add(CrossDecision.Right);
+            }
+
+            if(lookDirection == LookDirection.EAST) {
+                decisions.add(CrossDecision.Skip);
+            }
+
+            if(lookDirection == LookDirection.WEST) {
+                decisions.add(CrossDecision.Turn);
+            }
+
+            lookDirection = LookDirection.EAST;
+
+            for (int i = 0; i < Math.abs(to.x - from.x) - 1; i++) {
+                decisions.add(CrossDecision.Skip);
+            }
+        }
+
+        if(from.y > to.y) {
+            if(lookDirection == LookDirection.SOUTH) {
+                decisions.add(CrossDecision.Turn);
+            }
+
+            if(lookDirection == LookDirection.NORTH) {
+                decisions.add(CrossDecision.Skip);
+            }
+
+            if(lookDirection == LookDirection.EAST) {
+                decisions.add(CrossDecision.Left);
+            }
+
+            if(lookDirection == LookDirection.WEST) {
+                decisions.add(CrossDecision.Right);
+            }
+
+            lookDirection = LookDirection.NORTH;
+
+            for (int i = 0; i < Math.abs(to.y - from.y) - 1; i++) {
+                decisions.add(CrossDecision.Skip);
+            }
+        }
+
+        if(from.y < to.y) {
+            if(lookDirection == LookDirection.SOUTH) {
+                decisions.add(CrossDecision.Skip);
+            }
+
+            if(lookDirection == LookDirection.NORTH) {
+                decisions.add(CrossDecision.Turn);
+            }
+
+            if(lookDirection == LookDirection.EAST) {
+                decisions.add(CrossDecision.Right);
+            }
+
+            if(lookDirection == LookDirection.WEST) {
+                decisions.add(CrossDecision.Left);
+            }
+
+            lookDirection = LookDirection.SOUTH;
+
+            for (int i = 0; i < Math.abs(to.y - from.y) - 1; i++) {
+                decisions.add(CrossDecision.Skip);
+            }
+        }
+
+        return decisions;
     }
 }
