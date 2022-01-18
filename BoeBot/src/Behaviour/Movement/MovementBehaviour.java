@@ -39,6 +39,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private Point[] path;
     private ArrayList<CrossDecision> crossDecisions = new ArrayList<CrossDecision>();
     private MoveDirection lastMoveDirection;
+    private MoveDirection lastLastMoveDirection;
 
     public MovementBehaviour(MotorLogic motorLogic, DistanceBehaviour distance, LineFollowerLogic lineFollower, BuzzerLogic buzzerLogic, BluetoothLogic bluetooth) {
         this.DISTANCE = distance;
@@ -450,9 +451,13 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
         if (code == Config.REMOTE_STOP) {
             this.moveDirection = MoveDirection.STATIONARY;
         } else if (code == Config.REMOTE_FORWARDS) {
-            this.acceleration += 1;
+            this.MOTOR.MAX_SPEED += 5;
         } else if (code == Config.REMOTE_BACKWARDS) {
-            this.acceleration -= 1;
+            this.MOTOR.MAX_SPEED -= 5;
+
+            if(this.MOTOR.MAX_SPEED < 20) {
+                this.MOTOR.MAX_SPEED = 20;
+            }
         }
 
         if (code == Config.REMOTE_RECORD_BUTTON){
@@ -466,6 +471,15 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     public void onBluetoothMessage(String input) {
 
         input = input.toLowerCase();
+
+        if (input.equals("start-stop")) {
+            if(this.moveDirection != MoveDirection.STATIONARY) {
+                this.lastLastMoveDirection = this.moveDirection;
+                this.moveDirection = MoveDirection.STATIONARY;
+            } else {
+                this.moveDirection = this.lastLastMoveDirection;
+            }
+        }
 
         if (input.equals("w") || input.equals("move:forwards")) {
 
@@ -554,9 +568,13 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
         else if (input.equals(" ") || input.equals("move:stop")) {
             this.moveDirection = MoveDirection.STATIONARY;
         } else if (input.equals("+")) {
-            this.acceleration += 1;
+            this.MOTOR.MAX_SPEED += 5;
         } else if (input.equals("-")) {
-            this.acceleration -= 1;
+            this.MOTOR.MAX_SPEED -= 5;
+
+            if(this.MOTOR.MAX_SPEED < 20) {
+                this.MOTOR.MAX_SPEED = 20;
+            }
         }
     }
 

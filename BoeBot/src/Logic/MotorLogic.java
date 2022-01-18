@@ -11,7 +11,7 @@ public class MotorLogic implements Logic {
     private final Timer TIMER;
 
     private final int STATIONARY_SPEED = 1500;
-    private final int MAX_SPEED = 50;
+    public int MAX_SPEED = 50;
 
     private int maxSafeSpeed = MAX_SPEED;
 
@@ -30,7 +30,7 @@ public class MotorLogic implements Logic {
         this.LEFT_MOTOR = new ServoMotor(pinLeftMotor);
         this.RIGHT_MOTOR = new ServoMotor(pinRightMotor);
 
-        this.TIMER = new Timer(100);
+        this.TIMER = new Timer(200);
     }
 
     public void start() {

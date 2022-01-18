@@ -356,7 +356,7 @@ public class Main extends Application implements BluetoothListener, LoggerListen
                 }
 
                 Button button = buttons.get(startX).get(startY);
-                changeImage(button, "crossing.png"); // todo: route
+                changeImage(button, "crossing-route.png");
             }
         }
 
@@ -397,13 +397,13 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         VBox acceleration = new VBox();
 
         // acceleratie omhoog
-        Button accelerationPlus = new Button("acceleration +");
+        Button accelerationPlus = new Button("Speed +");
         accelerationPlus.setOnAction(event -> {
             BLUETOOTH.send("acceleration", "increase");
         });
 
         // acceleratie omlaag
-        Button accelerationMin = new Button("acceleration -");
+        Button accelerationMin = new Button("Speed -");
         accelerationMin.setOnAction(event -> {
             BLUETOOTH.send("acceleration", "decrease");
         });
@@ -444,16 +444,9 @@ public class Main extends Application implements BluetoothListener, LoggerListen
     }
 
     public Pane buildTaskbar() {
-        startStopButton = new Button("Start");
+        startStopButton = new Button("Start/Stop");
         startStopButton.setOnAction(e -> {
-            BLUETOOTH.send("start-stop", "toggle");
-            if (startStopButton.getText().equals("Start")) {
-                startStopButton.setText("Stop");
-            } else {
-                startStopButton.setText("Start");
-            }
-
-            // todo: automatically change text of startStopButton to Start/Stop depending on current state
+            BLUETOOTH.send("start-stop");
         });
 
         // change mode
@@ -463,8 +456,10 @@ public class Main extends Application implements BluetoothListener, LoggerListen
 
             if (isLineFollowingMode) {
                 BLUETOOTH.send("mode", "line-following");
+                changeMode.setText("Line Following");
             } else {
                 BLUETOOTH.send("mode", "manual");
+                changeMode.setText("Manual");
             }
 
             //todo: change to correct tab
@@ -498,7 +493,6 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         }
 
         if(message.getType().equals("direction")) {
-            this.LOGGER.info("Direction!!!!!!: " + message.getValue());
             this.lookDirection = message.getValue();
         }
 

@@ -5,20 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b3d89da-76c6-4f5f-a48c-0aa43793667f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/res/bot-east.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/bot-no-direction.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/bot-north.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/bot-south.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/bot-west.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/crossing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/end.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/start.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/crossing-route.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BoeBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BoeBot/src/Behaviour/Movement/MovementBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/src/Behaviour/Movement/MovementBehaviour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BoeBot/src/Logic/LineFollowerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/src/Logic/LineFollowerLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BoeBot/src/Logic/MotorLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/src/Logic/MotorLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI.iml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logic/BluetoothLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/BluetoothLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -125,7 +116,7 @@
       <updated>1642418825357</updated>
       <workItem from="1642418826776" duration="81000" />
       <workItem from="1642419137763" duration="13398000" />
-      <workItem from="1642500927519" duration="12736000" />
+      <workItem from="1642500927519" duration="14970000" />
     </task>
     <servers />
   </component>

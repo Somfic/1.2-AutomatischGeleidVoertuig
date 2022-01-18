@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4ab83236-fe13-458d-a15f-37d3929b8401" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../GUI/res/bot-east.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GUI/res/bot-no-direction.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GUI/res/bot-north.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GUI/res/bot-south.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GUI/res/bot-west.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GUI/res/crossing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GUI/res/end.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GUI/res/start.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GUI/res/crossing-route.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logic/LineFollowerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/LineFollowerLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/MotorLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/MotorLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../GUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GUI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/GUI.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../GUI/GUI.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/Logic/BluetoothLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GUI/src/Logic/BluetoothLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GUI/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GUI/src/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -66,11 +55,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="295" column="43" selection-start-line="295" selection-start-column="43" selection-end-line="295" selection-end-column="43" />
+            <state relative-caret-position="249">
+              <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Logic/MotorLogic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-168">
+              <caret line="26" column="30" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -129,6 +127,9 @@
       <find>crossd</find>
       <find>manual</find>
       <find>15</find>
+      <find>lastMoveDirection</find>
+      <find>accele</find>
+      <find>acceleration</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -143,6 +144,7 @@
         <option value="$PROJECT_DIR$/src/Behaviour/Movement/CrossDecision.java" />
         <option value="$PROJECT_DIR$/src/Logic/LineFollowerLogic.java" />
         <option value="$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java" />
+        <option value="$PROJECT_DIR$/src/Logic/MotorLogic.java" />
       </list>
     </option>
   </component>
@@ -266,12 +268,12 @@
       <workItem from="1642418809656" duration="16000" />
       <workItem from="1642418909805" duration="12226000" />
       <workItem from="1642500872168" duration="6942000" />
-      <workItem from="1642508278218" duration="4508000" />
+      <workItem from="1642508278218" duration="6519000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23692000" />
+    <option name="totallyTimeSpent" value="25703000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1513" height="965" extended-state="6" />
@@ -296,7 +298,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Boebot Uploader" order="12" weight="0.32934132" />
+      <window_info active="true" anchor="bottom" id="Boebot Uploader" order="12" visible="true" weight="0.32934132" />
       <window_info anchor="bottom" id="Messages" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -388,8 +390,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Behaviour/Movement/MovementBehaviour.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="295" column="43" selection-start-line="295" selection-start-column="43" selection-end-line="295" selection-end-column="43" />
+        <state relative-caret-position="249">
+          <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Logic/MotorLogic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-168">
+          <caret line="26" column="30" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="30" />
         </state>
       </provider>
     </entry>
