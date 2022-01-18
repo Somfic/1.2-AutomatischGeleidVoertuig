@@ -2,13 +2,13 @@ package Behaviour.Movement;
 
 import Behaviour.Behaviour;
 import Behaviour.Bluetooth.BluetoothListener;
+import Behaviour.Distance.DistanceBehaviour;
 import Behaviour.Remote.RemoteListener;
 import Configuration.Config;
 import Logger.Logger;
 import Logic.*;
 import TI.Timer;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothListener {
@@ -16,7 +16,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private final Logger LOGGER = new Logger(this);
 
     private final MotorLogic MOTOR;
-    private final DistanceLogic DISTANCE;
+    private final DistanceBehaviour DISTANCE;
     private final LineFollowerLogic LINEFOLLOWER;
     private final BuzzerLogic BUZZER;
     private BluetoothLogic BLUETOOTH;
@@ -25,9 +25,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private Timer timer;
     private boolean isExecutingMovement;
 
-    private boolean isFollowingPath = false;
-    private boolean isTurningOnCrossing = false;
-    private boolean wantsToTurnLeft = true;
+    private boolean isOnLineFollowerMode = false;
 
     private MoveDirection moveDirection = MoveDirection.STATIONARY;
     private float acceleration = 5;
@@ -38,7 +36,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private Point[] path;
     private ArrayList<CrossDecision> crossDecisions = new ArrayList<CrossDecision>();
 
-    public MovementBehaviour(MotorLogic motorLogic, DistanceLogic distance, LineFollowerLogic lineFollower, BuzzerLogic buzzerLogic, BluetoothLogic bluetooth) {
+    public MovementBehaviour(MotorLogic motorLogic, DistanceBehaviour distance, LineFollowerLogic lineFollower, BuzzerLogic buzzerLogic, BluetoothLogic bluetooth) {
         this.DISTANCE = distance;
         this.MOTOR = motorLogic;
         this.LINEFOLLOWER = lineFollower;
@@ -125,7 +123,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
              * The code below is used for the ultrasone sensors
              */
 
-            if (isFollowingPath) {
+            if (isOnLineFollowerMode) {
                 boolean left = this.LINEFOLLOWER.getStateLeft();
                 boolean center = this.LINEFOLLOWER.getStateCenter();
                 boolean right = this.LINEFOLLOWER.getStateRight();
@@ -133,14 +131,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 // Print the status of the linefollowers
                 //this.LOGGER.info((left ? 1 : 0) + " " + (center ? 1 : 0) + " " + (right ? 1 : 0) + " ");
 
-                if(isTurningOnCrossing) {
-                    this.LOGGER.debug("Checking if back on line after crossing");
-
-                    if(left && center && right) {
-                        this.LOGGER.info("Back on line!");
-                        this.isTurningOnCrossing = false;
-                    }
-                } else if (left && center && right && this.moveDirection != MoveDirection.FORWARDS) {
+                if (left && center && right && this.moveDirection != MoveDirection.FORWARDS) {
                     // Everything is on the line, drive straight
                     this.moveDirection = MoveDirection.FORWARDS;
                     this.LOGGER.info("Everything ok, following line");
@@ -224,6 +215,17 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 //                //addMovementToQueue("Braking", 0, 0, brakingSpeed, 500);
 //                return;
 //            }
+            // Determines the speed of the robot
+            if (this.DISTANCE.getPulse() < 1000 && this.DISTANCE.getPulse() != -2){
+
+                if (this.DISTANCE.getDistance() <= 0){
+                    MOTOR.setMaxSafeSpeed(0);
+                } else {
+                    MOTOR.setMaxSafeSpeed((float)MOTOR.getMAX_SPEED() * (this.DISTANCE.getDistance() * 0.05f));
+                }
+            } else {
+                MOTOR.setMaxSafeSpeed(MOTOR.getMAX_SPEED());
+            }
 
             // Clamp acceleration between 1 and 30
             this.acceleration = Math.max(1, this.acceleration);
@@ -244,16 +246,6 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 MOTOR.setMove(0, -1f);
             } else if (this.moveDirection == MoveDirection.STATIONARY) {
                 MOTOR.setMove(0, 0);
-            }
-
-            // Determines the speed of the robot
-            if (this.DISTANCE.getPulse() <= 1000 &&
-                    this.DISTANCE.getPulse() > 0){
-                if (this.DISTANCE.getDistance() <= 3){
-                    MOTOR.stop();
-                } else {
-                    MOTOR.setMove(MOTOR.getMAX_SPEED() * (this.DISTANCE.getPulse() / 1000), 0);
-                }
             }
         }
     }
@@ -280,22 +272,22 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
         boolean wantsToGoToLineFollowerMode = code == Config.REMOTE_CD_ENTER;
 
-        if (wantsToGoToLineFollowerMode && !isFollowingPath) {
+        if (wantsToGoToLineFollowerMode && !isOnLineFollowerMode) {
             this.LOGGER.info("Switched to line follower mode");
-            this.isFollowingPath = true;
+            this.isOnLineFollowerMode = true;
             this.moveDirection = MoveDirection.FORWARDS;
 
             return;
         }
 
-        if (isFollowingPath && !wantsToGoToLineFollowerMode) {
+        if (isOnLineFollowerMode && !wantsToGoToLineFollowerMode) {
             this.LOGGER.info("Switched to manual mode (remote)");
             this.moveDirection = MoveDirection.STATIONARY;
-            this.isFollowingPath = false;
+            this.isOnLineFollowerMode = false;
             return;
         }
 
-        if (!isFollowingPath) {
+        if (!isOnLineFollowerMode) {
             if (code == Config.REMOTE_CHANNEL_PLUS) {
                 // Move forwards
                 // If we are moving backwards, stop
@@ -354,6 +346,13 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     @Override
     public void onBluetoothMessage(String input) {
+
+        if (isOnLineFollowerMode) {
+            this.LOGGER.info("Switched to manual mode (bluetooth)");
+        }
+
+        this.isOnLineFollowerMode = false;
+
         input = input.toLowerCase();
 
         if (input.equals("w") || input.equals("move:forwards")) {

@@ -16,13 +16,11 @@ public class Ultrasonic {
         BoeBot.setMode(this.ECHO_PIN, PinMode.Input);
     }
 
-    public void set(boolean value) {
-        BoeBot.setMode(this.TRIGGER_PIN, PinMode.Output);
-        BoeBot.digitalWrite(this.TRIGGER_PIN, value);
+    public int getTRIGGER_PIN() {
+        return TRIGGER_PIN;
     }
 
-    public boolean read() {
-        BoeBot.setMode(this.ECHO_PIN, PinMode.Input);
-        return BoeBot.digitalRead(this.ECHO_PIN);
+    public int getECHO_PIN() {
+        return ECHO_PIN;
     }
 }
