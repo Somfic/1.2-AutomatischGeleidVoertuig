@@ -5,10 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b3d89da-76c6-4f5f-a48c-0aa43793667f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../BoeBot/src/Behaviour/Movement/CrossDecision.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/bot-east.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/bot-no-direction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/bot-north.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/bot-south.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/bot-west.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/crossing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/end.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/start.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BoeBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BoeBot/src/Behaviour/Movement/MovementBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/src/Behaviour/Movement/MovementBehaviour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BoeBot/src/Logic/LineFollowerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BoeBot/src/Logic/LineFollowerLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI.iml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/BluetoothLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/BluetoothLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,18 +76,24 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1642418900981" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/res" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Lucas\Documents\GitHub\1.2-AGV\GUI\res" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
@@ -108,7 +125,7 @@
       <updated>1642418825357</updated>
       <workItem from="1642418826776" duration="81000" />
       <workItem from="1642419137763" duration="13398000" />
-      <workItem from="1642500927519" duration="468000" />
+      <workItem from="1642500927519" duration="12736000" />
     </task>
     <servers />
   </component>
@@ -153,6 +170,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Main.java">

@@ -5,17 +5,23 @@ import Logic.BluetoothListener;
 import Logic.BluetoothLogic;
 import Logic.BluetoothMessage;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,7 +29,7 @@ import java.util.ArrayList;
 public class Main extends Application implements BluetoothListener, LoggerListener {
 
     private boolean isLineFollowingMode = true;
-    private BluetoothLogic BLUETOOTH = new BluetoothLogic(this);
+    private final BluetoothLogic BLUETOOTH = new BluetoothLogic(this);
 
     private BorderPane mainPane;
 
@@ -47,11 +53,14 @@ public class Main extends Application implements BluetoothListener, LoggerListen
     private Button left;
     private Button right;
 
-   private Point startPoint = new Point(0,0);
-   private ArrayList<Point> waypoints = new ArrayList<>();
-   private Point endPoint = new Point(0,0);
+    private Point startPoint = new Point(0, 0);
+    private final ArrayList<Point> waypoints = new ArrayList<>();
+    private Point endPoint = new Point(0, 0);
 
     private TextArea waypointsArea;
+    private Label position;
+    private Label direction;
+    private String lookDirection = "";
 
     @Override
     public void start(Stage stage) {
@@ -136,30 +145,50 @@ public class Main extends Application implements BluetoothListener, LoggerListen
 
     public Scene buildConnectingScene() {
         // Build the connecting scene
-        BorderPane pane = new BorderPane();
-        pane.setCenter(new Text("Connecting to BoeBot ..."));
+        VBox pane = new VBox();
+
+        pane.setPadding(new Insets(10, 10, 10, 10));
+        pane.setAlignment(Pos.CENTER);
+        pane.setSpacing(10);
+
+        javafx.scene.text.Font font = new javafx.scene.text.Font("Comic Sans MS", 20);
+
+        Text text = new Text("BoeBot");
+        text.setFont(font);
+
+        pane.getChildren().add(text);
+
+        ComboBox portInput = new ComboBox();
+        portInput.getItems().addAll("COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM10");
+
+        portInput.setPlaceholder(new Text("Select a port"));
 
         Button connectButton = new Button("Connect");
+        connectButton.setDisable(true);
         connectButton.setOnAction(e -> {
-            BLUETOOTH.setPort(4);
             BLUETOOTH.open();
         });
 
-        pane.setBottom(connectButton);
+        portInput.setOnAction(event -> {
+            BLUETOOTH.setPort(portInput.getValue().toString());
+            connectButton.setDisable(false);
+        });
+
+
+        pane.getChildren().add(portInput);
+        pane.getChildren().add(connectButton);
 
         return new Scene(pane);
     }
 
     public String mode = "";
 
-    public ArrayList<ArrayList<Button>> buttons = new ArrayList<ArrayList<Button>>();
+    public static ArrayList<ArrayList<Button>> buttons = new ArrayList<ArrayList<Button>>();
 
     public Pane buildLineFollowerPane() {
         BorderPane pane = new BorderPane();
 
         GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
         grid.setPadding(new Insets(10, 10, 10, 10));
 
         waypointsArea = new TextArea();
@@ -207,23 +236,31 @@ public class Main extends Application implements BluetoothListener, LoggerListen
             path.addAll(waypoints);
             path.add(endPoint);
 
-            String pathString = "";
+            StringBuilder pathString = new StringBuilder();
             for (Point p : path) {
-                pathString += p.x + "," + p.y + "-";
+                pathString.append(p.x).append(",").append(p.y).append(":");
             }
 
-            this.BLUETOOTH.send("route", pathString);
+            this.BLUETOOTH.send("route", pathString.toString());
         });
 
         int width = 5;
         int height = 7;
 
         for (int x = 0; x < height; x++) {
-            this.buttons.add(new ArrayList<>());
+            Main.buttons.add(new ArrayList<>());
 
             for (int y = 0; y < width; y++) {
                 Button button = new Button();
                 button.setPrefSize(50, 50);
+
+                Image image = new Image(getClass().getResourceAsStream("crossing.png"), 50, 50, true, false);
+                BackgroundImage bImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(button.getWidth(), button.getHeight(), true, true, true, false));
+
+                Background backGround = new Background(bImage);
+                button.setBackground(backGround);
+
+                //button.setGraphic(image);
 
                 int finalY = y;
                 int finalX = x;
@@ -234,19 +271,29 @@ public class Main extends Application implements BluetoothListener, LoggerListen
                 });
                 grid.add(button, x, y);
 
-                this.buttons.get(x).add(button);
+                Main.buttons.get(x).add(button);
             }
         }
 
         pane.setRight(buttons);
         pane.setCenter(grid);
 
+        HBox debug = new HBox();
+
+
         Button calibrate = new Button("Calibrate");
         calibrate.setOnAction(e -> {
             BLUETOOTH.send("calibrate");
         });
 
-        pane.setBottom(calibrate);
+        position = new Label();
+        direction = new Label();
+
+        debug.getChildren().add(calibrate);
+        debug.getChildren().add(position);
+        debug.getChildren().add(direction);
+
+        pane.setBottom(debug);
 
         pane.setPadding(new Insets(10, 10, 10, 10));
 
@@ -264,7 +311,7 @@ public class Main extends Application implements BluetoothListener, LoggerListen
 
 
         if (mode.equals("end")) {
-           endPoint = pressedPoint;
+            endPoint = pressedPoint;
         }
 
         updateGrid();
@@ -275,17 +322,8 @@ public class Main extends Application implements BluetoothListener, LoggerListen
             for (int y = 0; y < buttons.get(0).size(); y++) {
                 Button button = buttons.get(x).get(y);
 
-                if (x == startPoint.x && y == startPoint.y) {
-                    // Start button
-                    button.setText("Start");
-                } else if (x == endPoint.x && y == endPoint.y) {
-                    // End button
-                    button.setText("End");
-                } else {
-                    // Normal button
-                    button.setText("");
-                    button.setDisable(false);
-                }
+                // Reset button
+                changeImage(button, "crossing.png");
             }
         }
 
@@ -294,30 +332,61 @@ public class Main extends Application implements BluetoothListener, LoggerListen
             waypointsArea.appendText(waypoint.x + ", " + waypoint.y + "\n");
         }
 
-        int x = startPoint.x;
-        int y = startPoint.y;
+        int startX = startPoint.x;
+        int startY = startPoint.y;
 
         ArrayList<Point> path = new ArrayList<>();
         path.addAll(waypoints);
         path.add(endPoint);
 
-        for(Point waypoint : path) {
-            this.LOGGER.info("Calculating path from " + x + "," + y + " to " + waypoint.x + "," + waypoint.y);
+        for (Point waypoint : path) {
+            this.LOGGER.info("Calculating path from " + startX + "," + startY + " to " + waypoint.x + "," + waypoint.y);
 
-            while (x != waypoint.x || y != waypoint.y) {
-                if (x < waypoint.x) {
-                    x++;
-                } else if (x > waypoint.x) {
-                    x--;
+            while (startX != waypoint.x || startY != waypoint.y) {
+                if (startX < waypoint.x) {
+                    startX++;
+                } else if (startX > waypoint.x) {
+                    startX--;
                 } else {
-                    if (y < waypoint.y) {
-                        y++;
+                    if (startY < waypoint.y) {
+                        startY++;
                     } else {
-                        y--;
+                        startY--;
                     }
                 }
 
-                buttons.get(x).get(y).setText("X");
+                Button button = buttons.get(startX).get(startY);
+                changeImage(button, "crossing.png"); // todo: route
+            }
+        }
+
+        for (int x = 0; x < buttons.size(); x++) {
+            for (int y = 0; y < buttons.get(0).size(); y++) {
+                Button button = buttons.get(x).get(y);
+
+                if(waypoints.contains(new Point(x, y))) {
+                    changeImage(button, "waypoint.png");
+                }
+
+                if (x == startPoint.x && y == startPoint.y) {
+                    // Start button
+                    if(lookDirection.equals("NORTH")) {
+                        changeImage(button, "bot-north.png");
+                    } else if(lookDirection.equals("SOUTH")) {
+                        changeImage(button, "bot-south.png");
+                    } else if(lookDirection.equals("EAST")) {
+                        changeImage(button, "bot-east.png");
+                    } else if(lookDirection.equals("WEST")) {
+                        changeImage(button, "bot-west.png");
+                    } else {
+                        changeImage(button, "start.png");
+                    }
+                }
+
+                if (x == endPoint.x && y == endPoint.y) {
+                    // End button
+                    changeImage(button, "end.png");
+                }
             }
         }
     }
@@ -406,6 +475,33 @@ public class Main extends Application implements BluetoothListener, LoggerListen
 
     @Override
     public void onBluetoothMessage(BluetoothMessage message) {
+
+        if (message.getType().equals("position")) {
+            String[] values = message.getValue().split(",");
+            Point position = new Point(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
+
+            startPoint = position;
+
+            if(waypoints.size() > 0) {
+                if (waypoints.get(0).x == position.x && waypoints.get(0).y == position.y) {
+                    this.LOGGER.info("Removing waypoint");
+                    waypoints.remove(0);
+                }
+            }
+
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    updateGrid();
+                }
+            });
+        }
+
+        if(message.getType().equals("direction")) {
+            this.LOGGER.info("Direction!!!!!!: " + message.getValue());
+            this.lookDirection = message.getValue();
+        }
+
         if (message.getType().equals("move-direction")) {
             if (message.getValue().equals("STATIONARY")) {
                 backwards.setDisable(false);
@@ -463,5 +559,13 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         if (logMessage.getSource().equals("Gui")) {
             guiLogArea.appendText(logMessage.getMessage() + "\n");
         }
+    }
+
+    private void changeImage(Button button, String path) {
+        Image image = new Image(getClass().getResourceAsStream(path), 50, 50, true, false);
+        BackgroundImage bImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(button.getWidth(), button.getHeight(), true, true, true, false));
+
+        Background backGround = new Background(bImage);
+        button.setBackground(backGround);
     }
 }

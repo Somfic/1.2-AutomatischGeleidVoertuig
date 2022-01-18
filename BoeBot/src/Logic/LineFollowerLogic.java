@@ -1,6 +1,7 @@
 package Logic;
 
 import Hardware.LineFollower;
+import Logger.Logger;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,9 @@ public class LineFollowerLogic implements Logic {
     private boolean stateCenter = true;
     private boolean stateRight = false;
 
-    private double treshold = 800.0;
+    private Logger LOGGER = new Logger(this);
+
+    private double treshold = 1180.0;
 
     public LineFollowerLogic(int pinLeft, int pinCenter, int pinRight) {
         this.LINE_FOLLOWER_LEFT = new LineFollower(pinLeft);
@@ -55,6 +58,8 @@ public class LineFollowerLogic implements Logic {
         int delta = highest - lowest;
 
         this.treshold = lowest + delta / 2.0;
+
+        this.LOGGER.info("Calibrated with threshold: " + this.treshold);
 
     }
 

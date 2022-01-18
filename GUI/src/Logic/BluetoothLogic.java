@@ -84,7 +84,7 @@ public class BluetoothLogic implements SerialPortEventListener {
         }
     }
 
-    public void setPort(int port) {
+    public void setPort(String port) {
 
         logger.debug("Setting port to " + port);
 
@@ -93,7 +93,7 @@ public class BluetoothLogic implements SerialPortEventListener {
             close();
         }
 
-        this.connection = new SerialPort("COM" + port);
+        this.connection = new SerialPort(port);
     }
 
     public boolean isConnected() {
@@ -134,6 +134,8 @@ public class BluetoothLogic implements SerialPortEventListener {
                         String content = parts[3];
 
                         logger.log(new LogMessage(source, className, level, content));
+                    } else {
+                        logger.debug("Incoming: " + message.getType() + ": " + message.getValue());
                     }
 
                     listener.onBluetoothMessage(message);

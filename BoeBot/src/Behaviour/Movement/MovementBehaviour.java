@@ -9,6 +9,7 @@ import Logger.Logger;
 import Logic.*;
 import TI.Timer;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothListener {
@@ -25,7 +26,9 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     private Timer timer;
     private boolean isExecutingMovement;
 
-    private boolean isOnLineFollowerMode = false;
+    private boolean isFollowingPath = false;
+    private boolean isTurningOnCrossing = false;
+    private boolean wantsToTurnLeft = true;
 
     private MoveDirection moveDirection = MoveDirection.STATIONARY;
     private float acceleration = 5;
@@ -35,6 +38,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
     private Point[] path;
     private ArrayList<CrossDecision> crossDecisions = new ArrayList<CrossDecision>();
+    private MoveDirection lastMoveDirection;
 
     public MovementBehaviour(MotorLogic motorLogic, DistanceBehaviour distance, LineFollowerLogic lineFollower, BuzzerLogic buzzerLogic, BluetoothLogic bluetooth) {
         this.DISTANCE = distance;
@@ -42,13 +46,6 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
         this.LINEFOLLOWER = lineFollower;
         this.BUZZER = buzzerLogic;
         this.BLUETOOTH = bluetooth;
-
-        crossDecisions.add(CrossDecision.Left);
-        crossDecisions.add(CrossDecision.Skip);
-        crossDecisions.add(CrossDecision.Right);
-        crossDecisions.add(CrossDecision.Right);
-        crossDecisions.add(CrossDecision.Skip);
-        crossDecisions.add(CrossDecision.Stop);
     }
 
     @Override
@@ -123,7 +120,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
              * The code below is used for the ultrasone sensors
              */
 
-            if (isOnLineFollowerMode) {
+            if (isFollowingPath) {
                 boolean left = this.LINEFOLLOWER.getStateLeft();
                 boolean center = this.LINEFOLLOWER.getStateCenter();
                 boolean right = this.LINEFOLLOWER.getStateRight();
@@ -141,13 +138,42 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
                     this.moveDirection = MoveDirection.STATIONARY;
 
+                    if(crossDecisions.size() == 0) {
+                        this.LOGGER.info("No route!");
+                        this.isFollowingPath = false;
+                        this.isTurningOnCrossing = false;
+                        return;
+                    }
+
                     CrossDecision decision = crossDecisions.remove(0);
                     this.LOGGER.info("New decision: " + decision.toString());
 
                     if(decision == CrossDecision.Left) {
+                        if(lookDirection == LookDirection.SOUTH) {
+                            this.position.translate(1, 0);
+                            this.lookDirection = LookDirection.EAST;
+                        }
+
+                        else if(lookDirection == LookDirection.NORTH) {
+                            this.position.translate(-1, 0);
+                            this.lookDirection = LookDirection.WEST;
+                        }
+
+                        else if(lookDirection == LookDirection.EAST) {
+                            this.position.translate(0, -1);
+                            this.lookDirection = LookDirection.NORTH;
+                        }
+
+                        else if(lookDirection == LookDirection.WEST) {
+                            this.position.translate(0, 1);
+                            this.lookDirection = LookDirection.SOUTH;
+                        }
+
                         this.LOGGER.info("Turning left on crossing");
                         this.moveDirection = MoveDirection.LEFT;
                         isTurningOnCrossing = true;
+
+                        broadcastPosition();
 
                         addMovementToQueue("Break", 0f, 0, 10, 200);
                         addMovementToQueue("Get into position", 0.8f, 0, 2, 1300);
@@ -156,9 +182,31 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                     }
 
                     else if(decision == CrossDecision.Right) {
+                        if(lookDirection == LookDirection.SOUTH) {
+                            this.position.translate(-1, 0);
+                            this.lookDirection = LookDirection.WEST;
+                        }
+
+                        else if(lookDirection == LookDirection.NORTH) {
+                            this.position.translate(1, 0);
+                            this.lookDirection = LookDirection.EAST;
+                        }
+
+                        else if(lookDirection == LookDirection.EAST) {
+                            this.position.translate(0, 1);
+                            this.lookDirection = LookDirection.SOUTH;
+                        }
+
+                        else if(lookDirection == LookDirection.WEST) {
+                            this.position.translate(0, -1);
+                            this.lookDirection = LookDirection.NORTH;
+                        }
+
                         this.LOGGER.info("Turning right crossing");
                         isTurningOnCrossing = true;
                         this.moveDirection = MoveDirection.RIGHT;
+
+                        broadcastPosition();
 
                         addMovementToQueue("Break", 0f, 0, 10, 200);
                         addMovementToQueue("Get into position", 0.8f, 0, 2, 1300);
@@ -171,9 +219,66 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                         this.moveDirection = MoveDirection.STATIONARY;
                         this.isFollowingPath = false;
                         this.isTurningOnCrossing = false;
+
+                        broadcastPosition();
+                    }
+
+                    else if(decision == CrossDecision.Turn) {
+                        this.LOGGER.info("Turning at crossing");
+
+                        isTurningOnCrossing = true;
+                        this.moveDirection = MoveDirection.RIGHT;
+
+                        broadcastPosition();
+
+                        addMovementToQueue("Break", 0f, 0, 10, 200);
+                        addMovementToQueue("Get into position", 0.8f, 0, 2, 1300);
+                        addMovementToQueue("Break", 0f, 0, 10, 200);
+                        addMovementToQueue("Turn", 0, -1f, 10, 3200);
+
+                        if(lookDirection == LookDirection.SOUTH) {
+                            this.position.translate(0, -1);
+                            this.lookDirection = LookDirection.NORTH;
+                        }
+
+                        else if(lookDirection == LookDirection.NORTH) {
+                            this.position.translate(0, 1);
+                            this.lookDirection = LookDirection.SOUTH;
+                        }
+
+                        else if(lookDirection == LookDirection.EAST) {
+                            this.position.translate(-1, 0);
+                            this.lookDirection = LookDirection.WEST;
+                        }
+
+                        else if(lookDirection == LookDirection.WEST) {
+                            this.position.translate(1, 0);
+                            this.lookDirection = LookDirection.EAST;
+                        }
                     }
 
                     else if(decision == CrossDecision.Skip) {
+                        if(lookDirection == LookDirection.SOUTH) {
+                            this.position.translate(0, 1);
+                        }
+
+                        else if(lookDirection == LookDirection.NORTH) {
+                            this.position.translate(0, -1);
+                        }
+
+                        else if(lookDirection == LookDirection.EAST) {
+                            this.position.translate(1, 0);
+                        }
+
+                        else if(lookDirection == LookDirection.WEST) {
+                            this.position.translate(-1, 0);
+                        }
+
+                        this.LOGGER.info("Skipping crossing");
+                        this.isTurningOnCrossing = false;
+
+                        broadcastPosition();
+
                         this.moveDirection = MoveDirection.FORWARDS;
                         addMovementToQueue("Skip crossing", 1, 0, 5, 1000);
                     }
@@ -232,7 +337,11 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             this.acceleration = Math.min(30, this.acceleration);
 
             // Send the direction
-            this.BLUETOOTH.send("move-direction", this.moveDirection.toString());
+            if(lastMoveDirection != moveDirection) {
+                this.BLUETOOTH.send("move-direction", this.moveDirection.toString());
+                lastMoveDirection = moveDirection;
+            }
+
 
             // Set the motor speed and acceleration
             MOTOR.setAcceleration(this.acceleration);
@@ -248,6 +357,15 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
                 MOTOR.setMove(0, 0);
             }
         }
+    }
+
+    private void broadcastPosition() {
+        this.LOGGER.info("Position: " + this.position.x + ", " + this.position.y);
+        this.LOGGER.info("Move direction: " + this.moveDirection.toString());
+        this.LOGGER.info("Look direction: " + this.lookDirection.toString());
+
+        this.BLUETOOTH.send("position", this.position.x + "," + this.position.y);
+        this.BLUETOOTH.send("direction", this.lookDirection.toString());
     }
 
     private void addMovementToQueue(String name, float targetSpeed, float targetAngle, int acceleration, int duration) {
@@ -272,22 +390,22 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
         boolean wantsToGoToLineFollowerMode = code == Config.REMOTE_CD_ENTER;
 
-        if (wantsToGoToLineFollowerMode && !isOnLineFollowerMode) {
+        if (wantsToGoToLineFollowerMode && !isFollowingPath) {
             this.LOGGER.info("Switched to line follower mode");
-            this.isOnLineFollowerMode = true;
+            this.isFollowingPath = true;
             this.moveDirection = MoveDirection.FORWARDS;
 
             return;
         }
 
-        if (isOnLineFollowerMode && !wantsToGoToLineFollowerMode) {
+        if (isFollowingPath && !wantsToGoToLineFollowerMode) {
             this.LOGGER.info("Switched to manual mode (remote)");
             this.moveDirection = MoveDirection.STATIONARY;
-            this.isOnLineFollowerMode = false;
+            this.isFollowingPath = false;
             return;
         }
 
-        if (!isOnLineFollowerMode) {
+        if (!isFollowingPath) {
             if (code == Config.REMOTE_CHANNEL_PLUS) {
                 // Move forwards
                 // If we are moving backwards, stop
@@ -347,12 +465,6 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
     @Override
     public void onBluetoothMessage(String input) {
 
-        if (isOnLineFollowerMode) {
-            this.LOGGER.info("Switched to manual mode (bluetooth)");
-        }
-
-        this.isOnLineFollowerMode = false;
-
         input = input.toLowerCase();
 
         if (input.equals("w") || input.equals("move:forwards")) {
@@ -396,13 +508,15 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             }
         } else if(input.equals("mode:line-following")) {
             this.isFollowingPath = true;
+            this.moveDirection = MoveDirection.FORWARDS;
         } else if(input.equals("mode:manual")) {
+            this.moveDirection = MoveDirection.STATIONARY;
             this.isFollowingPath = false;
         } else if(input.equals("calibrate")) {
             this.LINEFOLLOWER.calibrate();
         } else if(input.startsWith("route")) {
             String rawPath = input.replace("route:", "");
-            String[] points = rawPath.split("-");
+            String[] points = rawPath.split(":");
 
             path = new Point[points.length];
 
@@ -417,14 +531,23 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
 
             LookDirection oldLookDirection = lookDirection;
 
-            ArrayList<CrossDecision> decisions = new ArrayList<>();
+            position = path[0];
 
             Point currentPoint = position;
 
+            crossDecisions.clear();
             for (Point wayPoint : path) {
-                decisions.addAll(calculateRoute(currentPoint, wayPoint));
+                crossDecisions.addAll(calculateRoute(currentPoint, wayPoint));
                 currentPoint = wayPoint;
             }
+            crossDecisions.add(CrossDecision.Stop);
+
+            StringBuilder route = new StringBuilder();
+            for (CrossDecision decision : crossDecisions) {
+                route.append(decision).append(", ");
+            }
+
+            this.BLUETOOTH.send("Calculated route", route.toString());
 
             lookDirection = oldLookDirection;
         }
@@ -464,7 +587,7 @@ public class MovementBehaviour implements Behaviour, RemoteListener, BluetoothLi
             }
         }
 
-        if(from.x < to.x) {
+         if(from.x < to.x) {
             if(lookDirection == LookDirection.SOUTH) {
                 decisions.add(CrossDecision.Left);
             }
