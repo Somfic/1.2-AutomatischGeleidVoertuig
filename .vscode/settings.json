@@ -1,0 +1,20 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+
+    "java.project.referencedLibraries": [
+        "GUI/lib/jssc-2.9.4.jar",
+        "GUI/lib/jssc-2.9.4-javadoc.jar",
+        "GUI/lib/jssc-2.9.4-sources.jar",
+        "lib/BoeBotLib.jar",
+        "GUI/lib/javafx.base.jar",
+        "GUI/lib/javafx.controls.jar",
+        "GUI/lib/javafx.fxml.jar",
+        "GUI/lib/javafx.graphics.jar",
+        "GUI/lib/javafx.media.jar",
+        "GUI/lib/javafx.swing.jar",
+        "GUI/lib/javafx.web.jar",
+        "GUI/lib/javafx-swt.jar"
+    ]
+}
