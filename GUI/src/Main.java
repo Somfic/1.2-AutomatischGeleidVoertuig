@@ -124,10 +124,10 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         // Set the main component
         TabPane tabs = new TabPane();
 
-        Tab manualTab = new Tab("Handmatige controle", manualPane);
+        Tab manualTab = new Tab("Manual control", manualPane);
         manualTab.setClosable(false);
 
-        Tab lineFollowerTab = new Tab("Lijnvolger", lineFollowerPane);
+        Tab lineFollowerTab = new Tab("Grid", lineFollowerPane);
         lineFollowerTab.setClosable(false);
 
         Tab adminTab = new Tab("Admin", adminPane);
@@ -192,43 +192,70 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         grid.setPadding(new Insets(10, 10, 10, 10));
 
         waypointsArea = new TextArea();
+        waypointsArea.setEditable(false);
 
         VBox buttons = new VBox();
-        Button startPositionButton = new Button("Set start position");
-        Button addWaypointButton = new Button("Add waypoint");
-        Button clearWaypointButton = new Button("Clear waypoints");
-        Button endPositionButton = new Button("Set end position");
-        Button executeButton = new Button("Upload route");
-        Button cancelButton = new Button("Clear route");
+        buttons.setSpacing(10);
+        buttons.setAlignment(Pos.CENTER);
 
+        VBox modifyRouteBox = new VBox();
+        modifyRouteBox.setSpacing(10);
+        modifyRouteBox.setAlignment(Pos.CENTER);
 
-        buttons.getChildren().add(startPositionButton);
-        buttons.getChildren().add(addWaypointButton);
-        buttons.getChildren().add(waypointsArea);
-        buttons.getChildren().add(clearWaypointButton);
-        buttons.getChildren().add(endPositionButton);
-        buttons.getChildren().add(executeButton);
-        buttons.getChildren().add(cancelButton);
+        HBox modifyRouteButtons = new HBox();
+        modifyRouteButtons.setSpacing(10);
+        modifyRouteButtons.setAlignment(Pos.CENTER);
+        Button startPositionButton = new Button("Start");
+        Button addWaypointButton = new Button("Waypoint");
+        Button endPositionButton = new Button("End");
 
         startPositionButton.setOnAction(e -> {
             mode = "start";
+            startPositionButton.setDisable(true);
+            addWaypointButton.setDisable(false);
+            endPositionButton.setDisable(false);
             updateGrid();
         });
 
         addWaypointButton.setOnAction(e -> {
             mode = "waypoint";
+            startPositionButton.setDisable(false);
+            addWaypointButton.setDisable(true);
+            endPositionButton.setDisable(false);
             updateGrid();
         });
+
+        endPositionButton.setOnAction(e -> {
+            mode = "end";
+            startPositionButton.setDisable(false);
+            addWaypointButton.setDisable(false);
+            endPositionButton.setDisable(true);
+            updateGrid();
+        });
+
+        modifyRouteButtons.getChildren().addAll(startPositionButton, addWaypointButton, endPositionButton);
+
+        Label label = new Label("Modify route");
+        modifyRouteBox.getChildren().addAll(label, modifyRouteButtons);
+
+        HBox configButtons = new HBox();
+        configButtons.setSpacing(10);
+        configButtons.setAlignment(Pos.CENTER);
+
+        Button clearWaypointButton = new Button("Clear waypoints");
+        Button cancelButton = new Button("Clear route");
+        Button executeButton = new Button("Upload route");
+
+        configButtons.getChildren().addAll(clearWaypointButton, executeButton, cancelButton);
+
+        buttons.getChildren().addAll(modifyRouteBox, waypointsArea, configButtons);
+
 
         clearWaypointButton.setOnAction(e -> {
             waypoints.clear();
             updateGrid();
         });
 
-        endPositionButton.setOnAction(e -> {
-            mode = "end";
-            updateGrid();
-        });
 
         executeButton.setOnAction(e -> {
             ArrayList<Point> path = new ArrayList<>();
@@ -244,6 +271,13 @@ public class Main extends Application implements BluetoothListener, LoggerListen
             this.BLUETOOTH.send("route", pathString.toString());
         });
 
+        cancelButton.setOnAction(e -> {
+            startPoint = new Point(0, 0);
+            endPoint = new Point(0, 0);
+            waypoints.clear();
+            updateGrid();
+        });
+
         int width = 5;
         int height = 7;
 
@@ -252,13 +286,9 @@ public class Main extends Application implements BluetoothListener, LoggerListen
 
             for (int y = 0; y < width; y++) {
                 Button button = new Button();
-                button.setPrefSize(50, 50);
+                button.setPrefSize(80, 80);
 
-                Image image = new Image(getClass().getResourceAsStream("crossing.png"), 50, 50, true, false);
-                BackgroundImage bImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(button.getWidth(), button.getHeight(), true, true, true, false));
-
-                Background backGround = new Background(bImage);
-                button.setBackground(backGround);
+                changeImage(button, "crossing.png");
 
                 //button.setGraphic(image);
 
@@ -335,8 +365,7 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         int startX = startPoint.x;
         int startY = startPoint.y;
 
-        ArrayList<Point> path = new ArrayList<>();
-        path.addAll(waypoints);
+        ArrayList<Point> path = new ArrayList<>(waypoints);
         path.add(endPoint);
 
         for (Point waypoint : path) {
@@ -370,16 +399,22 @@ public class Main extends Application implements BluetoothListener, LoggerListen
 
                 if (x == startPoint.x && y == startPoint.y) {
                     // Start button
-                    if(lookDirection.equals("NORTH")) {
-                        changeImage(button, "bot-north.png");
-                    } else if(lookDirection.equals("SOUTH")) {
-                        changeImage(button, "bot-south.png");
-                    } else if(lookDirection.equals("EAST")) {
-                        changeImage(button, "bot-east.png");
-                    } else if(lookDirection.equals("WEST")) {
-                        changeImage(button, "bot-west.png");
-                    } else {
-                        changeImage(button, "start.png");
+                    switch (lookDirection) {
+                        case "NORTH":
+                            changeImage(button, "bot-north.png");
+                            break;
+                        case "SOUTH":
+                            changeImage(button, "bot-south.png");
+                            break;
+                        case "EAST":
+                            changeImage(button, "bot-east.png");
+                            break;
+                        case "WEST":
+                            changeImage(button, "bot-west.png");
+                            break;
+                        default:
+                            changeImage(button, "start.png");
+                            break;
                     }
                 }
 
@@ -450,7 +485,7 @@ public class Main extends Application implements BluetoothListener, LoggerListen
         });
 
         // change mode
-        Button changeMode = new Button("Verander modus");
+        Button changeMode = new Button("Change mode");
         changeMode.setOnAction(e -> {
             isLineFollowingMode = !isLineFollowingMode;
 
@@ -556,7 +591,7 @@ public class Main extends Application implements BluetoothListener, LoggerListen
     }
 
     private void changeImage(Button button, String path) {
-        Image image = new Image(getClass().getResourceAsStream(path), 50, 50, true, false);
+        Image image = new Image(getClass().getResourceAsStream(path), 80, 80, true, true);
         BackgroundImage bImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(button.getWidth(), button.getHeight(), true, true, true, false));
 
         Background backGround = new Background(bImage);

@@ -28,7 +28,7 @@ public class BluetoothLogic implements SerialPortEventListener {
             // Write data to the Bluetooth port
             this.connection.writeString(message);
 
-        } catch (SerialPortException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
